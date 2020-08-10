@@ -6,14 +6,15 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/10 12:48:11 by jsalmi            #+#    #+#              #
-#    Updated: 2020/08/10 13:01:07 by jsalmi           ###   ########.fr        #
+#    Updated: 2020/08/10 13:14:19 by jsalmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = guimp
 SRCS = ./main.c
 OBJS = ./*.o
-INCLUDES = ./libft/libft.a
+INCLUDES = ./libft/libft.a\
+		   ./libui/libui.a
 FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
