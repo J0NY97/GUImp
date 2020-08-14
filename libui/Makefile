@@ -6,13 +6,14 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/10 13:27:06 by jsalmi            #+#    #+#              #
-#    Updated: 2020/08/10 14:12:50 by jsalmi           ###   ########.fr        #
+#    Updated: 2020/08/14 13:22:38 by jsalmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libui.a
 SRCS = ft_test_libui.c\
-	   ft_create_window.c
+	   ft_create_window.c\
+	   ft_create_button.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
 FLAGS = -Wall -Wextra -Werror
