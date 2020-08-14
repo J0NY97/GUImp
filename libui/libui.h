@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/14 13:24:01 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/14 15:58:41 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,12 @@
 # include "../include/SDL2/SDL_ttf.h"
 # include "../include/SDL2/SDL_image.h"
 
-typedef struct	s_button_info
-{
-	int			x;
-	int			y;
-	int			w;
-	int			h;
-	char		*text;
-	void		(*f)(void);	
-}				t_button_info;
+typedef struct	s_window_info	t_window_info;
+typedef struct	s_window		t_window;
+typedef struct	s_button_info	t_button_info;
+typedef struct	s_button		t_button;
 
-// @TODO: different surfaces for different events; (default, hover, press)
-typedef struct	s_button
-{
-	SDL_Surface	*surface;
-	void		(*f)(void); // function that will be called on_click
-}				t_button;
-
-typedef struct	s_window_info
+struct s_window_info
 {
 	char		*title;
 	int			x;
@@ -48,22 +36,45 @@ typedef struct	s_window_info
 	int			h;
 	int			flags;
 	int			resizeable;	
-}				t_window_info;
+};
 
-typedef struct	s_window
+struct s_window
 {
 	SDL_Window	*win;
 	SDL_Surface	*surface;
-	t_button	*buttons;
+	int			button_amount;
+	t_button	*buttons[10]; // remove this mallco
 	//array of elements
 	//array of buttons
 	//array of pictures
 	//font
-	//...
-}				t_window;
+	//.
+};
+
+struct s_button_info
+{
+	int			x;
+	int			y;
+	int			w;
+	int			h;
+	char		*text;
+	void		(*f)(void);
+	TTF_Font	*font;
+	t_window	*win;
+};
+
+// @TODO: different surfaces for different events; (default, hover, press)
+struct s_button
+{
+	int			x;
+	int			y;
+	TTF_Font	*font;
+	SDL_Surface	*surface;
+	void		(*f)(void); // function that will be called on_click
+};
 
 void			ft_test_libui(void);
 t_window		*ft_create_window(t_window_info info);
-t_button		*ft_create_button(t_button_info info);
-
+int				ft_create_button(t_button_info info);
+void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
 #endif
