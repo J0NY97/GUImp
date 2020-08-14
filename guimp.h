@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/14 12:36:19 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/14 15:58:16 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 typedef struct	s_info
 {
 	int			run;
+	TTF_Font	*font;
 
 	SDL_Event	event;
 

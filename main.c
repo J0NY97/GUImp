@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:16 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/14 13:22:18 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/14 15:57:38 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,26 @@ void	ft_error(char *msg)
 	exit(1);
 }
 
+void	render(t_window *win)
+{
+	SDL_Rect	temp;
+	// add buttons to  sruface
+//	printf("%d %d %d %d", win->buttons[0]->x, win->buttons[0]->y, win->buttons[0]->surface->w, win->buttons[0]->surface->h);
+	set_pixel(win->buttons[0]->surface, 10, 10, 0xffffff);
+	set_pixel(win->surface, 250, 500, 0xffffff);
+	for (int i = 0; i <= win->button_amount; i++)
+	{
+		temp.x = win->buttons[i]->x;
+		temp.y = win->buttons[i]->y;
+		temp.w = win->buttons[i]->surface->w;
+		temp.h = win->buttons[i]->surface->h;
+		SDL_BlitSurface(win->buttons[i]->surface, NULL, win->surface, &temp);
+	}
+	// add elemsnets to surafce
+	// otherthings....
+	SDL_UpdateWindowSurface(win->win);
+}
+
 int		main(void)
 {
 	t_info *info;
@@ -28,11 +48,12 @@ int		main(void)
 	if (!(info = (t_info *)malloc(sizeof(t_info))))
 		ft_error("Couldnt mallco t_info.");
 	SDL_Init(SDL_INIT_VIDEO);
-	//TTF_Init();
+	TTF_Init();
 	// SDL_Image_Init();
 
 	// Init();
 	info->run = 1;
+	info->font = TTF_OpenFont("font.ttf", 32);
 	//
 	t_window_info toolbox;
 	toolbox.x = 0;
@@ -45,13 +66,16 @@ int		main(void)
 	info->toolbox = ft_create_window(toolbox);
 
 	t_button_info button;
-	t_button *new_button;
 	button.x = 0;
-	button.y = 0;
+	button.y = 9;
 	button.w = 100;
 	button.h = 50;
 	button.text = ft_strdup("click me!");
-	new_button = ft_create_button(button);
+	button.font = info->font;
+	button.win = info->toolbox;
+	ft_create_button(button);
+
+
 //	ft_add_button_to_window(toolbox->win, new_button);
 
 /*
@@ -79,8 +103,8 @@ int		main(void)
 		event_handler(info);
 		// This will go into render function
 //		SDL_UpdateWindowSurface(info->main.win);
-		SDL_UpdateWindowSurface(info->toolbox->win);
 //		SDL_UpdateWindowSurface(info->layers.win);
+		render(info->toolbox);
 	}
 	return (0);
 }

@@ -6,11 +6,13 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:26:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/14 12:49:06 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/14 16:03:29 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "guimp.h"
+
+// @TODO: when event occures loop all elements of focused window (for better performance)
 
 void	mouse_events(t_info *info, SDL_Event event)
 {
