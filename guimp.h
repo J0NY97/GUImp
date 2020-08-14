@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/10 14:48:57 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/14 12:36:19 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,19 @@
 # include "./include/SDL2/SDL_ttf.h"
 # include "./include/SDL2/SDL_image.h"
 
-// @Improvement: this should probably get putted in the libui.h
-typedef struct	s_win
-{
-	SDL_Window	*win;
-	SDL_Surface	*surface;
-	int			x;
-	int			y;
-	int			w;
-	int			h;
-	int			resizeable;
-}				t_win;
-
 typedef struct	s_info
 {
 	int			run;
 
 	SDL_Event	event;
 
-	t_win		main;
-	t_win		toolbox;
-	t_win		layers;
+	t_window	*main;
+	t_window	*toolbox;
+	t_window	*layers;
 
 }				t_info;
 
+void			event_handler(t_info *info);
 void			check_input(t_info *info);
 
 #endif

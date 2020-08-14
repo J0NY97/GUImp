@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:16 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/10 14:46:00 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/14 13:22:18 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,27 @@ int		main(void)
 	// Init();
 	info->run = 1;
 	//
-	info->toolbox.x = 0;
-	info->toolbox.y = 0;
-	info->toolbox.w = 500;
-	info->toolbox.h = 1250;
-	info->toolbox.resizeable = 1;
-	info->toolbox.win = ft_create_window("toolbox", info->toolbox.x, info->toolbox.y,
-										info->toolbox.w, info->toolbox.h, info->toolbox.resizeable);
-	info->toolbox.surface = SDL_GetWindowSurface(info->toolbox.win);
+	t_window_info toolbox;
+	toolbox.x = 0;
+	toolbox.y = 0;
+	toolbox.w = 500;
+	toolbox.h = 1250;
+	toolbox.flags = 0;
+	toolbox.resizeable = 1;
+	toolbox.title = ft_strdup("toolbox");
+	info->toolbox = ft_create_window(toolbox);
 
+	t_button_info button;
+	t_button *new_button;
+	button.x = 0;
+	button.y = 0;
+	button.w = 100;
+	button.h = 50;
+	button.text = ft_strdup("click me!");
+	new_button = ft_create_button(button);
+//	ft_add_button_to_window(toolbox->win, new_button);
+
+/*
 	info->main.x = info->toolbox.x + info->toolbox.w + 5;
 	info->main.y = 0;
 	info->main.w = 1500;
@@ -57,18 +69,18 @@ int		main(void)
 	info->layers.w = 500;
 	info->layers.h = 1250;
 	info->layers.resizeable = 1;
-	info->layers.win = ft_create_window("layers", info->layers.x, info->layers.y,
+	ft_create_window("layers", info->layers.x, info->layers.y,
 										info->layers.w, info->layers.h, info->main.resizeable);
 	info->layers.surface = SDL_GetWindowSurface(info->layers.win);
-
+*/
 	while (info->run)
 	{
 		//input
-		check_input(info);
+		event_handler(info);
 		// This will go into render function
-		SDL_UpdateWindowSurface(info->main.win);
-		SDL_UpdateWindowSurface(info->toolbox.win);
-		SDL_UpdateWindowSurface(info->layers.win);
+//		SDL_UpdateWindowSurface(info->main.win);
+		SDL_UpdateWindowSurface(info->toolbox->win);
+//		SDL_UpdateWindowSurface(info->layers.win);
 	}
 	return (0);
 }
