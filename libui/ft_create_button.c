@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/15 14:20:01 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/15 15:55:18 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ int			ft_create_button(t_button_info info)
 	new_button->x = info.x;
 	new_button->y = info.y;
 	new_button->font = info.font;
-	new_button->state = info.state;
+	new_button->toggle = info.toggle;
+	if (info.toggle == 1)
+		new_button->state = 2;
+	else
+		new_button->state = info.state;
 	new_button->text = ft_strdup(info.text);
 	ft_strdel(&info.text);
 	free(info.text);

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:26:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/15 14:16:28 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/15 16:00:24 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,22 @@ void	check_button_hitbox(t_window *win, int x, int y, int state)
 		if ((y >= win->buttons[ib]->y && y <= win->buttons[ib]->y + win->buttons[ib]->surface->h) &&
 			(x >= win->buttons[ib]->x && x <= win->buttons[ib]->x + win->buttons[ib]->surface->w))
 		{
+			if (win->buttons[ib]->toggle >= 0)
+			{
+				if (state == 2)
+					win->buttons[ib]->toggle = win->buttons[ib]->toggle != 1;
+				if (win->buttons[ib]->toggle == 0)
+					win->buttons[ib]->state = state;
+				else
+					win->buttons[ib]->state = 2;
+				return ;
+			}
 			win->buttons[ib]->state = state;
 			state == 2 ? win->buttons[ib]->f() : 0;
 			return;
 		}
-		win->buttons[ib]->state = 0;
+		if (win->buttons[ib]->toggle == -1 || win->buttons[ib]->toggle == 0)
+			win->buttons[ib]->state = 0;
 		ib++;
 	}
 }
