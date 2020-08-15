@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:16 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/14 15:57:38 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/15 14:38:56 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,29 @@ void	render(t_window *win)
 	SDL_UpdateWindowSurface(win->win);
 }
 
+// @Improvement: updatese all the buttons independent if the button was actually updated
+// @fix: now only checks toolbox window buttons
+void	update_buttons(t_info *info)
+{
+	int ib;
+
+	ib = -1;
+	while (++ib <= info->toolbox->button_amount)
+	{
+		if (info->toolbox->buttons[ib]->state == 0)
+			ft_update_button(info->toolbox->buttons[ib], 0xffffff, 0x00ff00);
+		else if (info->toolbox->buttons[ib]->state == 1)
+			ft_update_button(info->toolbox->buttons[ib], 0xff00ff, 0x000000);
+		else if (info->toolbox->buttons[ib]->state == 2)
+			ft_update_button(info->toolbox->buttons[ib], 0xffff00, 0x000000);
+	}
+}
+
+void	click(void)
+{
+	printf("this butotn was clicked\n");
+}
+
 int		main(void)
 {
 	t_info *info;
@@ -66,6 +89,7 @@ int		main(void)
 	info->toolbox = ft_create_window(toolbox);
 
 	t_button_info button;
+
 	button.x = 0;
 	button.y = 9;
 	button.w = 100;
@@ -73,37 +97,26 @@ int		main(void)
 	button.text = ft_strdup("click me!");
 	button.font = info->font;
 	button.win = info->toolbox;
+	button.f = &click;
+	button.state = 0;
 	ft_create_button(button);
 
-
-//	ft_add_button_to_window(toolbox->win, new_button);
-
-/*
-	info->main.x = info->toolbox.x + info->toolbox.w + 5;
-	info->main.y = 0;
-	info->main.w = 1500;
-	info->main.h = 1250;
-	info->main.resizeable = 1;
-	info->main.win = ft_create_window("main", info->main.x, info->main.y,
-										info->main.w, info->main.h, info->main.resizeable);
-	info->main.surface = SDL_GetWindowSurface(info->main.win);
-
-	info->layers.x = info->main.x + info->main.w + 5;
-	info->layers.y = 0;
-	info->layers.w = 500;
-	info->layers.h = 1250;
-	info->layers.resizeable = 1;
-	ft_create_window("layers", info->layers.x, info->layers.y,
-										info->layers.w, info->layers.h, info->main.resizeable);
-	info->layers.surface = SDL_GetWindowSurface(info->layers.win);
-*/
+	button.x = 125;
+	button.y = 9;
+	button.text = ft_strdup("me too!");
+	ft_create_button(button);
+	
+	button.x = 125;
+	button.y = 100;
+	button.w = 200;
+	button.h = 100;
+	button.text = ft_strdup("me three!");
+	ft_create_button(button);
+	
 	while (info->run)
 	{
-		//input
 		event_handler(info);
-		// This will go into render function
-//		SDL_UpdateWindowSurface(info->main.win);
-//		SDL_UpdateWindowSurface(info->layers.win);
+		update_buttons(info);
 		render(info->toolbox);
 	}
 	return (0);
