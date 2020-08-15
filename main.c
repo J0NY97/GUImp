@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:16 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/15 14:38:56 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/15 15:56:46 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,20 @@ int		main(void)
 	button.win = info->toolbox;
 	button.f = &click;
 	button.state = 0;
+	button.toggle = -1;
 	ft_create_button(button);
 
 	button.x = 125;
 	button.y = 9;
 	button.text = ft_strdup("me too!");
+	button.toggle = -1;
 	ft_create_button(button);
 	
 	button.x = 125;
 	button.y = 100;
 	button.w = 200;
 	button.h = 100;
+	button.toggle = 1;
 	button.text = ft_strdup("me three!");
 	ft_create_button(button);
 	

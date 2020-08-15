@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/15 13:56:28 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/15 15:53:56 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ struct s_button_info
 	int			w;
 	int			h;
 	int			state;
+	int			toggle;
 	char		*text;
 	void		(*f)(void);
 	TTF_Font	*font;
@@ -66,9 +67,13 @@ struct s_button_info
 
 // @TODO: different surfaces for different events; (default, hover, press)
 /*
- ** state: 0 = default
+	** state: 0 = default
  			1 = hover
 			2 = press
+	** group: int the group the button belongs to
+	** toggle; -1 not toggleable
+				0 not toggled
+				1 toggled
 */
 struct s_button
 {
@@ -76,6 +81,7 @@ struct s_button
 	int			x;
 	int			y;
 	char		*text;
+	int			toggle;
 	TTF_Font	*font;
 	SDL_Surface	*surface;
 	void		(*f)(void); // function that will be called on_click
