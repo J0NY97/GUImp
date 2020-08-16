@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:26:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/15 16:00:24 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 13:20:08 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,23 @@
 // @TODO: when event occures loop all elements of focused window (for better performance)
 // @Improvement: change info->toolbox to the current focused window, so we dont have to check all the buttons of all the windows
 // 				in mouse events mousebuttondown check_button_hitbox()
+
+void	toggle_button_group(t_window *win, t_button **buttons, t_button *curr)
+{
+	int ib;
+	int group;
+
+	ib = -1;
+	group = curr->group;
+	while (++ib <= win->button_amount)
+	{
+		if (curr != buttons[ib] && buttons[ib]->group == group)
+		{
+			buttons[ib]->state = 0;
+			buttons[ib]->toggle = 0;
+		}
+	}
+}
 
 void	check_button_hitbox(t_window *win, int x, int y, int state)
 {
@@ -33,7 +50,10 @@ void	check_button_hitbox(t_window *win, int x, int y, int state)
 				if (win->buttons[ib]->toggle == 0)
 					win->buttons[ib]->state = state;
 				else
+				{
 					win->buttons[ib]->state = 2;
+					toggle_button_group(win, win->buttons, win->buttons[ib]);
+				}
 				return ;
 			}
 			win->buttons[ib]->state = state;
@@ -51,18 +71,27 @@ void	mouse_events(t_info *info, SDL_Event event)
 	if (event.type == SDL_MOUSEMOTION)
 	{
 		printf("Mouse is at %d, %d\n", event.motion.x, event.motion.y);
-		check_button_hitbox(info->toolbox, event.button.x, event.button.y, 1);
+		if (event.window.windowID == info->toolbox->id)
+			check_button_hitbox(info->toolbox, event.button.x, event.button.y, 1);
+		else if (event.window.windowID == info->main->id)
+			check_button_hitbox(info->main, event.button.x, event.button.y, 1);
 	}
 	else if (event.type == SDL_MOUSEBUTTONDOWN)
 	{
 		printf("mouse clicked\n");
 		// when mouse clicked loop aill the buttons of that window and check if you clicked them
-		check_button_hitbox(info->toolbox, event.button.x, event.button.y, 2);
+		if (event.window.windowID == info->toolbox->id)
+			check_button_hitbox(info->toolbox, event.button.x, event.button.y, 2);
+		else if (event.window.windowID == info->main->id)
+			check_button_hitbox(info->main, event.button.x, event.button.y, 2);
 	}
 	else if (event.type == SDL_MOUSEBUTTONUP)
 	{
 		printf("mouse unclicked\n");
-		check_button_hitbox(info->toolbox, event.button.x, event.button.y, 1);
+		if (event.window.windowID == info->toolbox->id)
+			check_button_hitbox(info->toolbox, event.button.x, event.button.y, 1);
+		else if (event.window.windowID == info->main->id)
+			check_button_hitbox(info->main, event.button.x, event.button.y, 1);
 	}
 }
 

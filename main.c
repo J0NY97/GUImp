@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:16 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/15 15:56:46 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 13:21:33 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ void	render(t_window *win)
 
 // @Improvement: updatese all the buttons independent if the button was actually updated
 // @fix: now only checks toolbox window buttons
-void	update_buttons(t_info *info)
+void	update_buttons(t_window *win)
 {
 	int ib;
 
 	ib = -1;
-	while (++ib <= info->toolbox->button_amount)
+	while (++ib <= win->button_amount)
 	{
-		if (info->toolbox->buttons[ib]->state == 0)
-			ft_update_button(info->toolbox->buttons[ib], 0xffffff, 0x00ff00);
-		else if (info->toolbox->buttons[ib]->state == 1)
-			ft_update_button(info->toolbox->buttons[ib], 0xff00ff, 0x000000);
-		else if (info->toolbox->buttons[ib]->state == 2)
-			ft_update_button(info->toolbox->buttons[ib], 0xffff00, 0x000000);
+		if (win->buttons[ib]->state == 0)
+			ft_update_button(win->buttons[ib], 0xffffff, 0x00ff00);
+		else if (win->buttons[ib]->state == 1)
+			ft_update_button(win->buttons[ib], 0xff00ff, 0x000000);
+		else if (win->buttons[ib]->state == 2)
+			ft_update_button(win->buttons[ib], 0xffff00, 0x000000);
 	}
 }
 
@@ -99,6 +99,7 @@ int		main(void)
 	button.win = info->toolbox;
 	button.f = &click;
 	button.state = 0;
+	button.group = 0;
 	button.toggle = -1;
 	ft_create_button(button);
 
@@ -106,21 +107,62 @@ int		main(void)
 	button.y = 9;
 	button.text = ft_strdup("me too!");
 	button.toggle = -1;
+	button.group = 1;
 	ft_create_button(button);
 	
-	button.x = 125;
+	button.x = 50;
 	button.y = 100;
 	button.w = 200;
 	button.h = 100;
 	button.toggle = 1;
-	button.text = ft_strdup("me three!");
+	button.group = 2;
+	button.text = ft_strdup("me three! g2");
+	ft_create_button(button);
+
+	button.x = 275;
+	button.y = 100;
+	button.toggle = 0;
+	button.group = 2;
+	button.text = ft_strdup("me four! g2");
 	ft_create_button(button);
 	
+	button.x = 50;
+	button.y = 225;
+	button.toggle = 0;
+	button.group = 2;
+	button.text = ft_strdup("me five! g2");
+	ft_create_button(button);
+
+	t_window_info main;
+	main.x = 501;
+	main.y = 0;
+	main.w = 1000;
+	main.h = 1250;
+	main.flags = 0;
+	main.resizeable = 1;
+	main.title = ft_strdup("Xd");
+	info->main = ft_create_window(main);
+	
+	button.x = 10;
+	button.y = 10;
+	button.w = 100;
+	button.h = 50;
+	button.text = ft_strdup("click me!");
+	button.font = info->font;
+	button.win = info->main;
+	button.f = &click;
+	button.state = 0;
+	button.group = 0;
+	button.toggle = -1;
+	ft_create_button(button);
+
 	while (info->run)
 	{
 		event_handler(info);
-		update_buttons(info);
+		update_buttons(info->toolbox);
+		update_buttons(info->main);
 		render(info->toolbox);
+		render(info->main);
 	}
 	return (0);
 }
