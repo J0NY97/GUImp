@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 14:48:58 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 16:21:46 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct	s_window_info	t_window_info;
 typedef struct	s_window		t_window;
 typedef struct	s_button_info	t_button_info;
 typedef struct	s_button		t_button;
+typedef struct	s_surface_info	t_surface_info;
+typedef struct	s_surface		t_surface;
 
 struct s_window_info
 {
@@ -45,6 +47,8 @@ struct s_window
 	Uint32		id;
 	int			button_amount;
 	t_button	*buttons[10]; // remove this mallco
+	int			surface_amount;
+	t_surface	*surfaces[10];
 	//array of elements
 	//array of buttons
 	//array of pictures
@@ -92,10 +96,28 @@ struct s_button
 	void		(*f)(t_button *); // function that will be called on_click
 };
 
+struct	s_surface_info
+{
+	int			x;
+	int			y;
+	int			w;
+	int			h;
+	int			color;
+	t_window	*win;
+};
+
+struct	s_surface
+{
+	int			x;
+	int			y;
+	SDL_Surface	*surface;
+};
+
 void			ft_test_libui(void);
 t_window		*ft_create_window(t_window_info info);
 int				ft_create_button(t_button_info info);
 int				ft_update_button(t_button *button, int bg_color, int txt_color);
+int				ft_create_surface(t_surface_info info);
 void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
 SDL_Color		hex_to_rgba(int color);
 

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 15:08:18 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 16:46:42 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ struct	s_info
 	t_window	*layers;
 
 	t_brush		brush;
+	int			draw;
 };
 
 void			event_handler(t_info *info);

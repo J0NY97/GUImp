@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:16 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 15:11:05 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 17:01:00 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	render(t_window *win)
 	SDL_Rect	temp;
 	// add buttons to  sruface
 //	printf("%d %d %d %d", win->buttons[0]->x, win->buttons[0]->y, win->buttons[0]->surface->w, win->buttons[0]->surface->h);
-	set_pixel(win->buttons[0]->surface, 10, 10, 0xffffff);
-	set_pixel(win->surface, 250, 500, 0xffffff);
 	for (int i = 0; i <= win->button_amount; i++)
 	{
 		temp.x = win->buttons[i]->x;
@@ -35,6 +33,15 @@ void	render(t_window *win)
 		temp.h = win->buttons[i]->surface->h;
 		SDL_BlitSurface(win->buttons[i]->surface, NULL, win->surface, &temp);
 	}
+	for (int i = 0; i <= win->surface_amount; i++)
+	{
+		temp.x = win->surfaces[i]->x;
+		temp.y = win->surfaces[i]->y;
+		temp.w = win->surfaces[i]->surface->w;
+		temp.h = win->surfaces[i]->surface->h;
+		SDL_BlitSurface(win->surfaces[i]->surface, NULL, win->surface, &temp);
+	}
+
 	// add elemsnets to surafce
 	// otherthings....
 	SDL_UpdateWindowSurface(win->win);
@@ -96,8 +103,9 @@ int		main(void)
 	info->run = 1;
 	info->font = TTF_OpenFont("font.ttf", 32);
 	info->brush.type = 1;
-	info->brush.size = 2;
-	info->brush.color = 0x00ff00;
+	info->brush.size = 10;
+	info->brush.color = 0x000000;
+	info->draw = 0;
 	//
 	t_window_info toolbox;
 	toolbox.x = 0;
@@ -168,19 +176,14 @@ int		main(void)
 	main.title = ft_strdup("Xd");
 	info->main = ft_create_window(main);
 	
-	button.x = 10;
-	button.y = 10;
-	button.w = 100;
-	button.h = 50;
-	button.text = ft_strdup("click me!");
-	button.font = info->font;
-	button.win = info->main;
-	button.f = &click;
-	button.state = 0;
-	button.group = 0;
-	button.toggle = -1;
-	ft_create_button(button);
-
+	// the main surface you draw oin
+	t_surface_info ns;
+	ns.x = 50;
+	ns.y = 50;
+	ns.w = info->main->surface->w - ns.x - 50;
+	ns.h = info->main->surface->h - ns.y - 50;
+	ns.win = info->main;
+	ft_create_surface(ns);
 	while (info->run)
 	{
 		event_handler(info);
