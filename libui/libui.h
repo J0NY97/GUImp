@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/15 15:53:56 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 13:18:34 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ struct s_window
 {
 	SDL_Window	*win;
 	SDL_Surface	*surface;
+	Uint32		id;
 	int			button_amount;
 	t_button	*buttons[10]; // remove this mallco
 	//array of elements
@@ -59,6 +60,7 @@ struct s_button_info
 	int			h;
 	int			state;
 	int			toggle;
+	int			group;
 	char		*text;
 	void		(*f)(void);
 	TTF_Font	*font;
@@ -82,6 +84,7 @@ struct s_button
 	int			y;
 	char		*text;
 	int			toggle;
+	int			group;
 	TTF_Font	*font;
 	SDL_Surface	*surface;
 	void		(*f)(void); // function that will be called on_click
