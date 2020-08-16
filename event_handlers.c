@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:26:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 14:36:31 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 17:05:48 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,40 @@ void	check_button_hitbox(t_window *win, int x, int y, int state)
 	}
 }
 
+void	draw(t_info *info, t_window *win, int x, int y)
+{
+	t_surface *surf;
+	int xd;
+	int yd;
+
+	surf = win->surfaces[0];
+	x = x - surf->x - (info->brush.size / 2);
+	y = y - surf->y - (info->brush.size / 2);
+	if (info->brush.type == 2) // square brush
+	{	
+		yd = -1;
+		while (++yd < info->brush.size)
+		{
+			xd = -1;
+			while (++xd < info->brush.size)
+			{
+				set_pixel(surf->surface, x + xd, y + yd, 0x000000);
+			}
+		}
+	}
+}
+
 void	mouse_events(t_info *info, SDL_Event event)
 {
 	if (event.type == SDL_MOUSEMOTION)
 	{
-		printf("Mouse is at %d, %d\n", event.motion.x, event.motion.y);
+		//printf("Mouse is at %d, %d\n", event.motion.x, event.motion.y);
 		if (event.window.windowID == info->toolbox->id)
 			check_button_hitbox(info->toolbox, event.button.x, event.button.y, 1);
 		else if (event.window.windowID == info->main->id)
+		{
 			check_button_hitbox(info->main, event.button.x, event.button.y, 1);
+		}
 	}
 	else if (event.type == SDL_MOUSEBUTTONDOWN)
 	{
@@ -84,7 +109,10 @@ void	mouse_events(t_info *info, SDL_Event event)
 		if (event.window.windowID == info->toolbox->id)
 			check_button_hitbox(info->toolbox, event.button.x, event.button.y, 2);
 		else if (event.window.windowID == info->main->id)
+		{
 			check_button_hitbox(info->main, event.button.x, event.button.y, 2);
+			info->draw = 1;
+		}
 	}
 	else if (event.type == SDL_MOUSEBUTTONUP)
 	{
@@ -92,8 +120,13 @@ void	mouse_events(t_info *info, SDL_Event event)
 		if (event.window.windowID == info->toolbox->id)
 			check_button_hitbox(info->toolbox, event.button.x, event.button.y, 1);
 		else if (event.window.windowID == info->main->id)
+		{
+			info->draw = 0;
 			check_button_hitbox(info->main, event.button.x, event.button.y, 1);
+		}
 	}
+	if (info->draw == 1)
+		draw(info, info->main, event.button.x, event.button.y);
 }
 
 void	keyboard_events(t_info *info, SDL_Event event)
