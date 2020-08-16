@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 13:18:34 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 14:48:58 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ struct s_button_info
 	int			toggle;
 	int			group;
 	char		*text;
-	void		(*f)(void);
+	void		*info;
+	void		(*f)(t_button *);
 	TTF_Font	*font;
 	t_window	*win;
 };
@@ -87,7 +88,8 @@ struct s_button
 	int			group;
 	TTF_Font	*font;
 	SDL_Surface	*surface;
-	void		(*f)(void); // function that will be called on_click
+	void		*info;
+	void		(*f)(t_button *); // function that will be called on_click
 };
 
 void			ft_test_libui(void);

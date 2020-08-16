@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 12:33:18 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 14:52:25 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int			ft_create_button(t_button_info info)
 		new_button->state = info.state;
 	new_button->group = info.group;
 	new_button->text = ft_strdup(info.text);
+	new_button->info = info.info;
 	ft_strdel(&info.text);
 	free(info.text);
 	info.win->buttons[++info.win->button_amount] = new_button;

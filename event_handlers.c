@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:26:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 13:20:08 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 14:36:31 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,12 @@ void	check_button_hitbox(t_window *win, int x, int y, int state)
 				{
 					win->buttons[ib]->state = 2;
 					toggle_button_group(win, win->buttons, win->buttons[ib]);
+					win->buttons[ib]->f(win->buttons[ib]);
 				}
 				return ;
 			}
 			win->buttons[ib]->state = state;
-			state == 2 ? win->buttons[ib]->f() : 0;
+			state == 2 ? win->buttons[ib]->f(win->buttons[ib]) : 0;
 			return;
 		}
 		if (win->buttons[ib]->toggle == -1 || win->buttons[ib]->toggle == 0)

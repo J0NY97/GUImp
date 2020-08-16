@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:16 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 13:21:33 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 15:11:05 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,27 @@ void	update_buttons(t_window *win)
 	}
 }
 
-void	click(void)
+t_info	*get_info(t_button *button)
 {
-	printf("this butotn was clicked\n");
+	return ((t_info *)button->info);
+}
+
+void	click(t_button *button)
+{
+	printf("click\n");
+}
+
+void	brush_circle(t_button *button)
+{
+	get_info(button)->brush.type = 1;
+}
+void	brush_deletion(t_button *button)
+{
+	get_info(button)->brush.type = 0;
+}
+void	brush_square(t_button *button)
+{
+	get_info(button)->brush.type = 2;
 }
 
 int		main(void)
@@ -77,6 +95,9 @@ int		main(void)
 	// Init();
 	info->run = 1;
 	info->font = TTF_OpenFont("font.ttf", 32);
+	info->brush.type = 1;
+	info->brush.size = 2;
+	info->brush.color = 0x00ff00;
 	//
 	t_window_info toolbox;
 	toolbox.x = 0;
@@ -89,6 +110,7 @@ int		main(void)
 	info->toolbox = ft_create_window(toolbox);
 
 	t_button_info button;
+	button.info = info;
 
 	button.x = 0;
 	button.y = 9;
@@ -116,21 +138,24 @@ int		main(void)
 	button.h = 100;
 	button.toggle = 1;
 	button.group = 2;
-	button.text = ft_strdup("me three! g2");
+	button.f = &brush_deletion;
+	button.text = ft_strdup("deletion! g2");
 	ft_create_button(button);
 
 	button.x = 275;
 	button.y = 100;
 	button.toggle = 0;
 	button.group = 2;
-	button.text = ft_strdup("me four! g2");
+	button.f = &brush_circle;
+	button.text = ft_strdup("circle! g2");
 	ft_create_button(button);
 	
 	button.x = 50;
 	button.y = 225;
 	button.toggle = 0;
 	button.group = 2;
-	button.text = ft_strdup("me five! g2");
+	button.f = &brush_square;
+	button.text = ft_strdup("square! g2");
 	ft_create_button(button);
 
 	t_window_info main;

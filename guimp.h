@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/14 15:58:16 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/16 15:08:18 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,22 @@
 # include "./include/SDL2/SDL_ttf.h"
 # include "./include/SDL2/SDL_image.h"
 
-typedef struct	s_info
+typedef struct	s_info	t_info;
+/*
+	**	type; 	0 = deletion
+				1 = circle
+				2 = square
+				3 = ...
+	**	size;	radius of the brush
+*/
+typedef struct	s_brush
+{
+	int			type;
+	int			size;
+	int			color;
+}				t_brush;
+
+struct	s_info
 {
 	int			run;
 	TTF_Font	*font;
@@ -31,7 +46,8 @@ typedef struct	s_info
 	t_window	*toolbox;
 	t_window	*layers;
 
-}				t_info;
+	t_brush		brush;
+};
 
 void			event_handler(t_info *info);
 void			check_input(t_info *info);
