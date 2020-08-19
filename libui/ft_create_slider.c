@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 11:20:16 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 12:31:07 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 13:40:15 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ int		ft_create_slider(t_slider_info info)
 	slider->min = info.min;
 	slider->max = info.max;
 	slider->current = info.current;
+//	slider->f = info.f;
 	slider->slider_color = info.slider_color;
 	slider->bar_color = info.bar_color;
 	slider->surface = SDL_CreateRGBSurface(0, info.w, info.h, 32, 0, 0, 0, 0);
 	info.win->sliders[++info.win->slider_amount] = slider;
-	ft_update_slider(slider);
+	ft_update_slider(slider, -1, -1);
 	return (1);
 }

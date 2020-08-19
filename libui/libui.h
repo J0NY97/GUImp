@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 12:50:58 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 13:51:58 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ struct	s_slider_info
 	int			min;
 	int			max;
 	int			current;
+	void		(*f)(t_slider *);
 	Uint32		slider_color;
 	Uint32		bar_color;
 	t_window	*win;
@@ -138,6 +139,7 @@ struct	s_slider
 	int			min;
 	int			max;
 	int			current;
+	void		(*f)(t_slider *);
 	Uint32		slider_color;
 	Uint32		bar_color;
 	SDL_Surface *surface;
@@ -166,9 +168,10 @@ int				ft_create_button(t_button_info info);
 int				ft_update_button(t_button *button, int bg_color, int txt_color);
 /* SURFACES */
 int				ft_create_surface(t_surface_info info);
+void			ft_update_surface(t_surface *surface, Uint32 bg_color);
 /* SLIDERS */
 int				ft_create_slider(t_slider_info info);
-void			ft_update_slider(t_slider *slider);
+void			ft_update_slider(t_slider *slider, int click_x, int click_y);
 /* EXTRA */
 void			ft_create_line(SDL_Surface *surf, Uint32 color, t_line *l);
 void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);

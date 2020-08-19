@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:26:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 17:05:48 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 13:46:57 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,21 @@ void	check_button_hitbox(t_window *win, int x, int y, int state)
 	}
 }
 
+void	check_slider_hitbox(t_window *win, int x, int y)
+{
+	int ib;
+
+	ib = -1;
+	while (++ib <= win->slider_amount)
+	{
+		if ((y >= win->sliders[ib]->y && y <= win->sliders[ib]->y + win->sliders[ib]->surface->h) &&
+			(x >= win->sliders[ib]->x && x <= win->sliders[ib]->x + win->sliders[ib]->surface->w))
+		{
+			ft_update_slider(win->sliders[ib], x - win->sliders[ib]->x, y - win->sliders[ib]->y);
+		}
+	}
+}
+
 void	draw(t_info *info, t_window *win, int x, int y)
 {
 	t_surface *surf;
@@ -84,7 +99,7 @@ void	draw(t_info *info, t_window *win, int x, int y)
 			xd = -1;
 			while (++xd < info->brush.size)
 			{
-				set_pixel(surf->surface, x + xd, y + yd, 0x000000);
+				set_pixel(surf->surface, x + xd, y + yd, info->brush.color);
 			}
 		}
 	}
@@ -98,16 +113,17 @@ void	mouse_events(t_info *info, SDL_Event event)
 		if (event.window.windowID == info->toolbox->id)
 			check_button_hitbox(info->toolbox, event.button.x, event.button.y, 1);
 		else if (event.window.windowID == info->main->id)
-		{
 			check_button_hitbox(info->main, event.button.x, event.button.y, 1);
-		}
 	}
 	else if (event.type == SDL_MOUSEBUTTONDOWN)
 	{
 		printf("mouse clicked\n");
 		// when mouse clicked loop aill the buttons of that window and check if you clicked them
 		if (event.window.windowID == info->toolbox->id)
+		{
 			check_button_hitbox(info->toolbox, event.button.x, event.button.y, 2);
+			check_slider_hitbox(info->toolbox, event.button.x, event.button.y);
+		}
 		else if (event.window.windowID == info->main->id)
 		{
 			check_button_hitbox(info->main, event.button.x, event.button.y, 2);
