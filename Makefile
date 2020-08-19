@@ -6,14 +6,12 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/10 12:48:11 by jsalmi            #+#    #+#              #
-#    Updated: 2020/08/14 13:50:04 by jsalmi           ###   ########.fr        #
+#    Updated: 2020/08/19 18:24:30 by jsalmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = guimp
-SRCS = ./main.c\
-	   ./input.c\
-	   ./event_handlers.c
+SRCS = ./main.c
 OBJS = ./*.o
 INCLUDES = ./libft/libft.a\
 		   ./libui/libui.a

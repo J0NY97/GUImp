@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 14:02:25 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/19 19:21:33 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct	s_info	t_info;
 */
 typedef struct	s_brush
 {
+	int			draw;
 	int			type;
 	int			size;
 	int			color;
@@ -44,8 +45,8 @@ struct	s_info
 
 	SDL_Event	event;
 
-	t_window	*main;
 	t_window	*toolbox;
+	t_window	*main;
 	t_window	*layers;
 
 	t_brush		brush;
