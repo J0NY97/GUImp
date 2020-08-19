@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:16 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 13:10:04 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/19 13:57:18 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,10 @@ void	brush_deletion(t_button *button)
 void	brush_square(t_button *button)
 {
 	get_info(button)->brush.type = 2;
+}
+void	update_brush_color(t_info *info, t_slider *r, t_slider *g, t_slider *b)
+{
+	info->brush.color = (r->current & 0xFF) << 16 | (g->current & 0xFF) << 8 | (b->current & 0xFF);
 }
 
 int		main(void)
@@ -182,9 +186,9 @@ int		main(void)
 	slider.h = 10;
 	slider.min = 0;
 	slider.max = 255;
-	slider.current = 100;
+	slider.current = 255;
 	slider.slider_color = 0xff0000;
-	slider.bar_color = 0x000000;
+	slider.bar_color = 0xd3d3d3;
 	slider.win = info->toolbox;
 	ft_create_slider(slider); // this adds it to the window's sliders array
 	SDL_Surface	*temp_text = TTF_RenderText_Blended(info->font, ft_itoa(slider.min), hex_to_rgba(0x00686518));
@@ -200,7 +204,7 @@ int		main(void)
 	SDL_BlitSurface(temp_text, NULL, info->toolbox->surface, &temp);
 
 	slider.slider_color = 0x00ff00;
-	slider.current = 200;
+	slider.current = 0;
 	slider.y = 600;
 	ft_create_slider(slider);
 	temp_text = TTF_RenderText_Blended(info->font, ft_itoa(slider.min), hex_to_rgba(0x00686518));
@@ -213,7 +217,7 @@ int		main(void)
 	SDL_BlitSurface(temp_text, NULL, info->toolbox->surface, &temp);
 
 	slider.slider_color = 0x0000ff;
-	slider.current = 150;
+	slider.current = 0;
 	slider.y = 700;
 	ft_create_slider(slider);
 	temp_text = TTF_RenderText_Blended(info->font, ft_itoa(slider.min), hex_to_rgba(0x00686518));
@@ -245,6 +249,15 @@ int		main(void)
 	ns.win = info->main;
 	ft_create_surface(ns);
 
+
+	ns.x = 250;
+	ns.y = 750;
+	ns.w = 100;
+	ns.h = 100;
+	ns.color = info->brush.color;
+	ns.win = info->toolbox;
+	ft_create_surface(ns);
+
 	t_line l;
 
 	l.x1 = 0;
@@ -255,6 +268,10 @@ int		main(void)
 
 	while (info->run)
 	{
+	   	// @Improvement: move this to where it will be called everytime the color sliders update 
+		update_brush_color(info, info->toolbox->sliders[0], info->toolbox->sliders[1], info->toolbox->sliders[2]);
+		ft_update_surface(info->toolbox->surfaces[0], info->brush.color); // brush color shower
+		///////
 		event_handler(info);
 		update_buttons(info->toolbox);
 		update_buttons(info->main);
