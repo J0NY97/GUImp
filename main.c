@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:16 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 17:01:00 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 12:44:55 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,14 @@ void	render(t_window *win)
 		temp.h = win->surfaces[i]->surface->h;
 		SDL_BlitSurface(win->surfaces[i]->surface, NULL, win->surface, &temp);
 	}
-
+	for (int i = 0; i <= win->slider_amount; i++)
+	{
+		temp.x = win->sliders[i]->x;
+		temp.y = win->sliders[i]->y;
+		temp.w = win->sliders[i]->surface->w;
+		temp.h = win->sliders[i]->surface->h;
+		SDL_BlitSurface(win->sliders[i]->surface, NULL, win->surface, &temp);
+	}
 	// add elemsnets to surafce
 	// otherthings....
 	SDL_UpdateWindowSurface(win->win);
@@ -166,6 +173,59 @@ int		main(void)
 	button.text = ft_strdup("square! g2");
 	ft_create_button(button);
 
+
+	// slider on toolbox win
+	t_slider_info	slider;
+	slider.x = 200;
+	slider.w = 200;
+	slider.y = 500;
+	slider.h = 10;
+	slider.min = 0;
+	slider.max = 255;
+	slider.current = 100;
+	slider.slider_color = 0xff0000;
+	slider.bar_color = 0x000000;
+	slider.win = info->toolbox;
+	ft_create_slider(slider); // this adds it to the window's sliders array
+	SDL_Surface	*temp_text = TTF_RenderText_Blended(info->font, ft_itoa(slider.min), hex_to_rgba(0x00686518));
+	SDL_Rect temp;
+	temp.x = slider.x;
+	temp.y = slider.y - 40;
+	temp.w = 0;
+	temp.h = 0;
+	SDL_BlitSurface(temp_text, NULL, info->toolbox->surface, &temp);
+	temp_text = TTF_RenderText_Blended(info->font, ft_itoa(slider.max), hex_to_rgba(0x00686518));
+	temp.x = slider.x + slider.w - (temp_text->w);
+	temp.y = slider.y - 40;
+	SDL_BlitSurface(temp_text, NULL, info->toolbox->surface, &temp);
+
+	slider.slider_color = 0x00ff00;
+	slider.current = 200;
+	slider.y = 600;
+	ft_create_slider(slider);
+	temp_text = TTF_RenderText_Blended(info->font, ft_itoa(slider.min), hex_to_rgba(0x00686518));
+	temp.x = slider.x;
+	temp.y = slider.y - 40;
+	SDL_BlitSurface(temp_text, NULL, info->toolbox->surface, &temp);
+	temp_text = TTF_RenderText_Blended(info->font, ft_itoa(slider.max), hex_to_rgba(0x00686518));
+	temp.x = slider.x + slider.w - (temp_text->w);
+	temp.y = slider.y - 40;
+	SDL_BlitSurface(temp_text, NULL, info->toolbox->surface, &temp);
+
+	slider.slider_color = 0x0000ff;
+	slider.current = 150;
+	slider.y = 700;
+	ft_create_slider(slider);
+	temp_text = TTF_RenderText_Blended(info->font, ft_itoa(slider.min), hex_to_rgba(0x00686518));
+	temp.x = slider.x;
+	temp.y = slider.y - 40;
+	SDL_BlitSurface(temp_text, NULL, info->toolbox->surface, &temp);
+	temp_text = TTF_RenderText_Blended(info->font, ft_itoa(slider.max), hex_to_rgba(0x00686518));
+	temp.x = slider.x + slider.w - (temp_text->w);
+	temp.y = slider.y - 40;
+	SDL_BlitSurface(temp_text, NULL, info->toolbox->surface, &temp);
+
+/////////////
 	t_window_info main;
 	main.x = 501;
 	main.y = 0;

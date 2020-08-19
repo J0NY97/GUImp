@@ -6,29 +6,13 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 11:25:55 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/19 12:48:05 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/19 12:51:29 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef struct	s_line_algo
-{
-	int			x;
-	int			y;
-	int			x1;
-	int			y1;
-	int			x2;
-	int			y2;
-	int			cath_x;
-	int 		cath_y;
-	int			overflow_x;
-	int			overflow_y;
-	double		pytha;
-
-}				t_line_algo;
-
 #include "libui.h"
 
-static inline void	line_calc(t_line_algo *l)
+static inline void	line_calc(t_line *l)
 {
 	l->pytha = sqrt(((l->x2 - l->x1) * 2) + ((l->y2 - l->y1) * 2));
 	l->cath_x = (l->y2 - l->y1) < 0 ? (l->y2 - l->y1) * -1 : (l->y2 - l->y1);
@@ -37,7 +21,7 @@ static inline void	line_calc(t_line_algo *l)
 	l->y = l->y1 < l->y2 ? 1 : -1;
 }
 
-void	ft_create_line(SDL_Surface *surf, Uint32 color, t_line_algo *l)
+void	ft_create_line(SDL_Surface *surf, Uint32 color, t_line *l)
 {
 	line_calc(l);
 	l->overflow_y = l->cath_y - l->cath_x;
