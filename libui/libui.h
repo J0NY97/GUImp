@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 14:26:11 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 19:39:59 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,54 @@ typedef struct	s_surface_info	t_surface_info;
 typedef struct	s_surface		t_surface;
 typedef struct	s_slider_info	t_slider_info;
 typedef struct	s_slider		t_slider;
+/////////////
+typedef	struct	s_element		t_element;
+typedef	struct	s_element_info	t_element_info;
+
+typedef struct	s_libui
+{
+	SDL_Event	event;
+}				t_libui;
+
+typedef	struct	s_text_info
+{
+	int			x;
+	int			y;
+	int			color;
+	char		*text;
+	TTF_Font	*font;
+}				t_text_info;
+
+struct	s_element_info
+{
+	int			x;
+	int			y;
+	int			w;
+	int			h;
+	int			bg_color;
+	void		*parent;
+	void		*info;
+	void		(*f)(SDL_Event, t_element *);
+	int			(*event_handler)(t_libui *, t_element *);
+	t_text_info	text_info;
+};
+
+struct	s_element
+{
+	int			x;
+	int			y;
+	int			w;
+	int			h;
+	int			bg_color;
+	void		*info;
+	void		*parent;
+	void		(*f)(SDL_Event, t_element *);
+	int			(*event_handler)(t_libui *, t_element *);
+	t_text_info	text_info;
+	SDL_Surface	*surface;
+};
+
+////////////////////////////////
 
 struct s_window_info
 {
@@ -48,16 +96,7 @@ struct s_window
 	SDL_Surface	*surface;
 	Uint32		id;
 	int			button_amount;
-	t_button	*buttons[10];
-	int			surface_amount;
-	t_surface	*surfaces[10];
-	int			slider_amount;
-	t_slider	*sliders[10];
-	//array of elements
-	//array of buttons
-	//array of pictures
-	//font
-	//...
+	t_element	*buttons[10];
 };
 
 struct s_button_info
@@ -98,6 +137,7 @@ struct s_button
 	SDL_Surface	*surface;
 	void		*info;
 	void		(*f)(t_button *); // function that will be called on_click
+	void		(*event_handler)(t_libui *, t_button *);
 };
 
 struct	s_surface_info
@@ -161,20 +201,37 @@ typedef struct	s_line
 
 }				t_line;
 
+typedef struct	s_circle
+{
+	int			r;
+	int			y;
+	int			x;
+	int			xc;
+	int			yc;
+}				t_circle;
+
 void			ft_test_libui(void);
 t_window		*ft_create_window(t_window_info info);
 /* BUTTONS */
-int				ft_create_button(t_button_info info);
-int				ft_update_button(t_button *button, int bg_color, int txt_color);
+//int				ft_create_button(t_button_info info);
+//int				ft_update_button(t_button *button, int bg_color, int txt_color);
 /* SURFACES */
-int				ft_create_surface(t_surface_info info);
-void			ft_update_background(SDL_Surface *surface, Uint32 bg_color);
+//int				ft_create_surface(t_surface_info info);
+//void			ft_update_background(SDL_Surface *surface, Uint32 bg_color);
 /* SLIDERS */
-int				ft_create_slider(t_slider_info info);
-void			ft_update_slider(t_slider *slider, int click_x, int click_y);
+//int				ft_create_slider(t_slider_info info);
+//void			ft_update_slider(t_slider *slider, int click_x, int click_y);
 /* EXTRA */
 void			ft_create_line(SDL_Surface *surf, Uint32 color, t_line *l);
+void			ft_create_circle(SDL_Surface *surface, Uint32 color, t_circle c);
 void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
 SDL_Color		hex_to_rgba(int color);
+
+/* TESTS */
+t_element		*ft_create_element(t_element_info info);
+void			ft_update_element(t_element *elem);
+int				ft_mouse_button_handler(t_libui *libui, t_element *elem);
+void			ft_event_poller(t_libui *libui);
+
 
 #endif
