@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/15 13:37:55 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/15 14:44:09 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 14:28:13 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,7 @@
 */
 int		ft_update_button(t_button *button, int bg_color, int txt_color)
 {
-	int i;
-	int j;
-
-	i = -1;
-	while (++i < button->surface->h)
-	{
-		j = -1;
-		while (++j < button->surface->w)
-		{
-			set_pixel(button->surface, j, i, bg_color);
-		}
-	}
-	
+	ft_update_background(button->surface, bg_color);
 	// @Fix: this whole shit
 	SDL_Color color = hex_to_rgba(txt_color);
 	SDL_Surface *temp_surf = TTF_RenderText_Blended(button->font, button->text, color);

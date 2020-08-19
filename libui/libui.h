@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 13:51:58 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 14:26:11 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int				ft_create_button(t_button_info info);
 int				ft_update_button(t_button *button, int bg_color, int txt_color);
 /* SURFACES */
 int				ft_create_surface(t_surface_info info);
-void			ft_update_surface(t_surface *surface, Uint32 bg_color);
+void			ft_update_background(SDL_Surface *surface, Uint32 bg_color);
 /* SLIDERS */
 int				ft_create_slider(t_slider_info info);
 void			ft_update_slider(t_slider *slider, int click_x, int click_y);
