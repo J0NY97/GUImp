@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/16 15:59:34 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 16:28:22 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 14:34:22 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,6 @@ int		ft_create_surface(t_surface_info info)
 	new_surface->x = info.x;
 	new_surface->y = info.y;
 	info.win->surfaces[++info.win->surface_amount] = new_surface;
-	// color whole surface white
-	int x;
-	int y;
-	y = -1;
-	while (++y < info.h)
-	{
-		x = -1;
-		while (++x < info.w)
-		{
-			set_pixel(new_surface->surface, x, y, 0xffffff);
-		}
-	}
+	ft_update_background(new_surface->surface, 0xffffff);
 	return (1);
 }
