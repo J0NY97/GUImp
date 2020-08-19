@@ -6,23 +6,23 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 13:50:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 13:54:09 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 14:29:37 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ft_update_surface(t_surface *surface, Uint32 bg_color)
+void	ft_update_background(SDL_Surface *surface, Uint32 bg_color)
 {
 	int x;
 	int y;
 	y = -1;
-	while (++y < surface->surface->h)
+	while (++y < surface->h)
 	{
 		x = -1;
-		while (++x < surface->surface->w)
+		while (++x < surface->w)
 		{
-			set_pixel(surface->surface, x, y, bg_color);
+			set_pixel(surface, x, y, bg_color);
 		}
 	}
 }
