@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:26:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 13:46:57 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 14:23:54 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	check_slider_hitbox(t_window *win, int x, int y)
 void	draw(t_info *info, t_window *win, int x, int y)
 {
 	t_surface *surf;
+	t_line l;
 	int xd;
 	int yd;
 
@@ -103,6 +104,14 @@ void	draw(t_info *info, t_window *win, int x, int y)
 			}
 		}
 	}
+	l.x2 = x;
+	l.y2 = y;
+	l.x1 = info->brush.old_x;
+	l.y1 = info->brush.old_y;
+	if (l.x1 != -1 && l.y1 != -1)
+		ft_create_line(surf->surface, info->brush.color, &l);
+	info->brush.old_x = x;
+	info->brush.old_y = y;
 }
 
 void	mouse_events(t_info *info, SDL_Event event)
@@ -138,6 +147,8 @@ void	mouse_events(t_info *info, SDL_Event event)
 		else if (event.window.windowID == info->main->id)
 		{
 			info->draw = 0;
+			info->brush.old_x = -1;
+			info->brush.old_y = -1;
 			check_button_hitbox(info->main, event.button.x, event.button.y, 1);
 		}
 	}
