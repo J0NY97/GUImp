@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:16 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 12:44:55 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 13:10:04 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,15 @@ int		main(void)
 	ns.h = info->main->surface->h - ns.y - 50;
 	ns.win = info->main;
 	ft_create_surface(ns);
+
+	t_line l;
+
+	l.x1 = 0;
+	l.y1 = 0;
+	l.x2 = 200;
+	l.y2 = 400;
+	ft_create_line(info->main->surfaces[0]->surface, 0xff00f0, &l);
+
 	while (info->run)
 	{
 		event_handler(info);

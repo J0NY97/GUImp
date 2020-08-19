@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 11:25:55 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/19 12:51:29 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 13:02:00 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 static inline void	line_calc(t_line *l)
 {
-	l->pytha = sqrt(((l->x2 - l->x1) * 2) + ((l->y2 - l->y1) * 2));
+	int y;
+	int x;
+
+	y = (l->y2 - l->y1) * (l->y2 - l->y1);
+	x = (l->x2 - l->x1) * (l->x2 - l->x1);
+	l->pytha = sqrt(x + y);
 	l->cath_x = (l->y2 - l->y1) < 0 ? (l->y2 - l->y1) * -1 : (l->y2 - l->y1);
 	l->cath_y = (l->x2 - l->x1) < 0 ? (l->x2 - l->x1) * -1 : (l->x2 - l->x1);
 	l->x = l->x1 < l->x2 ? 1 : -1;
