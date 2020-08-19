@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 16:46:42 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 14:02:25 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct	s_brush
 	int			type;
 	int			size;
 	int			color;
+	int			old_x;
+	int			old_y;
 }				t_brush;
 
 struct	s_info
