@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/16 16:21:46 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 11:13:39 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ struct s_window
 	SDL_Surface	*surface;
 	Uint32		id;
 	int			button_amount;
-	t_button	*buttons[10]; // remove this mallco
+	t_button	*buttons[10];
 	int			surface_amount;
 	t_surface	*surfaces[10];
 	//array of elements
 	//array of buttons
 	//array of pictures
 	//font
-	//.
+	//...
 };
 
 struct s_button_info
