@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 11:31:38 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 13:44:14 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/19 14:32:58 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,10 @@ void	ft_update_slider(t_slider *slider, int click_x, int click_y)
 	float		ppv;
 	
 	bar = SDL_CreateRGBSurface(0, 20, slider->surface->h, 32, 0, 0, 0, 0);
-	// coloring the slider
-	int x = -1;
-	int y = -1;
-	while (++y < slider->surface->h)
-	{
-		x = -1;
-		while (++x < slider->surface->w)
-		{
-			set_pixel(slider->surface, x, y, slider->slider_color);
-		}
-	}
-	// making bar the color you want
-	y = -1;
-	while (++y < bar->h)
-	{
-		x = -1;
-		while (++x < bar->w)
-		{
-			set_pixel(bar, x, y, slider->bar_color);
-		}
-	}
-	//
+	
+	ft_update_background(slider->surface, slider->slider_color);
+	ft_update_background(bar, slider->bar_color);
+
 	ppv = (float)slider->surface->w / (slider->max - slider->min);
 	if (click_x == -1  && click_y == -1)
 		temp.x = ppv * slider->current - (bar->w / 2);	
