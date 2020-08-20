@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 18:36:20 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/20 12:57:16 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_element		*ft_create_element(t_element_info info)
 	elem->f = info.f;
 	elem->event_handler = info.event_handler;
 	elem->text_info = info.text_info;
+	elem->parent = info.parent;
 	
 	ft_update_element(elem);	
 	return (elem);

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 19:39:59 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/20 16:05:14 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct	s_libui
 
 typedef	struct	s_text_info
 {
+	int			set_text;
 	int			x;
 	int			y;
 	int			color;
@@ -55,7 +56,7 @@ struct	s_element_info
 	int			w;
 	int			h;
 	int			bg_color;
-	void		*parent;
+	SDL_Surface	*parent;
 	void		*info;
 	void		(*f)(SDL_Event, t_element *);
 	int			(*event_handler)(t_libui *, t_element *);
@@ -70,7 +71,7 @@ struct	s_element
 	int			h;
 	int			bg_color;
 	void		*info;
-	void		*parent;
+	SDL_Surface	*parent;
 	void		(*f)(SDL_Event, t_element *);
 	int			(*event_handler)(t_libui *, t_element *);
 	t_text_info	text_info;
@@ -95,8 +96,8 @@ struct s_window
 	SDL_Window	*win;
 	SDL_Surface	*surface;
 	Uint32		id;
-	int			button_amount;
-	t_element	*buttons[10];
+/*	int			button_amount;
+	t_element	*buttons[10];*/
 };
 
 struct s_button_info
@@ -226,12 +227,14 @@ void			ft_create_line(SDL_Surface *surf, Uint32 color, t_line *l);
 void			ft_create_circle(SDL_Surface *surface, Uint32 color, t_circle c);
 void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
 SDL_Color		hex_to_rgba(int color);
+int				rgb_to_hex(int r, int g, int b);
 
 /* TESTS */
 t_element		*ft_create_element(t_element_info info);
 void			ft_update_element(t_element *elem);
 int				ft_mouse_button_handler(t_libui *libui, t_element *elem);
 void			ft_event_poller(t_libui *libui);
+void			ft_update_background(SDL_Surface *surface, Uint32 color);
 
 
 #endif

@@ -6,7 +6,7 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/10 13:27:06 by jsalmi            #+#    #+#              #
-#    Updated: 2020/08/19 18:23:27 by jsalmi           ###   ########.fr        #
+#    Updated: 2020/08/20 16:04:56 by jsalmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,12 @@ SRCS = ft_test_libui.c\
 	   ft_create_circle.c\
 	   set_pixel.c\
 	   hex_to_rgba.c\
+	   rgb_to_hex.c\
 	   ft_create_element.c\
 	   ft_update_element.c\
 	   ft_mouse_button_handler.c\
-	   ft_event_poller.c
+	   ft_event_poller.c\
+	   ft_update_background.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
 #FLAGS = -Wall -Wextra -Werror
