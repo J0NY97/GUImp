@@ -6,12 +6,13 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/10 12:48:11 by jsalmi            #+#    #+#              #
-#    Updated: 2020/08/19 18:24:30 by jsalmi           ###   ########.fr        #
+#    Updated: 2020/08/20 19:15:58 by nneronin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = guimp
-SRCS = ./main.c
+SRCS = ./main.c\
+		draw.c
 OBJS = ./*.o
 INCLUDES = ./libft/libft.a\
 		   ./libui/libui.a

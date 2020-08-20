@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/20 18:48:04 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/20 19:16:33 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ struct	s_info
 
 void			event_handler(t_info *info);
 void			check_input(t_info *info);
+void			draw(SDL_Event event, t_element *elem);
 
 #endif
