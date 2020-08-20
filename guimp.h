@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/20 17:50:16 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/20 18:48:04 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ struct	s_info
 	t_element	*r_slider;
 	t_element	*g_slider;
 	t_element	*b_slider;
+	t_element	*size_slider;
 
 	t_element	*buttons[3];
 

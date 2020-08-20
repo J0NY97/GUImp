@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/20 17:56:37 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/20 18:59:03 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	draw(SDL_Event event, t_element *elem)
 		brush->draw = 1;
 	if (brush->draw == 1)
 	{
-		ft_create_circle(elem->surface, brush->color, c, 1);
+		if (brush->size != 1)
+			ft_create_circle(elem->surface, brush->color, c, 1);
 		l.y2 = y;
 		l.x2 = x;
 		l.x1 = brush->old_x;
@@ -393,6 +394,28 @@ int		main(void)
 	add_elem_to_list(info->toolbox, sinf);
 	slider_event(libui->event, info->toolbox->elements->content);
 	info->b_slider = info->toolbox->elements->content;
+
+	t_new_slider	*zinfo;
+	if (!(zinfo = (t_new_slider *)malloc(sizeof(t_new_slider))))
+		exit (0);
+	sinf.x = 100;
+	sinf.y = 350;
+	sinf.w = 200;
+	sinf.h = 20;
+	sinf.bg_color = 0xffffff;
+	sinf.parent = info->toolbox->window->surface;
+	sinf.info = zinfo;
+	zinfo->min = 1;
+	zinfo->max = 100;
+	zinfo->value = 2;
+	zinfo->clicked = 0;
+	zinfo->color = 0xd3d3d3;
+	sinf.f = &slider_event;
+	sinf.event_handler = &ft_mouse_button_handler;
+	sinf.text_info.set_text = 0;
+	add_elem_to_list(info->toolbox, sinf);
+	slider_event(libui->event, info->toolbox->elements->content);
+	info->size_slider = info->toolbox->elements->content;
 //////////
 	while (info->run)
 	{
@@ -416,7 +439,7 @@ int		main(void)
 										((t_new_slider *)info->g_slider->info)->value,
 										((t_new_slider *)info->b_slider->info)->value);
 		
-
+		info->brush.size = ((t_new_slider *)info->size_slider->info)->value;
 		// RENDERING
 		render_window(info->toolbox);
 		render_window(info->main);
