@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 11:25:55 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/20 17:37:14 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/20 18:57:23 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,11 @@ void	ft_create_line(SDL_Surface *surf, Uint32 color, int size, t_line *l)
 	l->overflow_y = l->cath_y - l->cath_x;
 	while (l->x1 != l->x2 || l->y1 != l->y2)
 	{
-		//set_pixel(surf, l->x1 , l->y1, color);
-		//cross(surf, l->x1, l->y1, size, color);
 		c.xc = l->x1;
 		c.yc = l->y1;
+		//if (size <= 2)
+		//	set_pixel(surf, l->x1 , l->y1, color);
+		//else
 		ft_create_circle(surf, color, c, 0);
 		l->overflow_x = l->overflow_y * 2;
 		if (l->overflow_x > -(l->cath_x))
