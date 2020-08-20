@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/20 17:13:44 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/20 17:56:37 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	click(SDL_Event event, t_element *elem)
 
 void	draw(SDL_Event event, t_element *elem)
 {
+	t_line l;
 	t_brush *brush;
 	t_circle c;
 	int x;
@@ -60,7 +61,22 @@ void	draw(SDL_Event event, t_element *elem)
 	else if (event.type == SDL_MOUSEBUTTONDOWN)
 		brush->draw = 1;
 	if (brush->draw == 1)
-		ft_create_circle(elem->surface, brush->color, c);
+	{
+		ft_create_circle(elem->surface, brush->color, c, 1);
+		l.y2 = y;
+		l.x2 = x;
+		l.x1 = brush->old_x;
+		l.y1 = brush->old_y;
+		if (brush->old_x != -1 && brush->old_y != -1)
+			ft_create_line(elem->surface, brush->color, brush->size, &l);
+		brush->old_x = x;
+		brush->old_y = y;
+	}
+	else
+	{
+		brush->old_x = -1;
+		brush->old_y = -1;
+	}
 //		set_pixel(elem->surface, event.button.x - elem->x, event.button.y - elem->y, 0xff0000);
 }
 
@@ -180,6 +196,8 @@ int		main(void)
 	info->font = TTF_OpenFont("font.ttf", 32);
 	info->brush.draw = 0;
 	info->brush.size = 20;
+	info->brush.old_x = -1;
+	info->brush.old_y = -1;
 	if (!(info->toolbox = (t_win *)malloc(sizeof(t_win))))
 		exit (0);
 	if (!(info->main = (t_win *)malloc(sizeof(t_win))))

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/20 16:05:14 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/20 17:36:50 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,8 +198,6 @@ typedef struct	s_line
 	int 		cath_y;
 	int			overflow_x;
 	int			overflow_y;
-	double		pytha;
-
 }				t_line;
 
 typedef struct	s_circle
@@ -223,8 +221,8 @@ t_window		*ft_create_window(t_window_info info);
 //int				ft_create_slider(t_slider_info info);
 //void			ft_update_slider(t_slider *slider, int click_x, int click_y);
 /* EXTRA */
-void			ft_create_line(SDL_Surface *surf, Uint32 color, t_line *l);
-void			ft_create_circle(SDL_Surface *surface, Uint32 color, t_circle c);
+void			ft_create_line(SDL_Surface *surf, Uint32 color, int size, t_line *l);
+void			ft_create_circle(SDL_Surface *surface, Uint32 color,  t_circle c, int i);
 void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
 SDL_Color		hex_to_rgba(int color);
 int				rgb_to_hex(int r, int g, int b);
