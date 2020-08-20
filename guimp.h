@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/19 19:21:33 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/20 16:46:15 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,48 @@ typedef struct	s_brush
 	int			old_y;
 }				t_brush;
 
+typedef	struct	s_new_slider
+{
+	int			min;
+	int			max;
+	int			value;
+	int			clicked;
+	int			color;
+}				t_new_slider;
+
+typedef	struct	s_brush_button
+{
+	int			state;
+	int			type;
+	int			update;
+	t_brush		*brush;
+}				t_brush_button;
+
+typedef	struct	s_win
+{
+	t_window	*window;
+	int			elem_amount;
+	t_list		*elements;
+}				t_win;
+
 struct	s_info
 {
 	int			run;
 	TTF_Font	*font;
 
 	SDL_Event	event;
-
-	t_window	*toolbox;
-	t_window	*main;
+	
+	t_win		*toolbox;
+	t_win		*main;
+//	t_window	*toolbox;
+//	t_window	*main;
 	t_window	*layers;
+
+	t_element	*r_slider;
+	t_element	*g_slider;
+	t_element	*b_slider;
+
+	t_element	*buttons[3];
 
 	t_brush		brush;
 	int			draw;
