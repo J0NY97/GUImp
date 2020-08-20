@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/20 19:16:13 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/20 19:22:33 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,14 +387,14 @@ int		main(void)
 			libui->event.type == SDL_MOUSEBUTTONUP)
 
 		{
-			if (libui->event.window.windowID == info->toolbox->window->id)
+			if (libui->event.window.windowID == info->toolbox->window->id){
 				call_all_handlers(info->toolbox, libui);
-			if (libui->event.window.windowID == info->main->window->id)
-				call_all_handlers(info->main, libui);
 			for (int i = 0; i < 3; i++)
 			{
 				change_brush_type(libui, info->buttons, info->buttons[i]);
-			}
+			}}
+			else if (libui->event.window.windowID == info->main->window->id)
+				call_all_handlers(info->main, libui);
 		}
 		info->brush.color = rgb_to_hex(((t_new_slider *)info->r_slider->info)->value,
 										((t_new_slider *)info->g_slider->info)->value,
