@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/20 12:57:16 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/22 17:31:28 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,19 @@ t_element		*ft_create_element(t_element_info info)
 	elem->w = info.w;
 	elem->h = info.h;
 	elem->bg_color = info.bg_color;
-	elem->info = info.info;
+	if (info.info_size > 0)
+	{
+		elem->info = malloc(info.info_size);
+		elem->info = ft_memcpy(elem->info, info.info, info.info_size);
+	}
+	else
+		elem->info = info.info;
+	elem->extra_info = info.extra_info;
 	elem->f = info.f;
 	elem->event_handler = info.event_handler;
-	elem->text_info = info.text_info;
+	elem->set_text = info.set_text;
+	elem->text = info.text;
 	elem->parent = info.parent;
-	
 	ft_update_element(elem);	
 	return (elem);
 }

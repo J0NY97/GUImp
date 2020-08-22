@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/20 19:16:33 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/22 12:55:18 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,6 @@ typedef struct	s_brush
 	int			old_x;
 	int			old_y;
 }				t_brush;
-
-typedef	struct	s_new_slider
-{
-	int			min;
-	int			max;
-	int			value;
-	int			clicked;
-	int			color;
-}				t_new_slider;
-
-typedef	struct	s_brush_button
-{
-	int			state;
-	int			type;
-	int			update;
-	t_brush		*brush;
-}				t_brush_button;
 
 typedef	struct	s_win
 {
