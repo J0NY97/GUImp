@@ -3,46 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_create_text.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/22 12:26:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/22 17:49:46 by nneronin         ###   ########.fr       */
+/*   Created: 2020/08/22 17:32:45 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/08/22 17:44:24 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ft_text_area(int size, char *text)
+void	ft_create_text(t_text *text)
 {
-	int			i;
-	char		*key;
-	char		*tmp;
-	SDL_Event	event;
+	SDL_Rect	temp;
 
-	i = 0;
-	SDL_PollEvent(&event);
-	while (event.key.keysym.sym != SDLK_RETURN)
-	{
-		if (event.type == SDL_KEYDOWN)
-		{
-			key = ft_strdup(SDL_GetKeyName(event.key.keysym.sym));
-			if (key[1] == '\0' || event.key.keysym.sym == SDLK_SPACE)
-			{
-				if (text == NULL && (++i))
-					text = ft_strdup(key);
-				else if ((++i))
-				{
-					tmp = ft_strdup(text);
-					ft_strdel(&text);
-					text = ft_strjoin(tmp, key[1] != '\0' ? " " : key);
-					ft_strdel(&tmp);
-				}
-			}
-			ft_strdel(&key);
-		}
-		SDL_PollEvent(&event);
-	}
-	write(1, text, i); //Remove later.
-	free(key);
-	free(tmp);
+	temp.x = text->x;
+	temp.y = text->y;
+	text->surface = TTF_RenderText_Blended(text->font, text->text, hex_to_rgba(text->color));
+	temp.w = text->surface->w;
+	temp.h = text->surface->h;
+	SDL_BlitSurface(text->surface, NULL, text->parent, &temp);
 }
