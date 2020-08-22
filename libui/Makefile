@@ -6,7 +6,7 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/10 13:27:06 by jsalmi            #+#    #+#              #
-#    Updated: 2020/08/20 16:04:56 by jsalmi           ###   ########.fr        #
+#    Updated: 2020/08/22 12:00:26 by nneronin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ $(NAME):
 	gcc -c $(SRCS) $(FLAGS)
 	ar rc $(NAME) $(OBJS) 
 	ranlib $(NAME)
+	/bin/rm -f $(OBJS)
 
 clean:
 	/bin/rm -f $(OBJS)
