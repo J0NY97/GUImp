@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/23 14:36:43 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/23 14:42:36 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,8 @@ void	draw(SDL_Event event, t_element *elem)
 		l.y2 = y;
 		l.x1 = brush->old_x;
 		l.y1 = brush->old_y;
-		if (brush->type == 1)
-			if (brush->old_x == -1 && brush->old_y == -1)
-				ft_create_circle(elem->surface, brush->color, l, 1);
+		if (brush->old_x == -1 && brush->old_y == -1)
+			ft_create_circle(elem->surface, brush->color, l, 1);
 		if (brush->old_x != -1 && brush->old_y != -1)
 			ft_create_line(elem->surface, brush->color, l);
 		brush->old_x = x;
