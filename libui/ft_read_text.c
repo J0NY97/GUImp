@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 12:26:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/22 20:24:38 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/23 11:17:00 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_read_text(int size)
 		}
 		SDL_PollEvent(&event);
 	}
-	write(1, text, i); //Remove later.
+//	write(1, text, i); //Remove later.
 	free(key);
 	free(tmp);
 	return (text);
