@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/22 20:33:32 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/23 13:51:51 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,25 @@ void	call_all_handlers(t_win *win, t_libui *libui)
 	}
 }
 
+void	update_slider(t_element *slider)
+{
+	SDL_Rect	temp;
+	SDL_Surface	*bar;
+	t_slider *info;
+	float ppv;
+	
+	info = (t_slider *)slider->info;
+	bar = SDL_CreateRGBSurface(0, 10, slider->h, 32, 0, 0, 0, 0);
+	ft_update_background(bar, info->bar_color);	
+	ppv = (float)slider->w / (info->max - info->min);
+	temp.x = info->value * (float)ppv - (bar->w / 2);
+	temp.y = 0;
+	temp.w = bar->w;
+	temp.h = bar->h;
+	SDL_BlitSurface(bar, NULL, slider->surface, &temp);
+	SDL_FreeSurface(bar);
+}
+
 void	slider_event(SDL_Event e, t_element *elem)
 {
 	SDL_Surface *bar;
@@ -102,7 +121,6 @@ void	slider_event(SDL_Event e, t_element *elem)
 		SDL_BlitSurface(bar, NULL, elem->surface, &temp);
 		slider->value = (float)ppv * x;
 	}
-		set_pixel(elem->surface, x, y, 0xff0000);
 }
 
 void	get_brush_color(t_info *info)
@@ -122,6 +140,24 @@ int		show_brush_color(t_libui *libui, t_element *elem)
 	return (1);
 }
 
+void		update_buttons(t_element **buttons)
+{
+	t_emp		temp;
+
+	temp.i = 0;
+	while (temp.i < 4)
+	{
+		if (((t_button *)buttons[temp.i]->info)->state == 0)
+			buttons[temp.i]->bg_color = 0xffffff;
+		else if (((t_button *)buttons[temp.i]->info)->state == 1)
+			buttons[temp.i]->bg_color = 0x0000ff;
+		else if (((t_button *)buttons[temp.i]->info)->state == 2)
+			buttons[temp.i]->bg_color = 0x00ff00;
+		ft_update_element(buttons[temp.i]);
+		temp.i += 1;
+	}
+}
+
 void	change_brush_type(SDL_Event e, t_element *elem)
 {
 	t_brush		*brush;
@@ -137,7 +173,7 @@ void	change_brush_type(SDL_Event e, t_element *elem)
 	{
 		if (this->state == 0)
 		{
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 4; i++)
 			{
 				other = (t_element *)buttons[i];
 				that = (t_button *)other->info;
@@ -146,9 +182,9 @@ void	change_brush_type(SDL_Event e, t_element *elem)
 			}
 			this->state = 1;
 			brush->type = this->type;
-			ft_update_background(elem->surface, elem->bg_color & 0xff);
 		}
 	}
+	update_buttons(buttons);
 }
 
 t_slider	create_slider_info(int min, int max, int value, int bar_color)
@@ -157,6 +193,7 @@ t_slider	create_slider_info(int min, int max, int value, int bar_color)
 
 	slider.min = min;
 	slider.max = max;
+	slider.value = value;
 	slider.bar_color = bar_color;
 	slider.clicked = 0;
 	slider.size = sizeof(t_slider);
@@ -174,8 +211,6 @@ t_button	create_button_info(int state, int type, void *extra)
 	return (button);
 }
 
-
-// this is retarded
 void	tin_reader(SDL_Event e, t_element *elem)
 {
 	if (e.type == SDL_MOUSEBUTTONDOWN)
@@ -309,6 +344,29 @@ int		main(void)
 	b.text.font = info->font;
 	add_elem_to_list(info->toolbox, b);
 	info->buttons[2] = info->toolbox->elements->content;
+
+	blin = create_button_info(0, 4, &info->brush);
+	b.info = &blin;
+	b.info_size = ((t_button *)b.info)->size;
+
+	b.x = 160;
+	b.y = 110;
+	b.w = 100;
+	b.h = 50;
+	b.parent = info->toolbox->window->surface;
+	b.f = &change_brush_type;
+	b.event_handler = &ft_mouse_button_handler;
+	b.bg_color = 0xffffff;
+	b.extra_info = info->buttons;
+	b.set_text = 1;
+	b.text.x = 0;
+	b.text.y = 0;
+	b.text.text = ft_strdup("flood t4");
+	b.text.color = 0x000000;
+	b.text.font = info->font;
+	add_elem_to_list(info->toolbox, b);
+	info->buttons[3] = info->toolbox->elements->content;
+
 ///////////////
 //MAIN SURFACE
 	t_element_info s;
@@ -317,6 +375,7 @@ int		main(void)
 	s.y = 50;
 	s.w = info->main->window->surface->w - (s.x * 2);
 	s.h = info->main->window->surface->h - (s.y * 2);
+	printf("%d %d\n", s.w, s.h);
 	s.parent = info->main->window->surface;
 	s.f = &draw;
 	s.event_handler = &ft_mouse_button_handler;
@@ -382,7 +441,7 @@ int		main(void)
 	add_elem_to_list(info->toolbox, sinf);
 	info->b_slider = info->toolbox->elements->content; 
 //
-	slin = create_slider_info(1, 100, 2, 0xd3d3d3);
+	slin = create_slider_info(1, 100, 10, 0xd3d3d3);
 	sinf.info = &slin;
 	sinf.info_size = ((t_slider *)sinf.info)->size;
 
@@ -418,21 +477,27 @@ int		main(void)
 
 	tin.x = 100;
 	tin.y = 600;
-	tin.w = 100;
-	tin.h = 75;
+	tin.w = 300;
+	tin.h = 32;
 	tin.bg_color = 0xffffff;
 	tin.parent = info->toolbox->window->surface;
 	tin.info_size = 0;
 	tin.info = 0;
 	tin.f = &tin_reader;
 	tin.event_handler = &ft_mouse_button_handler;
-	tin.set_text = 0;
+	tin.set_text = 1;
+	tin.text.text = ft_strdup("text area");
 	tin.text.x = 0;
 	tin.text.y = 0;
 	tin.text.color = 0x000000;
 	tin.text.font = info->font;
 	add_elem_to_list(info->toolbox, tin);
 //
+	update_buttons(info->buttons);
+	update_slider(info->r_slider);
+	update_slider(info->g_slider);
+	update_slider(info->b_slider);
+	update_slider(info->size_slider);
 	while (info->run)
 	{
 		// EVENT HANDLING

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/22 19:03:53 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/23 14:17:14 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,17 @@ typedef struct	s_slider		t_slider;
 typedef	struct	s_element		t_element;
 typedef	struct	s_element_info	t_element_info;
 typedef	struct	s_text			t_text;
+
+typedef	struct	s_emp
+{
+	int			x;
+	int			y;
+	int			i;
+	int			j;
+	int			a;
+	int			b;
+	int			k;
+}				t_emp;
 
 typedef struct	s_libui
 {
@@ -152,6 +163,8 @@ void			ft_create_circle(SDL_Surface *surface, Uint32 color,  t_circle c, int i);
 void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
 SDL_Color		hex_to_rgba(int color);
 int				rgb_to_hex(int r, int g, int b);
+Uint32			get_color(SDL_Surface *surface, int x, int y);
+void			flood_fill(SDL_Surface *surface, Uint32 w_color, Uint32 r_color, int x, int y);
 
 /* TESTS */
 t_element		*ft_create_element(t_element_info info);
@@ -160,6 +173,6 @@ int				ft_mouse_button_handler(t_libui *libui, t_element *elem);
 void			ft_event_poller(t_libui *libui);
 void			ft_update_background(SDL_Surface *surface, Uint32 color);
 void			ft_create_text(t_text *text);
-void			ft_read_text(int size, char *text);
+char			*ft_read_text(int size);
 
 #endif
