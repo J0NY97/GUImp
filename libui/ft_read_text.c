@@ -6,17 +6,18 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 12:26:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/22 17:54:50 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/22 20:24:38 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ft_read_text(int size, char *text)
+char	*ft_read_text(int size)
 {
 	int			i;
 	char		*key;
 	char		*tmp;
+	char		*text;
 	SDL_Event	event;
 
 	i = 0;
@@ -28,7 +29,7 @@ void	ft_read_text(int size, char *text)
 			key = ft_strdup(SDL_GetKeyName(event.key.keysym.sym));
 			if (key[1] == '\0' || event.key.keysym.sym == SDLK_SPACE)
 			{
-				if (text == NULL && (++i))
+				if (i == 0 && (++i))
 					text = ft_strdup(key);
 				else if ((++i))
 				{
@@ -45,4 +46,5 @@ void	ft_read_text(int size, char *text)
 	write(1, text, i); //Remove later.
 	free(key);
 	free(tmp);
+	return (text);
 }

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/22 18:55:19 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/22 20:33:32 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,25 @@ t_button	create_button_info(int state, int type, void *extra)
 	button.state = state;
 	button.type = type;
 	button.extra = extra;
+	button.size = sizeof(t_button);
 	return (button);
+}
+
+
+// this is retarded
+void	tin_reader(SDL_Event e, t_element *elem)
+{
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+		elem->info = (int *)1;
+	if (e.type == SDL_MOUSEBUTTONUP && (int)elem->info == 1)
+		elem->info = (int *)2;
+	if ((int)elem->info == 2)
+	{
+		elem->info = 0;
+		elem->text.text = ft_read_text(20);
+		elem->set_text = 1;
+		ft_update_element(elem);
+	}
 }
 
 int		main(void)
@@ -386,7 +404,7 @@ int		main(void)
 	bcol.y = 400;
 	bcol.w = 100;
 	bcol.h = 100;
-	bcol.bg_color = 0xffffff;
+	bcol.bg_color = 0x000000;
 	bcol.parent = info->toolbox->window->surface;
 	bcol.info_size = 0;
 	bcol.info = &info->brush;
@@ -395,24 +413,37 @@ int		main(void)
 	bcol.set_text = 0;
 	add_elem_to_list(info->toolbox, bcol);
 ////
+//text input element
+	t_element_info tin;
+
+	tin.x = 100;
+	tin.y = 600;
+	tin.w = 100;
+	tin.h = 75;
+	tin.bg_color = 0xffffff;
+	tin.parent = info->toolbox->window->surface;
+	tin.info_size = 0;
+	tin.info = 0;
+	tin.f = &tin_reader;
+	tin.event_handler = &ft_mouse_button_handler;
+	tin.set_text = 0;
+	tin.text.x = 0;
+	tin.text.y = 0;
+	tin.text.color = 0x000000;
+	tin.text.font = info->font;
+	add_elem_to_list(info->toolbox, tin);
+//
 	while (info->run)
 	{
 		// EVENT HANDLING
 		ft_event_poller(libui);
-		if (libui->event.type == SDL_MOUSEBUTTONDOWN ||
-			libui->event.type == SDL_MOUSEMOTION ||
-			libui->event.type == SDL_MOUSEBUTTONUP)
-
-		{
-			if (libui->event.window.windowID == info->toolbox->window->id)
-				call_all_handlers(info->toolbox, libui);
-			else if (libui->event.window.windowID == info->main->window->id)
-				call_all_handlers(info->main, libui);
-		}
+		if (libui->event.window.windowID == info->toolbox->window->id)
+			call_all_handlers(info->toolbox, libui);
+		else if (libui->event.window.windowID == info->main->window->id)
+			call_all_handlers(info->main, libui);
 		info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
 										((t_slider *)info->g_slider->info)->value,
 										((t_slider *)info->b_slider->info)->value);
-		
 		info->brush.size = ((t_slider *)info->size_slider->info)->value;
 		// RENDERING
 		render_window(info->toolbox);
