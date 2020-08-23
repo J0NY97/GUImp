@@ -6,58 +6,75 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:06:09 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/20 17:36:38 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/23 14:17:52 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-static void empty_circle(SDL_Surface *surf, Uint32 color, t_circle c)
+static inline void	boundaries(t_shapes *l, int w, int h)
 {
-    set_pixel(surf, c.xc + c.x, c.yc + c.y, color);
-    set_pixel(surf, c.xc - c.x, c.yc + c.y, color);
-    set_pixel(surf, c.xc + c.x, c.yc - c.y, color);
-    set_pixel(surf, c.xc - c.x, c.yc - c.y, color);
-    set_pixel(surf, c.xc + c.y, c.yc + c.x, color);
-    set_pixel(surf, c.xc - c.y, c.yc + c.x, color);
-    set_pixel(surf, c.xc + c.y, c.yc - c.x, color);
-    set_pixel(surf, c.xc - c.y, c.yc - c.x, color);
+	if (l->x1 >= w || l->x1 < 0)
+		l->x1 = l->x1 < 0 ? 1 : w - 1;
+	if (l->y1 >= h || l->y1 < 0)
+		l->y1 = l->y1 < 0 ? 1 : h - 1;
+	if (l->x2 >= w || l->x2 < 0)
+		l->x2 = l->x2 < 0 ? 1 : w - 1;
+	if (l->y2 >= h || l->y2 < 0)
+		l->y2 = l->y2 < 0 ? 1 : h - 1;
 }
 
-static void full_circle(SDL_Surface *surf, Uint32 color, t_circle c)
+static inline void full_or_empty(SDL_Surface *surf, Uint32 color, t_shapes l, int i)
 {
-	t_line l;
-
-	l.x1 = c.xc + c.x;
-	l.y1 = c.yc + c.y;
-	l.x2 = c.xc - c.x;
-	l.y2 = c.yc + c.y;
-	ft_create_line(surf, color, 1, &l);
-	l.x1 = c.xc + c.x;
-	l.y1 = c.yc - c.y;
-	l.x2 = c.xc - c.x;
-	l.y2 = c.yc - c.y;
-	ft_create_line(surf, color, 1, &l);
-	l.x1 = c.xc + c.y;
-	l.y1 = c.yc + c.x;
-	l.x2 = c.xc - c.y;
-	l.y2 = c.yc + c.x;
-	ft_create_line(surf, color, 1, &l);
-	l.x1 = c.xc + c.y;
-	l.y1 = c.yc - c.x;
-	l.x2 = c.xc - c.y;
-	l.y2 = c.yc - c.x;
-	ft_create_line(surf, color, 1, &l);
+	if (i == 1)
+		ft_create_line(surf, color, l);
+	else
+	{
+		set_pixel(surf, l.x1, l.y1, color);
+		set_pixel(surf, l.x2, l.y2, color);
+	}
 }
 
-void	ft_create_circle(SDL_Surface *surf, Uint32 color, t_circle c, int i)
+static inline void full_circle(SDL_Surface *surf, Uint32 color, t_shapes c, int i)
+{
+	t_shapes l;
+
+	l.size = 1;
+	l.x1 = c.x2 + c.x;
+	l.y1 = c.y2 - c.y;
+	l.x2 = c.x2 - c.x;
+	l.y2 = c.y2 - c.y;
+	boundaries(&l, surf->w, surf->h);
+    full_or_empty(surf, color, l, i);
+	l.x1 = c.x2 + c.y;
+	l.y1 = c.y2 - c.x;
+	l.x2 = c.x2 - c.y;
+	l.y2 = c.y2 - c.x;
+	boundaries(&l, surf->w, surf->h);
+    full_or_empty(surf, color, l, i);
+	l.x1 = c.x2 + c.y;
+	l.y1 = c.y2 + c.x;
+	l.x2 = c.x2 - c.y;
+	l.y2 = c.y2 + c.x;
+	boundaries(&l, surf->w, surf->h);
+    full_or_empty(surf, color, l, i);
+	l.x1 = c.x2 + c.x;
+	l.y1 = c.y2 + c.y;
+	l.x2 = c.x2 - c.x;
+	l.y2 = c.y2 + c.y;
+	boundaries(&l, surf->w, surf->h);
+    full_or_empty(surf, color, l, i);
+
+}
+
+void	ft_create_circle(SDL_Surface *surf, Uint32 color, t_shapes c, int i)
 {
     int d;
 
     c.x = 0;
-	c.y = c.r;
-   	d = 3 - 2 * c.r;
-    i == 0 ? empty_circle(surf, color, c) : full_circle(surf, color, c);
+	c.y = c.size;
+   	d = 3 - 2 * c.size;
+    full_circle(surf, color, c, i);
     while (c.y >= c.x)
     {
         c.x++;
@@ -68,6 +85,6 @@ void	ft_create_circle(SDL_Surface *surf, Uint32 color, t_circle c, int i)
         }
         else
             d = d + 4 * c.x + 6;
-    	i == 0 ? empty_circle(surf, color, c) : full_circle(surf, color, c);
+    	full_circle(surf, color, c, i);
     }
 }
