@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/20 19:15:41 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/23 14:15:04 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,19 @@ void	draw(SDL_Event event, t_element *elem)
 		brush->draw = 1;
 	if (brush->draw == 1)
 	{
-		if (brush->old_x == -1 && brush->old_y == -1)
-			ft_create_circle(elem->surface, brush->color, c, 1);
+		if (brush->type == 1)
+			if (brush->old_x == -1 && brush->old_y == -1)
+				ft_create_circle(elem->surface, brush->color, c, 1);
+		if (brush->type == 2)
+		{}
+		if (brush->type == 3)
+		{}
+		if (brush->type == 4)
+		{
+			Uint32 targetColor = get_color(elem->surface, x, y);
+			flood_fill(elem->surface, targetColor, brush->color, x, y);
+			return ;
+		}
 		l.y2 = y;
 		l.x2 = x;
 		l.x1 = brush->old_x;
@@ -48,5 +59,4 @@ void	draw(SDL_Event event, t_element *elem)
 		brush->old_x = -1;
 		brush->old_y = -1;
 	}
-//		set_pixel(elem->surface, event.button.x - elem->x, event.button.y - elem->y, 0xff0000);
 }
