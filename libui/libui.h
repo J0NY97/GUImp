@@ -6,11 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/08/23 14:17:14 by jsalmi           ###   ########.fr       */
-=======
-/*   Updated: 2020/08/23 13:21:07 by nneronin         ###   ########.fr       */
->>>>>>> 853f384c3cd78e83d07dade008b308f20d0aacc5
+/*   Updated: 2020/08/23 15:06:53 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +157,7 @@ SDL_Color		hex_to_rgba(int color);
 int				rgb_to_hex(int r, int g, int b);
 Uint32			get_color(SDL_Surface *surface, int x, int y);
 void			flood_fill(SDL_Surface *surface, Uint32 w_color, Uint32 r_color, int x, int y);
+void			ft_create_square(SDL_Surface *surface, Uint32 color, t_shapes l);
 
 /* TESTS */
 t_element		*ft_create_element(t_element_info info);
