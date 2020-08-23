@@ -6,7 +6,7 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/10 13:27:06 by jsalmi            #+#    #+#              #
-#    Updated: 2020/08/22 19:02:27 by jsalmi           ###   ########.fr        #
+#    Updated: 2020/08/23 13:12:49 by jsalmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRCS = ft_test_libui.c\
 	   ft_event_poller.c\
 	   ft_update_background.c\
 	   ft_create_text.c\
-	   ft_read_text.c
+	   ft_read_text.c\
+	   flood_fill.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
 #FLAGS = -Wall -Wextra -Werror
