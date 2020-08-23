@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/22 19:03:53 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/23 13:21:07 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,9 @@ struct s_window
 	Uint32		id;
 };
 
-typedef struct	s_line
+typedef struct	s_shapes
 {
+	int			size;
 	int			x;
 	int			y;
 	int			x1;
@@ -133,22 +134,13 @@ typedef struct	s_line
 	int 		cath_y;
 	int			overflow_x;
 	int			overflow_y;
-}				t_line;
-
-typedef struct	s_circle
-{
-	int			r;
-	int			y;
-	int			x;
-	int			xc;
-	int			yc;
-}				t_circle;
+}				t_shapes;
 
 void			ft_test_libui(void);
 t_window		*ft_create_window(t_window_info info);
 /* EXTRA */
-void			ft_create_line(SDL_Surface *surf, Uint32 color, int size, t_line *l);
-void			ft_create_circle(SDL_Surface *surface, Uint32 color,  t_circle c, int i);
+void			ft_create_line(SDL_Surface *surf, Uint32 color, t_shapes l);
+void			ft_create_circle(SDL_Surface *surface, Uint32 color, t_shapes c, int i);
 void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
 SDL_Color		hex_to_rgba(int color);
 int				rgb_to_hex(int r, int g, int b);
