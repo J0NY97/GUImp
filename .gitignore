@@ -6,3 +6,4 @@ include
 guimp
 *.swp
 */*.a
+old_main.c
