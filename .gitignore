@@ -5,3 +5,4 @@ include
 .DS_Store
 guimp
 *.swp
+*/*.a
