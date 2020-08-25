@@ -6,13 +6,14 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/10 12:48:11 by jsalmi            #+#    #+#              #
-#    Updated: 2020/08/22 11:58:41 by nneronin         ###   ########.fr        #
+#    Updated: 2020/08/25 16:17:23 by jsalmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = guimp
 SRCS = ./main.c\
-		draw.c
+		./draw.c\
+		./image_handling.c
 OBJS = ./*.o
 INCLUDES = ./libft/libft.a\
 		   ./libui/libui.a
@@ -22,7 +23,7 @@ all: $(NAME)
 
 $(NAME):
 	make -C ./libui/
-	gcc -o $(NAME) $(SRCS) $(INCLUDES) -I include -L lib -l SDL2-2.0.0 -l SDL2_ttf-2.0.0
+	gcc -o $(NAME) $(SRCS) $(INCLUDES) -I include -L lib -l SDL2-2.0.0 -l SDL2_ttf-2.0.0 -l SDL2_image-2.0.0
 
 clean:
 	/bin/rm -f $(OBJS)
