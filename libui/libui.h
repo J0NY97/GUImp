@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/23 15:06:53 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/25 12:57:37 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,12 @@ typedef struct	s_shapes
 	int			overflow_y;
 }				t_shapes;
 
+typedef	struct	s_coords
+{
+	int			x;
+	int			y;
+}				t_coords;
+
 void			ft_test_libui(void);
 t_window		*ft_create_window(t_window_info info);
 /* EXTRA */
@@ -158,6 +164,8 @@ int				rgb_to_hex(int r, int g, int b);
 Uint32			get_color(SDL_Surface *surface, int x, int y);
 void			flood_fill(SDL_Surface *surface, Uint32 w_color, Uint32 r_color, int x, int y);
 void			ft_create_square(SDL_Surface *surface, Uint32 color, t_shapes l);
+void			push_list(t_list **lst, void *content, size_t content_size);
+void			*pop_list(t_list **lst);
 
 /* TESTS */
 t_element		*ft_create_element(t_element_info info);
