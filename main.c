@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/23 13:51:51 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/25 11:29:04 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,7 @@ int		main(void)
 	info->font = TTF_OpenFont("font.ttf", 32);
 	info->brush.draw = 0;
 	info->brush.size = 20;
+	info->brush.type = 1;
 	info->brush.color = 0xd3d3d3;
 	info->brush.old_x = -1;
 	info->brush.old_y = -1;
