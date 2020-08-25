@@ -2,3 +2,6 @@ lib
 include
 *.o
 *.a
+.DS_Store
+guimp
+*.swp
