@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/25 16:21:41 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 13:37:04 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,18 @@ t_button	create_button_info(int state, int type, void *extra)
 	return (button);
 }
 
+t_text		create_text_info(int x, int y, char *str, Uint32 color)
+{
+	t_text text;
+
+	text.x = x;
+	text.y = y;
+	text.text = ft_strdup(str);
+	text.color = color;
+//	text.font = info->font;
+	return (text);
+}
+
 void	tin_reader(SDL_Event e, t_element *elem)
 {
 	if (e.type == SDL_MOUSEBUTTONDOWN)
@@ -223,6 +235,35 @@ void	tin_reader(SDL_Event e, t_element *elem)
 		elem->text.text = ft_read_text(20);
 		elem->set_text = 1;
 		ft_update_element(elem);
+	}
+}
+
+void	save_surface(SDL_Event e, t_element *elem)
+{
+	SDL_Surface *pic;
+	t_button *button;
+	t_element *extra;
+	t_text *text_area;
+	char *file;
+
+/*	if (e.type == SDL_MOUSEBUTTONDOWN)
+		elem->extra_info = (int *)1;
+	if (e.type == SDL_MOUSEBUTTONUP && (int)elem->extra_info == 1)
+		elem->extra_info = (int *)2;
+	if ((int)elem->extra_info == 2) */
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+	{
+		elem->extra_info = 0;
+		button = (t_button *)elem->info;
+		extra = (t_element *)button->extra;
+		pic = extra->surface;
+		text_area = (t_text *)elem->extra_info;
+		printf("%s\n", text_area->text);
+		/*
+		if (!save_image(pic, text_area->text))
+			printf("Picture couldnt be saved.\n");
+		else
+			printf("Picture saved to %s.\n", file);*/
 	}
 }
 
@@ -400,6 +441,27 @@ int		main(int argc, char *argv[])
 			printf("%s image loaded.\n", argv[1]);
 		}
 	}
+	
+	// save button
+	blin = create_button_info(0, 0, info->drawing_surface[0]); // last param is the main surfaec you draw on
+	b.info = &blin;
+	b.info_size = ((t_button *)b.info)->size;
+
+	b.x = 100;
+	b.y = 700;
+	b.w = 100;
+	b.h = 50;
+	b.parent = info->toolbox->window->surface;
+	b.f = &save_surface;
+	b.event_handler = &ft_mouse_button_handler;
+	b.bg_color = 0xffffff;
+	b.extra_info = info->brush.text_area;
+	b.set_text = 1;
+	b.text = create_text_info(0, 0, "save", 0x000000);
+	b.text.font = info->font;
+	add_elem_to_list(info->toolbox, b);
+	info->save_button = info->toolbox->elements->content;
+
 ///////////
 //SLIDER
 	t_element_info	sinf;
@@ -518,6 +580,18 @@ int		main(int argc, char *argv[])
 			call_all_handlers(info->toolbox, libui);
 		else if (libui->event.window.windowID == info->main->window->id)
 			call_all_handlers(info->main, libui);
+		
+		char *file;
+		if ((file = drag_and_drop(libui->event)) != NULL)
+		{
+			SDL_Surface *temp;
+			if ((temp = load_image(file)))
+			{
+				SDL_BlitSurface(temp, NULL, info->drawing_surface[0]->surface, NULL);
+				printf("%s image loaded.\n", file);
+			}
+		}
+
 		info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
 										((t_slider *)info->g_slider->info)->value,
 										((t_slider *)info->b_slider->info)->value);
