@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 13:34:46 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 13:42:16 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ struct	s_info
 void			event_handler(t_info *info);
 void			check_input(t_info *info);
 void			draw(SDL_Event event, t_element *elem);
+void			text_to_screen(SDL_Surface *surface, t_shapes l, t_brush *brush);
 SDL_Surface		*load_image(char *file);
 int				save_image(SDL_Surface *img, char *file);
 char			*drag_and_drop(SDL_Event e);
