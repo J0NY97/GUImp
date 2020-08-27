@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 15:55:38 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 13:05:23 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 14:15:44 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,16 @@ SDL_Surface		*load_image(char *file)
 
 int		save_image(SDL_Surface *img, char *file)
 {
-	if (SDL_SaveBMP(img, file) != 0)
+	char *real_file;
+
+	real_file = ft_strjoin(file, ".bmp");
+	if (SDL_SaveBMP(img, real_file) != 0)
 	{
 		printf("Save_Img(): %s\n", SDL_GetError());
+		free(real_file);
 		return (0);
 	}
+	free(real_file);
 	return (1);
 }
 

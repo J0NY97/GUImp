@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 13:42:03 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 14:25:31 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,6 @@ void	save_surface(SDL_Event e, t_element *elem)
 	t_button *button;
 	t_element *extra;
 	t_text *text_area;
-	char *file;
 
 /*	if (e.type == SDL_MOUSEBUTTONDOWN)
 		elem->extra_info = (int *)1;
@@ -255,19 +254,19 @@ void	save_surface(SDL_Event e, t_element *elem)
 	if ((int)elem->extra_info == 2) */
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
-		elem->extra_info = 0;
 		button = (t_button *)elem->info;
 		extra = (t_element *)button->extra;
 		pic = extra->surface;
-		text_area = (t_text *)elem->extra_info;
-		printf("%s\n", text_area->text);
-		/*
+		text_area = ((t_brush *)elem->extra_info)->text_area;
 		if (!save_image(pic, text_area->text))
 			printf("Picture couldnt be saved.\n");
 		else
-			printf("Picture saved to %s.\n", file);*/
+			printf("Picture saved to %s.\n", text_area->text);
 	}
 }
+
+void	change_font(SDL_Event e, t_element *elem)
+{}
 
 int		main(int argc, char *argv[])
 {
@@ -411,7 +410,7 @@ int		main(int argc, char *argv[])
 	b.text.font = info->font;
 	add_elem_to_list(info->toolbox, b);
 	info->buttons[3] = info->toolbox->elements->content;
-
+	
 ///////////////
 //MAIN SURFACE
 	t_element_info s;
@@ -457,13 +456,32 @@ int		main(int argc, char *argv[])
 	b.f = &save_surface;
 	b.event_handler = &ft_mouse_button_handler;
 	b.bg_color = 0xffffff;
-	b.extra_info = info->brush.text_area;
+	b.extra_info = &info->brush;
 	b.set_text = 1;
 	b.text = create_text_info(0, 0, "save", 0x000000);
 	b.text.font = info->font;
 	add_elem_to_list(info->toolbox, b);
 	info->save_button = info->toolbox->elements->content;
 
+	// font changer button
+	blin = create_button_info(0, 0, &info->brush); // last param is the main surfaec you draw on
+	b.info = &blin;
+	b.info_size = ((t_button *)b.info)->size;
+
+	b.x = 225;
+	b.y = 700;
+	b.w = 150;
+	b.h = 50;
+	b.parent = info->toolbox->window->surface;
+	b.f = &change_font;
+	b.event_handler = &ft_mouse_button_handler;
+	b.bg_color = 0xffffff;
+	b.extra_info = NULL;
+	b.set_text = 1;
+	b.text = create_text_info(0, 0, "set font", 0x000000);
+	b.text.font = info->font;
+	add_elem_to_list(info->toolbox, b);
+	info->font_button = info->toolbox->elements->content;
 ///////////
 //SLIDER
 	t_element_info	sinf;
@@ -583,7 +601,6 @@ int		main(int argc, char *argv[])
 			call_all_handlers(info->toolbox, libui);
 		else if (libui->event.window.windowID == info->main->window->id)
 			call_all_handlers(info->main, libui);
-		
 		char *file;
 		if ((file = drag_and_drop(libui->event)) != NULL)
 		{
@@ -594,7 +611,6 @@ int		main(int argc, char *argv[])
 				printf("%s image loaded.\n", file);
 			}
 		}
-
 		info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
 										((t_slider *)info->g_slider->info)->value,
 										((t_slider *)info->b_slider->info)->value);
