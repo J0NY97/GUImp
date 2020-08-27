@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 13:37:04 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 13:42:03 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,8 @@ t_text		create_text_info(int x, int y, char *str, Uint32 color)
 
 void	tin_reader(SDL_Event e, t_element *elem)
 {
+	char *tmp;
+
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 		elem->info = (int *)1;
 	if (e.type == SDL_MOUSEBUTTONUP && (int)elem->info == 1)
@@ -232,8 +234,8 @@ void	tin_reader(SDL_Event e, t_element *elem)
 	if ((int)elem->info == 2)
 	{
 		elem->info = 0;
-		elem->text.text = ft_read_text(20);
 		elem->set_text = 1;
+		elem->text.text = ft_read_text(20);
 		ft_update_element(elem);
 	}
 }
@@ -427,7 +429,7 @@ int		main(int argc, char *argv[])
 	s.set_text = 0;
 	s.text.x = 0;
 	s.text.y = 0;
-	s.text.text = ft_strdup("test");
+	s.text.text = NULL;
 	s.text.color = 0x000000;
 	s.text.font = info->font;
 	add_elem_to_list(info->main, s);
@@ -560,12 +562,13 @@ int		main(int argc, char *argv[])
 	tin.f = &tin_reader;
 	tin.event_handler = &ft_mouse_button_handler;
 	tin.set_text = 1;
-	tin.text.text = ft_strdup("text area");
 	tin.text.x = 0;
 	tin.text.y = 0;
+	tin.text.text = ft_strdup("IIIIIIIIIIIIIIIIIIIIIIIIIII");
 	tin.text.color = 0x000000;
 	tin.text.font = info->font;
 	add_elem_to_list(info->toolbox, tin);
+	info->brush.text_area = &((t_element *)info->toolbox->elements->content)->text;
 //
 	update_buttons(info->buttons);
 	update_slider(info->r_slider);
