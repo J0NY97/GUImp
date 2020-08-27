@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   text_to_screen.c                                   :+:      :+:    :+:   */
+/*   load_font.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/25 15:57:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/27 15:05:45 by nneronin         ###   ########.fr       */
+/*   Created: 2020/08/27 16:01:27 by nneronin          #+#    #+#             */
+/*   Updated: 2020/08/27 16:20:28 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "guimp.h"
 
-void	text_to_screen(SDL_Surface *surface, t_shapes l, t_brush *brush)
+int		load_font(char *file, TTF_Font *font)
 {
-	SDL_Rect	temp;
-	SDL_Surface *surf;
-	TTF_Font	*font;
-	
-	font = TTF_OpenFont("font.ttf", brush->size);
-	temp.x = l.x2;
-	temp.y = l.y2;
-	surf = TTF_RenderText_Blended(font,
-			brush->text_area->text, hex_to_rgba(brush->color));
-	temp.w = surf->w;
-	temp.h = surf->h;
-	SDL_BlitSurface(surf, NULL, surface, &temp);
-	SDL_FreeSurface(surf);
-	TTF_CloseFont(font);
+	int i;
+	int k;
+	char *ttf;
+
+	k = 0;
+	ttf = ft_strdup(".ttf");
+	i = ft_strlen(file);
+	while (k < 4)
+	{
+		if (ttf[k] != file[k + i - 4])
+		{
+			free(ttf);
+			return (0);
+		}
+		k++;
+	}
+	free(ttf);
+	return (1);
 }

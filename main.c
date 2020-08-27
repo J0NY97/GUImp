@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 14:25:31 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 17:01:36 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,8 +265,6 @@ void	save_surface(SDL_Event e, t_element *elem)
 	}
 }
 
-void	change_font(SDL_Event e, t_element *elem)
-{}
 
 int		main(int argc, char *argv[])
 {
@@ -463,25 +461,6 @@ int		main(int argc, char *argv[])
 	add_elem_to_list(info->toolbox, b);
 	info->save_button = info->toolbox->elements->content;
 
-	// font changer button
-	blin = create_button_info(0, 0, &info->brush); // last param is the main surfaec you draw on
-	b.info = &blin;
-	b.info_size = ((t_button *)b.info)->size;
-
-	b.x = 225;
-	b.y = 700;
-	b.w = 150;
-	b.h = 50;
-	b.parent = info->toolbox->window->surface;
-	b.f = &change_font;
-	b.event_handler = &ft_mouse_button_handler;
-	b.bg_color = 0xffffff;
-	b.extra_info = NULL;
-	b.set_text = 1;
-	b.text = create_text_info(0, 0, "set font", 0x000000);
-	b.text.font = info->font;
-	add_elem_to_list(info->toolbox, b);
-	info->font_button = info->toolbox->elements->content;
 ///////////
 //SLIDER
 	t_element_info	sinf;
@@ -582,7 +561,7 @@ int		main(int argc, char *argv[])
 	tin.set_text = 1;
 	tin.text.x = 0;
 	tin.text.y = 0;
-	tin.text.text = ft_strdup("IIIIIIIIIIIIIIIIIIIIIIIIIII");
+	tin.text.text = ft_strdup("A8D");
 	tin.text.color = 0x000000;
 	tin.text.font = info->font;
 	add_elem_to_list(info->toolbox, tin);
@@ -605,11 +584,14 @@ int		main(int argc, char *argv[])
 		if ((file = drag_and_drop(libui->event)) != NULL)
 		{
 			SDL_Surface *temp;
-			if ((temp = load_image(file)))
+			if (ft_nstrstr(file, ".ttf") == 0)
+				printf("asdasdasdasdas\n");
+			else if ((temp = load_image(file)))
 			{
 				SDL_BlitSurface(temp, NULL, info->drawing_surface[0]->surface, NULL);
 				printf("%s image loaded.\n", file);
 			}
+			free(file);
 		}
 		info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
 										((t_slider *)info->g_slider->info)->value,
