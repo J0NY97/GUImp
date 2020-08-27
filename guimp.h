@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 14:22:53 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 16:21:20 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct	s_brush
 	int			color;
 	int			old_x;
 	int			old_y;
+	TTF_Font	*font;
 	t_text		*text_area;
 }				t_brush;
 
@@ -81,5 +82,6 @@ void			text_to_screen(SDL_Surface *surface, t_shapes l, t_brush *brush);
 SDL_Surface		*load_image(char *file);
 int				save_image(SDL_Surface *img, char *file);
 char			*drag_and_drop(SDL_Event e);
+int				load_font(char *file, TTF_Font *font);
 
 #endif
