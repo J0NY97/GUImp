@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 13:42:16 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 14:22:53 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ struct	s_info
 	t_element	*drawing_surface[1];
 	t_element	*text_area;
 	t_element	*save_button;
+	t_element	*font_button;
 
 	t_brush		brush;
 	int			draw;
