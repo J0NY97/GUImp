@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/25 15:45:37 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 11:37:40 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ void	draw(SDL_Event event, t_element *elem)
 		l.y1 = brush->old_y;
 		if (brush->type == 1)
 			pencil(elem->surface, brush, l);
-		if (brush->type == 2)
+		else if (brush->type == 2)
+		{
+			text_to_screen(elem->surface, l, brush);
+		}
+		else if (brush->type == 3)
 		{}
-		if (brush->type == 3)
-		{}
-		if (brush->type == 4)
+		else if (brush->type == 4)
 		{
 			Uint32 targetColor = get_color(elem->surface, l.x2, l.y2);
 			flood_fill(elem->surface, targetColor, brush->color, l.x2, l.y2);
-			return ;
 		}
 		brush->old_x = l.x2;
 		brush->old_y = l.y2;

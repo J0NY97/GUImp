@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/23 13:53:19 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 11:38:36 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct	s_brush
 	int			color;
 	int			old_x;
 	int			old_y;
+	t_text		*text_area;
 }				t_brush;
 
 typedef	struct	s_win
@@ -72,5 +73,6 @@ struct	s_info
 void			event_handler(t_info *info);
 void			check_input(t_info *info);
 void			draw(SDL_Event event, t_element *elem);
+void			text_to_screen(SDL_Surface *surface, t_shapes l, t_brush *brush);
 
 #endif

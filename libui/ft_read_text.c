@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 12:26:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/23 11:17:00 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 12:52:05 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_read_text(int size)
 
 	i = 0;
 	SDL_PollEvent(&event);
-	while (event.key.keysym.sym != SDLK_RETURN)
+	while (i < size && event.key.keysym.sym != SDLK_RETURN)
 	{
 		if (event.type == SDL_KEYDOWN)
 		{
@@ -36,15 +36,13 @@ char	*ft_read_text(int size)
 					tmp = ft_strdup(text);
 					ft_strdel(&text);
 					text = ft_strjoin(tmp, key[1] != '\0' ? " " : key);
-					ft_strdel(&tmp);
+					free(tmp);
 				}
 			}
 			ft_strdel(&key);
 		}
 		SDL_PollEvent(&event);
 	}
-//	write(1, text, i); //Remove later.
 	free(key);
-	free(tmp);
 	return (text);
 }
