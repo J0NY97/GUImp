@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 13:26:04 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/27 13:38:50 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ void	tin_reader(SDL_Event e, t_element *elem)
 	}
 }
 
-int		main(void)
+int		main(int argc, char *argv[])
 {
 	t_libui	*libui;
 	t_info	*info;
@@ -240,6 +240,7 @@ int		main(void)
 	// INIT
 	SDL_Init(SDL_INIT_VIDEO);
 	TTF_Init();
+	IMG_Init(0);
 	info->run = 1;
 	info->font = TTF_OpenFont("font.ttf", 32);
 	info->brush.draw = 0;
@@ -391,6 +392,16 @@ int		main(void)
 	s.text.color = 0x000000;
 	s.text.font = info->font;
 	add_elem_to_list(info->main, s);
+	info->drawing_surface[0] = info->main->elements->content;
+	if (argc >= 2)
+	{
+		SDL_Surface *temp;
+		if ((temp = load_image(argv[1])))
+		{
+			SDL_BlitSurface(temp, NULL, info->drawing_surface[0]->surface, NULL);
+			printf("%s image loaded.\n", argv[1]);
+		}
+	}
 ///////////
 //SLIDER
 	t_element_info	sinf;
