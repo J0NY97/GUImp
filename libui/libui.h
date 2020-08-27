@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/25 15:32:29 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/27 16:11:57 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct	s_slider		t_slider;
 typedef	struct	s_element		t_element;
 typedef	struct	s_element_info	t_element_info;
 typedef	struct	s_text			t_text;
+typedef	struct	s_drop_down		t_drop_down;
 
 typedef	struct	s_emp
 {
@@ -106,11 +107,21 @@ struct			s_button
 
 struct			s_slider
 {
+	int			state;
 	int			min;
 	int			max;
 	int			value;
 	int			clicked;
 	int			bar_color;
+	size_t		size;
+};
+
+struct			s_drop_down
+{
+	t_element	*items[1]; // find on a better put
+	int			state; // is up or down
+	int			drop_height;
+	int			height;
 	size_t		size;
 };
 
