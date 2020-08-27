@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 11:38:36 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/27 13:39:18 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ struct	s_info
 	t_element	*size_slider;
 	
 	t_element	*buttons[4];
+	t_element	*drawing_surface[1];
 
 	t_brush		brush;
 	int			draw;
@@ -74,5 +75,7 @@ void			event_handler(t_info *info);
 void			check_input(t_info *info);
 void			draw(SDL_Event event, t_element *elem);
 void			text_to_screen(SDL_Surface *surface, t_shapes l, t_brush *brush);
+SDL_Surface		*load_image(char *file);
+int				save_img(SDL_Surface *img, char *file);
 
 #endif

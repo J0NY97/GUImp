@@ -1,5 +1,7 @@
 lib
 include
+include/*
+lib/*
 *.o
 *.a
 .DS_Store
