@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/25 16:16:49 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/27 13:34:46 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct	s_brush
 	int			color;
 	int			old_x;
 	int			old_y;
+	t_text		*text_area;
 }				t_brush;
 
 typedef	struct	s_win
@@ -65,6 +66,8 @@ struct	s_info
 	
 	t_element	*buttons[4];
 	t_element	*drawing_surface[1];
+	t_element	*text_area;
+	t_element	*save_button;
 
 	t_brush		brush;
 	int			draw;
@@ -74,6 +77,7 @@ void			event_handler(t_info *info);
 void			check_input(t_info *info);
 void			draw(SDL_Event event, t_element *elem);
 SDL_Surface		*load_image(char *file);
-int				save_img(SDL_Surface *img, char *file);
+int				save_image(SDL_Surface *img, char *file);
+char			*drag_and_drop(SDL_Event e);
 
 #endif
