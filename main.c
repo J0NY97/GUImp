@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/29 14:27:05 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/29 15:01:50 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@ void	render_element(t_element *elem)
 	SDL_BlitSurface(elem->surface, NULL, elem->parent, &temp);
 }
 
+void	clear_element(t_element *elem)
+{
+	SDL_Rect	temp;
+	SDL_Surface *clean;
+
+	temp.x = elem->x;
+	temp.y = elem->y;
+	temp.w = elem->w;
+	temp.h = elem->h;
+	clean = SDL_CreateRGBSurface(0, elem->w, elem->h, 32, 0, 0, 0, 0);
+	SDL_BlitSurface(clean, NULL, elem->parent, &temp);
+}
+
 void	render_window(t_win *win)
 {
 	t_list		*curr;
@@ -34,6 +47,12 @@ void	render_window(t_win *win)
 		curr = curr->next;
 	}
 	SDL_UpdateWindowSurface(win->window->win);
+	curr = win->elements;
+	while (curr != NULL)
+	{
+		clear_element(curr->content);
+		curr = curr->next;
+	}
 }
 
 void	click(SDL_Event event, t_element *elem)
@@ -265,6 +284,53 @@ void	save_surface(SDL_Event e, t_element *elem)
 	}
 }
 
+t_drop_down	create_drop_down(int drop_height, int height)
+{
+	t_drop_down	dd;
+
+//	dd.items = NULL; // malloc here if you already know how many items you want in it
+	dd.state = 0;
+	dd.drop_height = drop_height;
+	dd.height = height;
+	dd.size = sizeof(t_drop_down);
+	return (dd);
+}
+
+void	drop_drop(SDL_Event e, t_element *elem)
+{
+	t_drop_down *drop;
+	t_element	*item;
+
+	drop = elem->info;
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+	{
+		if (drop->state == 0)
+			drop->state = 1;
+		else if (drop->state == 2)
+			drop->state = 3;
+	}
+	else if (e.type == SDL_MOUSEBUTTONUP)
+	{
+		if (drop->state == 1)
+			drop->state = 2;
+		if (drop->state == 3)
+			drop->state = 0;
+	}
+	if (drop->state == 2)
+	{
+		elem->h = drop->drop_height;
+		ft_update_element(elem);
+	}
+	else if (drop->state == 0)
+	{
+		elem->h = drop->height;
+		ft_update_element(elem);
+	}
+	// when clicked state = 1;
+	// 	elem->h = elem->info->drop_height;
+	// when clicked && state == 1, state = 0
+	// 	elem->h = elem->info->height;
+}
 
 int		main(int argc, char *argv[])
 {
@@ -567,6 +633,29 @@ int		main(int argc, char *argv[])
 	tin.text.font = info->font;
 	add_elem_to_list(info->toolbox, tin);
 	info->brush.text_area = &((t_element *)info->toolbox->elements->content)->text;
+//////////
+//DROP DOWN LISTS
+	t_element_info	drop;
+	t_drop_down		dd;
+	
+	drop.x = 100;
+	drop.y = 800;
+	drop.w = 300;
+	drop.h = 32;
+	drop.parent = info->toolbox->window->surface;
+
+	dd = create_drop_down(100, drop.h);
+	dd.items[0] = info->save_button;
+	drop.info = &dd;
+	drop.info_size = ((t_drop_down *)drop.info)->size;
+
+	drop.bg_color = 0xffffff;
+	drop.f = &drop_drop;
+	drop.event_handler = &ft_mouse_button_handler;
+	drop.set_text = 1;
+	drop.text = create_text_info(0, 0, "drop", 0x000000);
+	drop.text.font = info->font;
+	add_elem_to_list(info->toolbox, drop);
 //
 	update_buttons(info->buttons);
 	update_slider(info->r_slider);
