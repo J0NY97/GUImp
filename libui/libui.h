@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libui.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/29 13:27:31 by jsalmi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef LIBUI_H
 # define LIBUI_H
 # include <fcntl.h>
@@ -187,6 +175,11 @@ void			ft_event_poller(t_libui *libui);
 void			ft_update_background(SDL_Surface *surface, Uint32 color);
 void			ft_create_text(t_text *text);
 char			*ft_read_text(int size);
+<<<<<<< HEAD
 void			ft_drop_down_add_item(t_element **drop, void (*f)(SDL_Event e, t_element *elem), char *name);
+=======
+void			notify(char *title, char *msg);
+void			error_msg(char *str);
+>>>>>>> f801441d34fbcb1807588ff5a46f561c90321deb
 
 #endif
