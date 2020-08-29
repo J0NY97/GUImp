@@ -332,18 +332,74 @@ void	drop_drop(SDL_Event e, t_element *elem)
 				ix = elem->x + item->x;
 				iy = elem->y + item->y;
 				if (e.button.x >= ix && e.button.x <= ix + item->w)
-				{
 					if (e.button.y >= iy && e.button.y <= iy + item->h)
-					{
-					//	printf("%s ", item->text.text);
 						item->f(e, item);
-					}
-				}
 			}
 		}
 		elem->h = drop->height;
 		ft_update_element(elem);
 	}
+}
+
+void	scroll(SDL_Event e, t_element *elem)
+{
+	if (e.type == SDL_MOUSEWHEEL)
+	{
+		t_element *target;
+
+		target = ((t_scrollbar *)elem->info)->target;
+		if (e.wheel.y > 0) // up
+		{
+			target->y += 10;
+		}
+		else if (e.wheel.y < 0) // down
+		{
+			target->y -= 10;
+		}
+	}
+}
+
+void	guimp_init(t_info *info)
+{
+	info->run = 1;
+	info->font = TTF_OpenFont("font.ttf", 32);
+	info->brush.font_dir = ft_strdup("font.ttf");
+	info->brush.draw = 0;
+	info->brush.type = 1;
+	info->brush.size = 20;
+	info->brush.color = 0xd3d3d3;
+	info->brush.old_x = -1;
+	info->brush.old_y = -1;
+	if (!(info->toolbox = (t_win *)malloc(sizeof(t_win))))
+		exit (0);
+	if (!(info->main = (t_win *)malloc(sizeof(t_win))))
+		exit (0);
+}
+
+t_window_info	init_window_info(int x, int y, int w, int h, char *title)
+{
+	t_window_info info;
+
+	info.x = x;
+	info.y = y;
+	info.w = w;
+	info.h = h;
+	info.flags = 0;
+	info.resizeable = 0;
+	info.title = ft_strdup(title);
+	return (info);
+}
+
+t_text	init_t_text(int x, int y, char *str, Uint32 color)
+{
+	t_text text;
+
+	text.x = x;
+	text.y = y;
+	text.text = ft_strdup(str);
+	text.color = color;
+	text.font = TTF_OpenFont("font.ttf", 32);
+	return (text);
 }
 
 int		main(int argc, char *argv[])
@@ -359,43 +415,19 @@ int		main(int argc, char *argv[])
 	SDL_Init(SDL_INIT_VIDEO);
 	TTF_Init();
 	IMG_Init(0);
-	info->run = 1;
-	info->font = TTF_OpenFont("font.ttf", 32);
-	info->brush.font_dir = ft_strdup("font.ttf");
-	info->brush.draw = 0;
-	info->brush.type = 1;
-	info->brush.size = 20;
-	info->brush.color = 0xd3d3d3;
-	info->brush.old_x = -1;
-	info->brush.old_y = -1;
-	if (!(info->toolbox = (t_win *)malloc(sizeof(t_win))))
-		exit (0);
-	if (!(info->main = (t_win *)malloc(sizeof(t_win))))
-		exit (0);
+	guimp_init(info);
 	// END INIT
-	t_window_info test;
 ////////////
-	test.x = 0;
-	test.y = 0;
-	test.w = 500;
-	test.h = 1250;
-	test.flags = 0;
-	test.resizeable = 1;
-	test.title = ft_strdup("title");
-	if (!(info->toolbox->window = ft_create_window(test)))
-		exit (0);
+//WINDOWS
+	t_window_info test;
+
+	test = init_window_info(0, 0, 500, 1250, "title");
+	info->toolbox->window = ft_create_window(test); 
 	info->toolbox->elements = NULL;
 	info->toolbox->elem_amount = -1;
-
-	test.x = 501;
-	test.y = 0;
-	test.w = 1000;
-	test.h = 1250;
-	test.flags = 0;
-	test.resizeable = 1;
-	test.title = ft_strdup("Xd");
-	if (!(info->main->window = ft_create_window(test)))
-		exit (0);
+	
+	test = init_window_info(501, 0, 1000, 1250, "main");
+	info->main->window = ft_create_window(test);
 	info->main->elements = NULL;
 	info->main->elem_amount = -1;
 /////////////
@@ -404,23 +436,18 @@ int		main(int argc, char *argv[])
 //
 	blin = create_button_info(1, 1, &info->brush);
 	b.info = &blin;
-	b.info_size = ((t_button *)b.info)->size;
-
+	b.info_size = ((t_button *)b.info)->size;	
+	
 	b.x = 50;
 	b.y = 50;
 	b.w = 100;
 	b.h = 50;
 	b.parent = info->toolbox->window->surface;
 	b.f = &change_brush_type;
-	b.event_handler = &ft_mouse_button_handler;
 	b.bg_color = 0xffffff;
 	b.extra_info = info->buttons;
 	b.set_text = 1;
-	b.text.x = 0;
-	b.text.y = 0;
-	b.text.text = ft_strdup("circle t1");
-	b.text.color = 0x000000;
-	b.text.font = info->font;
+	b.text = init_t_text(0, 0, "circle", 0x000000);
 	add_elem_to_list(info->toolbox, b);
 	info->buttons[0] = info->toolbox->elements->content;	
 //
@@ -434,15 +461,10 @@ int		main(int argc, char *argv[])
 	b.h = 50;
 	b.parent = info->toolbox->window->surface;
 	b.f = &change_brush_type;
-	b.event_handler = &ft_mouse_button_handler;
 	b.bg_color = 0xffffff;
 	b.extra_info = info->buttons;
 	b.set_text = 1;
-	b.text.x = 0;
-	b.text.y = 0;
-	b.text.text = ft_strdup("squaer t2");
-	b.text.color = 0x000000;
-	b.text.font = info->font;
+	b.text = init_t_text(0, 0, "text", 0x000000);
 	add_elem_to_list(info->toolbox, b);
 	info->buttons[1] = info->toolbox->elements->content;
 //
@@ -456,15 +478,10 @@ int		main(int argc, char *argv[])
 	b.h = 50;
 	b.parent = info->toolbox->window->surface;
 	b.f = &change_brush_type;
-	b.event_handler = &ft_mouse_button_handler;
 	b.bg_color = 0xffffff;
 	b.extra_info = info->buttons;
 	b.set_text = 1;
-	b.text.x = 0;
-	b.text.y = 0;
-	b.text.text = ft_strdup("deletion t3");
-	b.text.color = 0x000000;
-	b.text.font = info->font;
+	b.text = init_t_text(0, 0, "text", 0x000000);
 	add_elem_to_list(info->toolbox, b);
 	info->buttons[2] = info->toolbox->elements->content;
 
@@ -478,18 +495,12 @@ int		main(int argc, char *argv[])
 	b.h = 50;
 	b.parent = info->toolbox->window->surface;
 	b.f = &change_brush_type;
-	b.event_handler = &ft_mouse_button_handler;
 	b.bg_color = 0xffffff;
 	b.extra_info = info->buttons;
 	b.set_text = 1;
-	b.text.x = 0;
-	b.text.y = 0;
-	b.text.text = ft_strdup("flood t4");
-	b.text.color = 0x000000;
-	b.text.font = info->font;
+	b.text = init_t_text(0, 0, "flood", 0x000000);
 	add_elem_to_list(info->toolbox, b);
-	info->buttons[3] = info->toolbox->elements->content;
-	
+	info->buttons[3] = info->toolbox->elements->content;	
 ///////////////
 //MAIN SURFACE
 	t_element_info s;
@@ -498,31 +509,14 @@ int		main(int argc, char *argv[])
 	s.y = 50;
 	s.w = info->main->window->surface->w - (s.x * 2);
 	s.h = info->main->window->surface->h - (s.y * 2);
-	printf("%d %d\n", s.w, s.h);
 	s.parent = info->main->window->surface;
 	s.f = &draw;
-	s.event_handler = &ft_mouse_button_handler;
 	s.bg_color = 0xffffff;
 	s.info = &info->brush;
 	s.set_text = 0;
-	s.text.x = 0;
-	s.text.y = 0;
-	s.text.text = NULL;
-	s.text.color = 0x000000;
-	s.text.font = info->font;
 	add_elem_to_list(info->main, s);
 	info->drawing_surface[0] = info->main->elements->content;
-	if (argc >= 2)
-	{
-		SDL_Surface *temp;
-		if ((temp = load_image(argv[1])))
-		{
-			SDL_BlitSurface(temp, NULL, info->drawing_surface[0]->surface, NULL);
-			printf("%s image loaded.\n", argv[1]);
-		}
-	}
-	
-	// save button
+// save button
 	blin = create_button_info(0, 0, info->drawing_surface[0]); // last param is the main surfaec you draw on
 	b.info = &blin;
 	b.info_size = ((t_button *)b.info)->size;
@@ -533,15 +527,12 @@ int		main(int argc, char *argv[])
 	b.h = 50;
 	b.parent = info->toolbox->window->surface;
 	b.f = &save_surface;
-	b.event_handler = &ft_mouse_button_handler;
 	b.bg_color = 0xffffff;
 	b.extra_info = &info->brush;
 	b.set_text = 1;
-	b.text = create_text_info(0, 0, "save", 0x000000);
-	b.text.font = info->font;
+	b.text = init_t_text(0, 0, "save", 0x000000);
 	add_elem_to_list(info->toolbox, b);
 	info->save_button = info->toolbox->elements->content;
-
 ///////////
 //SLIDER
 	t_element_info	sinf;
@@ -558,7 +549,6 @@ int		main(int argc, char *argv[])
 	sinf.bg_color = 0xffffff;
 	sinf.parent = info->toolbox->window->surface;
 	sinf.f = &slider_event;
-	sinf.event_handler = &ft_mouse_button_handler;
 	sinf.set_text = 0;
 	add_elem_to_list(info->toolbox, sinf);
 	info->r_slider = info->toolbox->elements->content;
@@ -574,7 +564,6 @@ int		main(int argc, char *argv[])
 	sinf.bg_color = 0xffffff;
 	sinf.parent = info->toolbox->window->surface;
 	sinf.f = &slider_event;
-	sinf.event_handler = &ft_mouse_button_handler;
 	sinf.set_text = 0;
 	add_elem_to_list(info->toolbox, sinf);
 	info->g_slider = info->toolbox->elements->content;
@@ -590,7 +579,6 @@ int		main(int argc, char *argv[])
 	sinf.bg_color = 0xffffff;
 	sinf.parent = info->toolbox->window->surface;
 	sinf.f = &slider_event;
-	sinf.event_handler = &ft_mouse_button_handler;
 	sinf.set_text = 0;
 	add_elem_to_list(info->toolbox, sinf);
 	info->b_slider = info->toolbox->elements->content; 
@@ -606,7 +594,6 @@ int		main(int argc, char *argv[])
 	sinf.bg_color = 0xffffff;
 	sinf.parent = info->toolbox->window->surface;
 	sinf.f = &slider_event;
-	sinf.event_handler = &ft_mouse_button_handler;
 	sinf.set_text = 0;
 	add_elem_to_list(info->toolbox, sinf);
 	info->size_slider = info->toolbox->elements->content;
@@ -638,13 +625,8 @@ int		main(int argc, char *argv[])
 	tin.info_size = 0;
 	tin.info = 0;
 	tin.f = &tin_reader;
-	tin.event_handler = &ft_mouse_button_handler;
 	tin.set_text = 1;
-	tin.text.x = 0;
-	tin.text.y = 0;
-	tin.text.text = ft_strdup("A8D");
-	tin.text.color = 0x000000;
-	tin.text.font = info->font;
+	tin.text = init_t_text(0, 0, "A8D", 0x000000);
 	add_elem_to_list(info->toolbox, tin);
 	info->brush.text_area = &((t_element *)info->toolbox->elements->content)->text;
 //////////
@@ -665,10 +647,8 @@ int		main(int argc, char *argv[])
 
 	drop.bg_color = 0xffffff;
 	drop.f = &drop_drop;
-	drop.event_handler = &ft_mouse_button_handler;
 	drop.set_text = 1;
-	drop.text = create_text_info(0, 0, "drop", 0x000000);
-	drop.text.font = info->font;
+	drop.text = init_t_text(0, 0, "drop", 0x000000);
 	drop.extra_info = libui;
 
 	add_elem_to_list(info->toolbox, drop);
@@ -678,6 +658,26 @@ int		main(int argc, char *argv[])
 	ft_drop_down_add_item(&info->drop_down, &click, "item2");
 	ft_drop_down_add_item(&info->drop_down, &click, "item3");
 	ft_drop_down_add_item(&info->drop_down, &click, "item4");
+///////////
+//SCROLLBAR
+	t_element_info	scrollb;
+	t_scrollbar		sb;
+
+	// should the parent be an element?	
+	sb.target = info->drawing_surface[0];
+	scrollb.parent = info->main->window->surface;
+	// these could be default...? relative to the parent
+	scrollb.w = 20;
+	scrollb.x = sb.target->x + sb.target->w;
+	scrollb.y = sb.target->y;
+	scrollb.h = sb.target->h;
+	scrollb.bg_color = 0xd3d3d3;
+	scrollb.info = &sb;
+	scrollb.info_size = sizeof(t_scrollbar);
+	scrollb.extra_info = NULL;
+	scrollb.f = &scroll;
+	scrollb.set_text = 0;
+	add_elem_to_list(info->main, scrollb);
 //
 	update_buttons(info->buttons);
 	update_slider(info->r_slider);
@@ -692,10 +692,12 @@ int		main(int argc, char *argv[])
 			call_all_handlers(info->toolbox, libui);
 		else if (libui->event.window.windowID == info->main->window->id)
 			call_all_handlers(info->main, libui);
+		libui->event.type = NULL; // this is only for scrollthing
 		char *file;
 		if ((file = drag_and_drop(libui->event)) != NULL)
 		{
 			SDL_Surface *temp;
+
 			if (ft_nstrstr(file, ".ttf") == 0)
 				notify("Loaded Font:", info->brush.font_dir = ft_strdup(file));
 			else if ((temp = load_image(file)))
@@ -703,6 +705,7 @@ int		main(int argc, char *argv[])
 				SDL_BlitSurface(temp, NULL, info->drawing_surface[0]->surface, NULL);
 				notify("Image Loaded:", file);
 			}
+			SDL_FreeSurface(temp);
 			free(file);
 		}
 		info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
