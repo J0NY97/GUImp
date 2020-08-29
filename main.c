@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/29 14:58:37 by jsalmi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "guimp.h"
 
 void	render_element(t_element *elem)
@@ -373,6 +361,7 @@ int		main(int argc, char *argv[])
 	IMG_Init(0);
 	info->run = 1;
 	info->font = TTF_OpenFont("font.ttf", 32);
+	info->brush.font_dir = ft_strdup("font.ttf");
 	info->brush.draw = 0;
 	info->brush.type = 1;
 	info->brush.size = 20;
@@ -708,11 +697,11 @@ int		main(int argc, char *argv[])
 		{
 			SDL_Surface *temp;
 			if (ft_nstrstr(file, ".ttf") == 0)
-				printf("asdasdasdasdas\n");
+				notify("Loaded Font:", info->brush.font_dir = ft_strdup(file));
 			else if ((temp = load_image(file)))
 			{
 				SDL_BlitSurface(temp, NULL, info->drawing_surface[0]->surface, NULL);
-				printf("%s image loaded.\n", file);
+				notify("Image Loaded:", file);
 			}
 			free(file);
 		}

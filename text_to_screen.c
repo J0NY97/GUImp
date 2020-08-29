@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 15:57:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/27 15:05:45 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/29 12:55:59 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	text_to_screen(SDL_Surface *surface, t_shapes l, t_brush *brush)
 	SDL_Surface *surf;
 	TTF_Font	*font;
 	
-	font = TTF_OpenFont("font.ttf", brush->size);
+	font = TTF_OpenFont(brush->font_dir, brush->size);
 	temp.x = l.x2;
 	temp.y = l.y2;
 	surf = TTF_RenderText_Blended(font,

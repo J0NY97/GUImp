@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/08/10 13:27:06 by jsalmi            #+#    #+#              #
-#    Updated: 2020/08/29 11:37:09 by jsalmi           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = libui.a
 SRCS = ft_test_libui.c\
 	   ft_create_window.c\
@@ -28,7 +16,8 @@ SRCS = ft_test_libui.c\
 	   flood_fill.c\
 	   ft_create_square.c\
 	   push_pop.c\
-	   ft_drop_down.c
+	   ft_drop_down.c\
+	   popup.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
 #FLAGS = -Wall -Wextra -Werror
