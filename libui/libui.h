@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:04:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 16:11:57 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/29 13:27:31 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ struct			s_slider
 
 struct			s_drop_down
 {
-	t_element	*items[1]; // find on a better put
+	int			item_amount;
+	t_element	*items[5]; // find on a better put
 	int			state; // is up or down
 	int			drop_height;
 	int			height;
@@ -186,5 +187,6 @@ void			ft_event_poller(t_libui *libui);
 void			ft_update_background(SDL_Surface *surface, Uint32 color);
 void			ft_create_text(t_text *text);
 char			*ft_read_text(int size);
+void			ft_drop_down_add_item(t_element **drop, void (*f)(SDL_Event e, t_element *elem), char *name);
 
 #endif
