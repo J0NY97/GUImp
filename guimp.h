@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 16:21:20 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/29 12:55:43 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct	s_brush
 	int			color;
 	int			old_x;
 	int			old_y;
+	char		*font_dir;
 	TTF_Font	*font;
 	t_text		*text_area;
 }				t_brush;
