@@ -175,11 +175,8 @@ void			ft_event_poller(t_libui *libui);
 void			ft_update_background(SDL_Surface *surface, Uint32 color);
 void			ft_create_text(t_text *text);
 char			*ft_read_text(int size);
-<<<<<<< HEAD
 void			ft_drop_down_add_item(t_element **drop, void (*f)(SDL_Event e, t_element *elem), char *name);
-=======
 void			notify(char *title, char *msg);
 void			error_msg(char *str);
->>>>>>> f801441d34fbcb1807588ff5a46f561c90321deb
 
 #endif
