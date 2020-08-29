@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 11:11:57 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/29 14:57:54 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/29 17:55:10 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	ft_drop_down_add_item(t_element **drop, void (*f)(SDL_Event e, t_element *e
 	info.parent = (*drop)->surface; // this wont work because the surface of the parent will update everytime it is clicked
 	info.bg_color = dd->item_amount % 2 == 0 ? 0xffffff : 0xd3d3d3;
 	info.f = f;
-	info.event_handler = &ft_mouse_button_handler;
 	info.set_text = name != NULL;
 	if (name != NULL)
 	{

@@ -23,6 +23,7 @@ typedef	struct	s_element		t_element;
 typedef	struct	s_element_info	t_element_info;
 typedef	struct	s_text			t_text;
 typedef	struct	s_drop_down		t_drop_down;
+typedef	struct	s_scrollbar		t_scrollbar;
 
 typedef	struct	s_emp
 {
@@ -114,6 +115,12 @@ struct			s_drop_down
 	size_t		size;
 };
 
+struct			s_scrollbar
+{
+	t_element	*target;
+	size_t		size;
+};
+
 struct			s_window_info
 {
 	char		*title;
@@ -170,7 +177,7 @@ void			*pop_list(t_list **lst);
 /* TESTS */
 t_element		*ft_create_element(t_element_info info);
 void			ft_update_element(t_element *elem);
-int				ft_mouse_button_handler(t_libui *libui, t_element *elem);
+int				ft_event_handler(t_libui *libui, t_element *elem);
 void			ft_event_poller(t_libui *libui);
 void			ft_update_background(SDL_Surface *surface, Uint32 color);
 void			ft_create_text(t_text *text);

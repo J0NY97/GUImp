@@ -8,7 +8,7 @@ SRCS = ft_test_libui.c\
 	   rgb_to_hex.c\
 	   ft_create_element.c\
 	   ft_update_element.c\
-	   ft_mouse_button_handler.c\
+	   ft_event_handler.c\
 	   ft_event_poller.c\
 	   ft_update_background.c\
 	   ft_create_text.c\

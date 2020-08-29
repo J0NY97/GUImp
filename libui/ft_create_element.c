@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 15:15:48 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/29 18:23:40 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ t_element		*ft_create_element(t_element_info info)
 	t_element *elem;
 
 	if (!(elem = (t_element *)malloc(sizeof(t_element))))
-	{
-		ft_putstr("[create_element] Couldnt malloc new element.\n");
 		return (NULL);
-	}
 	elem->x = info.x;
 	elem->y = info.y;
 	elem->w = info.w;
@@ -35,7 +32,10 @@ t_element		*ft_create_element(t_element_info info)
 		elem->info = info.info;
 	elem->extra_info = info.extra_info;
 	elem->f = info.f;
-	elem->event_handler = info.event_handler;
+	if (info.f != NULL) // if you want an elem to call func every frame no matter what you have to put f to null and event_handler to the func
+		elem->event_handler = &ft_event_handler;
+	else
+		elem->event_handler = info.event_handler;
 	elem->set_text = info.set_text;
 	elem->text = info.text;
 	elem->parent = info.parent;
