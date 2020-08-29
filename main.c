@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:19:53 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 17:17:14 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/29 14:58:37 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ void	render_window(t_win *win)
 
 void	click(SDL_Event event, t_element *elem)
 {
-	if (event.type == SDL_MOUSEBUTTONDOWN)
-		printf("element_clicked\n");
+	printf("element_clicked\n");
 }
 
 void	add_elem_to_list(t_win *win, t_element_info info)
@@ -75,11 +74,6 @@ void	add_elem_to_list(t_win *win, t_element_info info)
 	win->elem_amount += 1;
 }
 
-void	call_own_function(t_libui *libui, t_element *element)
-{
-	element->event_handler(libui, element);
-}
-
 void	call_all_handlers(t_win *win, t_libui *libui)
 {
 	t_list *curr;
@@ -87,7 +81,7 @@ void	call_all_handlers(t_win *win, t_libui *libui)
 	curr = win->elements;
 	while (curr != NULL)
 	{
-		call_own_function(libui, curr->content);
+		((t_element *)curr->content)->event_handler(libui, (t_element *)curr->content);
 		curr = curr->next;
 	}
 }
@@ -289,6 +283,7 @@ t_drop_down	create_drop_down(int drop_height, int height)
 	t_drop_down	dd;
 
 //	dd.items = NULL; // malloc here if you already know how many items you want in it
+	dd.item_amount = 0;
 	dd.state = 0;
 	dd.drop_height = drop_height;
 	dd.height = height;
@@ -320,16 +315,47 @@ void	drop_drop(SDL_Event e, t_element *elem)
 	{
 		elem->h = drop->drop_height;
 		ft_update_element(elem);
+		// rendering the elements of the drop menu
+		for (int i = 0; i < drop->item_amount; i++)
+		{
+			t_element *item;
+			SDL_Rect	temp;
+
+			item = drop->items[i];
+			temp.x = item->x;
+			temp.y = item->y;
+			temp.w = item->w;
+			temp.h = item->h;
+			SDL_BlitSurface(item->surface, NULL, elem->surface, &temp);
+		}
 	}
 	else if (drop->state == 0)
 	{
+		// checking item hitbox
+		if (e.type == SDL_MOUSEBUTTONUP) // if not this if it will trigger once if you hover over the dropdown menu after youve chosen an item
+		{
+			for (int i = 0; i < drop->item_amount; i++)
+			{
+				t_element *item;
+				int	ix;
+				int iy;
+	
+				item = drop->items[i];
+				ix = elem->x + item->x;
+				iy = elem->y + item->y;
+				if (e.button.x >= ix && e.button.x <= ix + item->w)
+				{
+					if (e.button.y >= iy && e.button.y <= iy + item->h)
+					{
+					//	printf("%s ", item->text.text);
+						item->f(e, item);
+					}
+				}
+			}
+		}
 		elem->h = drop->height;
 		ft_update_element(elem);
 	}
-	// when clicked state = 1;
-	// 	elem->h = elem->info->drop_height;
-	// when clicked && state == 1, state = 0
-	// 	elem->h = elem->info->height;
 }
 
 int		main(int argc, char *argv[])
@@ -643,7 +669,7 @@ int		main(int argc, char *argv[])
 	drop.h = 32;
 	drop.parent = info->toolbox->window->surface;
 
-	dd = create_drop_down(100, drop.h);
+	dd = create_drop_down(160, drop.h); // dropped height, normal height
 	dd.items[0] = info->save_button;
 	drop.info = &dd;
 	drop.info_size = ((t_drop_down *)drop.info)->size;
@@ -654,7 +680,15 @@ int		main(int argc, char *argv[])
 	drop.set_text = 1;
 	drop.text = create_text_info(0, 0, "drop", 0x000000);
 	drop.text.font = info->font;
+	drop.extra_info = libui;
+
 	add_elem_to_list(info->toolbox, drop);
+	info->drop_down = info->toolbox->elements->content;
+	/// drop down item adding, the dd menu must be made before the items are added
+	ft_drop_down_add_item(&info->drop_down, &click, "item1");
+	ft_drop_down_add_item(&info->drop_down, &click, "item2");
+	ft_drop_down_add_item(&info->drop_down, &click, "item3");
+	ft_drop_down_add_item(&info->drop_down, &click, "item4");
 //
 	update_buttons(info->buttons);
 	update_slider(info->r_slider);

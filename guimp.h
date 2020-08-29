@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:48:24 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 17:15:28 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/29 12:29:05 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef	struct	s_win
 	t_list		*elements;
 }				t_win;
 
-struct	s_info
+struct			s_info
 {
 	int			run;
 	TTF_Font	*font;
@@ -56,9 +56,7 @@ struct	s_info
 	
 	t_win		*toolbox;
 	t_win		*main;
-//	t_window	*toolbox;
-//	t_window	*main;
-	t_window	*layers;
+	t_win		*layers;
 
 	t_element	*r_slider;
 	t_element	*g_slider;
@@ -70,6 +68,7 @@ struct	s_info
 	t_element	*text_area;
 	t_element	*save_button;
 	t_element	*font_button;
+	t_element	*drop_down;
 
 	t_brush		brush;
 	int			draw;
