@@ -45,6 +45,7 @@ struct			s_text
 {
 	int			x;
 	int			y;
+	int			margin;
 	int			color;
 	char		*text;
 	TTF_Font	*font;
@@ -185,5 +186,6 @@ char			*ft_read_text(int size);
 void			ft_drop_down_add_item(t_element **drop, void (*f)(SDL_Event e, t_element *elem), char *name);
 void			notify(char *title, char *msg);
 void			error_msg(char *str);
+int				pop_up(int x, int y, char *msg);
 
 #endif
