@@ -220,6 +220,7 @@ t_text		create_text_info(int x, int y, char *str, Uint32 color)
 	text.y = y;
 	text.text = ft_strdup(str);
 	text.color = color;
+	text.margin = 0;
 //	text.font = info->font;
 	return (text);
 }
@@ -699,10 +700,7 @@ int		main(int argc, char *argv[])
 			if (ft_nstrstr(file, ".ttf") == 0)
 				notify("Loaded Font:", info->brush.font_dir = ft_strdup(file));
 			else if ((temp = load_image(file)))
-			{
 				SDL_BlitSurface(temp, NULL, info->drawing_surface[0]->surface, NULL);
-				notify("Image Loaded:", file);
-			}
 			free(file);
 		}
 		info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
