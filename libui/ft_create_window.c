@@ -6,27 +6,25 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:15:15 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/29 17:34:20 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/30 14:51:30 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-t_window	*ft_create_window(t_window_info info)
+t_window	*ft_create_window(t_libui *libui, t_window_info info)
 {
 	t_window *new_window;
 	
 	if (!(new_window = (t_window *)malloc(sizeof(t_window))))
-	{
-		ft_putstr("[create_window] New window couldnt be malloced.\n");
 		return (NULL);
-	}
-//	new_window->button_amount = -1;		// remove in new iteration, maybe not
 	new_window->win = SDL_CreateWindow(info.title, info.x, info.y, info.w, info.h, info.flags);
 	new_window->surface = SDL_GetWindowSurface(new_window->win);
 //	SDL_SetWindowResizable(new_window->win, info.resizeable);
 	new_window->id = SDL_GetWindowID(new_window->win);
+	new_window->elements = NULL;
 	ft_strdel(&info.title);
 	free(info.title);
+	ft_add_window_to_libui_windows(libui, new_window);
 	return (new_window);
 }

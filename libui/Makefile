@@ -17,7 +17,12 @@ SRCS = ft_test_libui.c\
 	   ft_create_square.c\
 	   push_pop.c\
 	   ft_drop_down.c\
-	   popup.c
+	   popup.c\
+	   ui_create_button.c\
+	   ui_render.c\
+	   ft_add_element_to_window_elements.c\
+	   ft_add_window_to_libui_windows.c\
+	   ui_libui_init.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
 #FLAGS = -Wall -Wextra -Werror

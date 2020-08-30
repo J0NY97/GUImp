@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_mouse_button_handler.c                          :+:      :+:    :+:   */
+/*   ft_add_element_to_list.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/19 15:35:47 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 15:28:06 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/08/30 11:56:09 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/08/30 12:30:36 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-int		ft_event_handler(t_libui *libui, t_element *elem)
+void	ft_add_element_to_window_elements(t_window *win, t_element *elem)
 {
-	int x;
-	int y;
+	t_list *lst;
 
-	x = libui->event.button.x;
-	y = libui->event.button.y;
-	if ((x >= elem->x && y >= elem->y &&
-		x <= elem->x + elem->w && y <= elem->y + elem->h)
-		|| libui->event.type == SDL_MOUSEWHEEL)
-	{
-		elem->f(libui->event, elem);
-		return (1);
-	}
-	elem->state = elem->default_state;
-	return (0);
+	lst = ft_lstnew(0, 0);
+	lst->content = elem;
+	lst->content_size = sizeof(t_element);
+	if (win->elements == NULL)
+		win->elements = lst;
+	else
+		ft_lstadd(&win->elements, lst);
 }

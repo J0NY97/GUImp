@@ -39,13 +39,14 @@ typedef	struct	s_emp
 typedef struct	s_libui
 {
 	SDL_Event	event;
+	t_list		*windows;
 }				t_libui;
 
 struct			s_text
 {
 	int			x;
 	int			y;
-	int			margin;
+	int			margin; // maximum width of the text (parent->w - margin)
 	int			color;
 	char		*text;
 	TTF_Font	*font;
@@ -72,6 +73,8 @@ struct	s_element_info
 
 struct	s_element
 {
+	int			state; //0 = press, 1 = hover, 2 = click
+	int			default_state;
 	int			x;
 	int			y;
 	int			w;
@@ -84,12 +87,13 @@ struct	s_element
 	int			set_text;
 	t_text		text;
 	SDL_Surface	*parent;
-	SDL_Surface	*surface;
+	SDL_Surface *surface;
+	SDL_Surface	*states[3];
 };
 
 struct			s_button
 {
-	int			state;
+	int			state; // remove this in new iteration
 	int			type;
 	void		*extra;
 	size_t		size;
@@ -137,6 +141,7 @@ struct s_window
 {
 	SDL_Window	*win;
 	SDL_Surface	*surface;
+	t_list		*elements;
 	Uint32		id;
 };
 
@@ -162,7 +167,7 @@ typedef	struct	s_coords
 }				t_coords;
 
 void			ft_test_libui(void);
-t_window		*ft_create_window(t_window_info info);
+t_window		*ft_create_window(t_libui *libui, t_window_info info);
 /* EXTRA */
 void			ft_create_line(SDL_Surface *surf, Uint32 color, t_shapes l);
 void			ft_create_circle(SDL_Surface *surface, Uint32 color, t_shapes c, int i);
@@ -187,5 +192,12 @@ void			ft_drop_down_add_item(t_element **drop, void (*f)(SDL_Event e, t_element 
 void			notify(char *title, char *msg);
 void			error_msg(char *str);
 int				pop_up(int x, int y, char *msg);
+/* UI */
+t_element		*ui_create_button(t_window *win, int x, int y);
+void			ui_render(t_window *win);
+void			ft_add_element_to_window_elements(t_window *win, t_element *elem);
+void			ft_add_window_to_libui_windows(t_libui *libui, t_window *win);
+void			default_click(SDL_Event e, t_element *elem);
+void			ui_libui_init(t_libui *libui);
 
 #endif
