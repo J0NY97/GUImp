@@ -24,6 +24,7 @@ typedef	struct	s_element_info	t_element_info;
 typedef	struct	s_text			t_text;
 typedef	struct	s_drop_down		t_drop_down;
 typedef	struct	s_scrollbar		t_scrollbar;
+typedef	struct	s_surface		t_surface;
 
 typedef	struct	s_emp
 {
@@ -118,6 +119,11 @@ struct			s_drop_down
 	int			drop_height;
 	int			height;
 	size_t		size;
+};
+
+struct			s_surface
+{
+	int			remove_this;
 };
 
 struct			s_scrollbar
