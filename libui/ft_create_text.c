@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 17:32:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 13:21:14 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/30 16:09:45 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,5 @@ void	ft_create_text(t_text *text)
 	temp.w = text->surface->w;
 	temp.h = text->surface->h;
 	SDL_BlitSurface(text->surface, NULL, text->parent, &temp);
+	SDL_FreeSurface(text->surface);
 }
