@@ -22,7 +22,8 @@ SRCS = ft_test_libui.c\
 	   ui_render.c\
 	   ft_add_element_to_window_elements.c\
 	   ft_add_window_to_libui_windows.c\
-	   ui_libui_init.c
+	   ui_libui_init.c\
+	   ui_create_surface.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
 #FLAGS = -Wall -Wextra -Werror

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 15:41:56 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/30 16:06:22 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ void	button_init(t_info *info)
 	info->buttons[3]->text.text = ft_strdup("flood");
 	info->buttons[3]->f = &draw_buttons;
 	info->buttons[3]->extra_info = info->buttons;
+}
+
+void	layer_init(t_info *info)
+{
+	info->drawing_surface[0] = ui_create_surface(info->main->window, 50, 50);
+	info->drawing_surface[0]->w = info->main->window->surface->w - info->drawing_surface[0]->x;
+	info->drawing_surface[0]->h = info->main->window->surface->h - info->drawing_surface[0]->y;
 }
 
 void	window_init(t_libui *libui, t_info *info)
@@ -101,7 +108,7 @@ int		main(void)
 	button_init(info);
 //	slider_init();
 //	drop_down_init();
-//	layer_init();
+	layer_init(info);
 	while (info->run)
 	{
 		ft_event_poller(libui); // input

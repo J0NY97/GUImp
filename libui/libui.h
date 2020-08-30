@@ -193,7 +193,11 @@ void			notify(char *title, char *msg);
 void			error_msg(char *str);
 int				pop_up(int x, int y, char *msg);
 /* UI */
+/*
+ ** NOTE: the ui creation could use create_surface for the boilerplate and the element type specific stuff can be edited in the relevant funcs
+*/
 t_element		*ui_create_button(t_window *win, int x, int y);
+t_element		*ui_create_surface(t_window *win, int x, int y);
 void			ui_render(t_window *win);
 void			ft_add_element_to_window_elements(t_window *win, t_element *elem);
 void			ft_add_window_to_libui_windows(t_libui *libui, t_window *win);
