@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 16:48:00 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/30 17:54:30 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	draw_buttons(SDL_Event e, t_element *elem)
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
 		buttons = (t_element **)elem->extra_info;
-		for (int i = 0; i < 4; i++) // the 4 is the amount of buttons in the array, if you add more you have to add more
+		// the 4 is the amount of buttons in the array, if you add more you have to add more
+		for (int i = 0; i < 4; i++)
 			buttons[i]->default_state = 0;
 		elem->default_state = 1;
 	}
@@ -71,17 +72,25 @@ void	window_init(t_libui *libui, t_info *info)
 	if (!(info->main = (t_win *)malloc(sizeof(t_win))))
 		exit (0);
 	
-	new_win.x = 0;
+	/*new_win.x = 0;
 	new_win.y = 0;
 	new_win.w = 500;
-	new_win.h = 1250;
+	new_win.h = 1250;*/
+	new_win->cords.x = 0;
+	new_win->cords.y = 0;
+	new_win->cords.w = 500;
+	new_win->cords.h = 1250;
 	new_win.title = ft_strdup("toolbox");
 	info->toolbox->window = ft_create_window(libui, new_win);
 
-	new_win.x = 501;
+	/*new_win.x = 501;
 	new_win.y = 0;
 	new_win.w = 1000;
-	new_win.h = 1250;
+	new_win.h = 1250;*/
+	new_win->cords.x = 501;
+	new_win->cords.y = 0;
+	new_win->cords.w = 1000;
+	new_win->cords.h = 1250;
 	new_win.title = ft_strdup("main");
 	info->main->window = ft_create_window(libui, new_win);
 }
