@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:04:46 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 13:24:24 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/30 18:34:18 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,12 @@ void		default_click(SDL_Event e, t_element *elem)
 	ft_putstr("A button was clicked.\n");
 }
 
-t_element	*ui_create_button(t_window *win, int x, int y)
+t_element	*ui_create_button(t_window *win, t_xywh coord)
 {
 	t_element_info info;
 	t_element	*elem;
 
-	info.x = x;
-	info.y = y;
-	info.w = 100;
-	info.h = 50;
+	info.coord = coord;
 	info.parent = win->surface; // think about this
 	info.info = (t_button *)malloc(sizeof(t_button));
 	info.info_size = 0; // remove this in another iteration

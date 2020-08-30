@@ -68,6 +68,7 @@ struct	s_element_info
 	int			y;
 	int			w;
 	int			h;
+	t_xywh		coord;
 	int			bg_color;
 	size_t		info_size;
 	void		*info;
@@ -82,11 +83,10 @@ struct	s_element_info
 struct	s_element
 {
 	int			state; //0 = press, 1 = hover, 2 = click
+	int			old_state;
 	int			default_state;
-	int			x;
-	int			y;
-	int			w;
-	int			h;
+	int			statique;
+	t_xywh		coord;
 	int			bg_color;
 	void		*info;
 	void		*extra_info;
@@ -142,6 +142,7 @@ struct			s_scrollbar
 struct			s_window_info
 {
 	char		*title;
+	t_xywh		coord;
 	int			x;
 	int			y;
 	int			w;
@@ -209,8 +210,8 @@ int				pop_up(int x, int y, char *msg);
 /*
  ** NOTE: the ui creation could use create_surface for the boilerplate and the element type specific stuff can be edited in the relevant funcs
 */
-t_element		*ui_create_button(t_window *win, int x, int y);
-t_element		*ui_create_surface(t_window *win, int x, int y);
+t_element		*ui_create_button(t_window *win, t_xywh coord);
+t_element		*ui_create_surface(t_window *win, t_xywh coord);
 void			ui_render(t_window *win);
 void			ft_add_element_to_window_elements(t_window *win, t_element *elem);
 void			ft_add_window_to_libui_windows(t_libui *libui, t_window *win);
