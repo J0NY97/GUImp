@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/27 15:57:52 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/30 16:35:09 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ void	draw(SDL_Event event, t_element *elem)
 {
 	t_shapes l;
 	t_brush *brush;
+	t_surface *surface;
 
-	brush = (t_brush *)elem->info;
+	brush = (t_brush *)elem->extra_info;
+	surface = elem->info;
 	l.x2 = event.button.x - elem->x;
 	l.y2 = event.button.y - elem->y;
 	l.size = brush->size;
@@ -38,7 +40,7 @@ void	draw(SDL_Event event, t_element *elem)
 		l.x1 = brush->old_x;
 		l.y1 = brush->old_y;
 		if (brush->type == 1)
-			pencil(elem->surface, brush, l);
+			pencil(surface->surface, brush, l);
 		else if (brush->type == 2)
 			text_to_screen(elem->surface, l, brush);
 		else if (brush->type == 3)
