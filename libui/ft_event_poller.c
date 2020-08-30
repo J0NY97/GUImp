@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:16:58 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 16:12:41 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/30 16:20:35 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	ft_event_poller(t_libui *libui)
 		win = libui->windows;
 		while (win != NULL)
 		{
-			call_all_element_event_handlers(libui, win->content);
+			if (((t_window *)win->content)->id == libui->event.window.windowID)
+				call_all_element_event_handlers(libui, win->content);
 			win = win->next;
 		}
 	}

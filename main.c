@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 16:06:22 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/30 16:48:00 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ void	button_init(t_info *info)
 void	layer_init(t_info *info)
 {
 	info->drawing_surface[0] = ui_create_surface(info->main->window, 50, 50);
-	info->drawing_surface[0]->w = info->main->window->surface->w - info->drawing_surface[0]->x;
-	info->drawing_surface[0]->h = info->main->window->surface->h - info->drawing_surface[0]->y;
+	info->drawing_surface[0]->w = info->main->window->surface->w - (info->drawing_surface[0]->x * 2);
+	info->drawing_surface[0]->h = info->main->window->surface->h - (info->drawing_surface[0]->y * 2);
+	info->drawing_surface[0]->f = &draw;
+	info->drawing_surface[0]->extra_info = &info->brush;
 }
 
 void	window_init(t_libui *libui, t_info *info)
@@ -87,6 +89,16 @@ void	window_init(t_libui *libui, t_info *info)
 void	guimp_init(t_info *info)
 {
 	info->run = 1;
+	// brush init
+	{
+		info->brush.font_dir = ft_strdup("font.ttf");
+		info->brush.draw = 0;
+		info->brush.type = 1;
+		info->brush.size = 20;
+		info->brush.color = 0xd3d3d3;
+		info->brush.old_x = -1;
+		info->brush.old_y = -1;
+	}
 }
 
 int		main(void)
@@ -113,7 +125,7 @@ int		main(void)
 	{
 		ft_event_poller(libui); // input
 		ui_render(info->toolbox->window);
-//		ui_render(info->main->window);
+		ui_render(info->main->window);
 	}
 	return (0);
 }

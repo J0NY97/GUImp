@@ -24,7 +24,6 @@ typedef	struct	s_element_info	t_element_info;
 typedef	struct	s_text			t_text;
 typedef	struct	s_drop_down		t_drop_down;
 typedef	struct	s_scrollbar		t_scrollbar;
-typedef	struct	s_surface		t_surface;
 
 typedef	struct	s_emp
 {
@@ -36,6 +35,14 @@ typedef	struct	s_emp
 	int			b;
 	int			k;
 }				t_emp;
+
+typedef struct	s_xywh
+{
+	int			x;
+	int			y;
+	int			w;
+	int			h;
+}				t_xywh;
 
 typedef struct	s_libui
 {
@@ -123,7 +130,7 @@ struct			s_drop_down
 
 struct			s_surface
 {
-	int			remove_this;
+	SDL_Surface	*surface;
 };
 
 struct			s_scrollbar
@@ -209,5 +216,6 @@ void			ft_add_element_to_window_elements(t_window *win, t_element *elem);
 void			ft_add_window_to_libui_windows(t_libui *libui, t_window *win);
 void			default_click(SDL_Event e, t_element *elem);
 void			ui_libui_init(t_libui *libui);
+t_xywh			ui_init_coords(int x, int y, int w, int h);
 
 #endif
