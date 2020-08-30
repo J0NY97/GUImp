@@ -6,7 +6,7 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/10 12:48:11 by jsalmi            #+#    #+#              #
-#    Updated: 2020/08/27 16:15:38 by nneronin         ###   ########.fr        #
+#    Updated: 2020/08/30 13:42:55 by nneronin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ SRCS = ./main.c\
 		./draw.c\
 		./file_handling.c\
 		./text_to_screen.c\
-		./load_font.c
+		./load_font.c\
+		./ft_strjoiner.c
 OBJS = ./*.o
 INCLUDES = ./libft/libft.a\
 		   ./libui/libui.a

@@ -72,4 +72,8 @@ int				save_image(SDL_Surface *img, char *file);
 char			*drag_and_drop(SDL_Event e);
 int				load_font(char *file, TTF_Font *font);
 
+/*
+** Boonus
+*/
+char				*ft_strjoiner(char *first, ...);
 #endif
