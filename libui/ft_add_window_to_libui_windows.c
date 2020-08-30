@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_mouse_button_handler.c                          :+:      :+:    :+:   */
+/*   ft_add_window_to_libui_windows.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/19 15:35:47 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 15:28:06 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/08/30 14:52:12 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/08/30 14:54:22 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-int		ft_event_handler(t_libui *libui, t_element *elem)
+void	ft_add_window_to_libui_windows(t_libui *libui, t_window *win)
 {
-	int x;
-	int y;
+	t_list *new;
 
-	x = libui->event.button.x;
-	y = libui->event.button.y;
-	if ((x >= elem->x && y >= elem->y &&
-		x <= elem->x + elem->w && y <= elem->y + elem->h)
-		|| libui->event.type == SDL_MOUSEWHEEL)
-	{
-		elem->f(libui->event, elem);
-		return (1);
-	}
-	elem->state = elem->default_state;
-	return (0);
+	new = ft_lstnew(0, 0);
+	new->content = win;
+	new->content_size = sizeof(t_window);
+	if (libui->windows == NULL)
+		libui->windows = new;
+	else
+		ft_lstadd(&libui->windows, new);
 }

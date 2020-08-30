@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/29 18:30:02 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/30 14:57:26 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int			pop_up(int x1, int y1, char *msg) //int returns true or false
 	t_window		*win;
 	t_window_info	test;
 	SDL_Event event;
+	t_libui *libui;
 
 	test.x = 0;
 	test.y = 0;
@@ -47,7 +48,7 @@ int			pop_up(int x1, int y1, char *msg) //int returns true or false
 	test.h = 300;
 	test.resizeable = 0;
 	test.title = ft_strdup("PoPuP");
-	win = ft_create_window(test);
+	win = ft_create_window(libui, test);
 	ft_update_background(win->surface, 0xECECEC);
 
 	SDL_Surface *tmp;

@@ -1,717 +1,112 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/08/30 15:41:56 by jsalmi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "guimp.h"
 
-void	render_element(t_element *elem)
-{	
-	SDL_Rect	temp;
-		
-	temp.x = elem->x;
-	temp.y = elem->y;
-	temp.w = elem->w;
-	temp.h = elem->h;
-	SDL_BlitSurface(elem->surface, NULL, elem->parent, &temp);
-}
-
-void	clear_element(t_element *elem)
+void	draw_buttons(SDL_Event e, t_element *elem)
 {
-	SDL_Rect	temp;
-	SDL_Surface *clean;
+	t_element **buttons;
 
-	temp.x = elem->x;
-	temp.y = elem->y;
-	temp.w = elem->w;
-	temp.h = elem->h;
-	clean = SDL_CreateRGBSurface(0, elem->w, elem->h, 32, 0, 0, 0, 0);
-	SDL_BlitSurface(clean, NULL, elem->parent, &temp);
-}
-
-void	render_window(t_win *win)
-{
-	t_list		*curr;
-
-	curr = win->elements;
-	while (curr != NULL)
-	{
-		render_element(curr->content);
-		curr = curr->next;
-	}
-	SDL_UpdateWindowSurface(win->window->win);
-	curr = win->elements;
-	while (curr != NULL)
-	{
-		clear_element(curr->content);
-		curr = curr->next;
-	}
-}
-
-void	click(SDL_Event event, t_element *elem)
-{
-	printf("element_clicked\n");
-}
-
-void	add_elem_to_list(t_win *win, t_element_info info)
-{
-	t_list *lst;
-
-	lst = ft_lstnew(0, 0);
-	lst->content = ft_create_element(info);
-	lst->content_size = win->elem_amount;
-	if (win->elements)
-		ft_lstadd(&win->elements, lst);
-	else
-		win->elements = lst;
-	win->elem_amount += 1;
-}
-
-void	call_all_handlers(t_win *win, t_libui *libui)
-{
-	t_list *curr;
-
-	curr = win->elements;
-	while (curr != NULL)
-	{
-		((t_element *)curr->content)->event_handler(libui, (t_element *)curr->content);
-		curr = curr->next;
-	}
-}
-
-void	update_slider(t_element *slider)
-{
-	SDL_Rect	temp;
-	SDL_Surface	*bar;
-	t_slider *info;
-	float ppv;
-	
-	info = (t_slider *)slider->info;
-	bar = SDL_CreateRGBSurface(0, 10, slider->h, 32, 0, 0, 0, 0);
-	ft_update_background(bar, info->bar_color);	
-	ppv = (float)slider->w / (info->max - info->min);
-	temp.x = info->value * (float)ppv - (bar->w / 2);
-	temp.y = 0;
-	temp.w = bar->w;
-	temp.h = bar->h;
-	SDL_BlitSurface(bar, NULL, slider->surface, &temp);
-	SDL_FreeSurface(bar);
-}
-
-void	slider_event(SDL_Event e, t_element *elem)
-{
-	SDL_Surface *bar;
-	SDL_Rect	temp;
-	t_slider *slider;
-	float		ppv;
-	int x;
-	int y;
-	
-	slider = (t_slider *)elem->info;
-	if (e.type == SDL_MOUSEBUTTONUP)
-		slider->clicked = 0;
-	if (e.type == SDL_MOUSEBUTTONDOWN)
-		slider->clicked = 1;
-	if (slider->clicked == 1)
-	{
-		x = e.button.x - elem->x;
-		y = e.button.y - elem->y;
-		bar = SDL_CreateRGBSurface(0, 10, elem->h, 32, 0, 0, 0, 0);
-		ft_update_background(elem->surface, elem->bg_color);
-		ft_update_background(bar, slider->bar_color);
-		ppv = (slider->max - slider->min) / (float)elem->w;
-		temp.x = x - (bar->w / 2);
-		temp.y = 0;
-		temp.w = bar->w;
-		temp.h = bar->h;
-		SDL_BlitSurface(bar, NULL, elem->surface, &temp);
-		slider->value = (float)ppv * x;
-	}
-}
-
-void	get_brush_color(t_info *info)
-{
-	info->brush.color = (((t_slider *)(info->r_slider->info))->value & 0xFF) << 16 |
-						(((t_slider *)(info->g_slider->info))->value & 0xFF) << 8 |
-						(((t_slider *)(info->b_slider->info))->value & 0xFF);
-}
-
-int		show_brush_color(t_libui *libui, t_element *elem)
-{
-	t_brush *brush;
-
-	brush = (t_brush *)elem->info;
-	elem->bg_color = brush->color;
-	ft_update_background(elem->surface, elem->bg_color);
-	return (1);
-}
-
-void		update_buttons(t_element **buttons)
-{
-	t_emp		temp;
-
-	temp.i = 0;
-	while (temp.i < 4)
-	{
-		if (((t_button *)buttons[temp.i]->info)->state == 0)
-			buttons[temp.i]->bg_color = 0xffffff;
-		else if (((t_button *)buttons[temp.i]->info)->state == 1)
-			buttons[temp.i]->bg_color = 0x0000ff;
-		else if (((t_button *)buttons[temp.i]->info)->state == 2)
-			buttons[temp.i]->bg_color = 0x00ff00;
-		ft_update_element(buttons[temp.i]);
-		temp.i += 1;
-	}
-}
-
-void	change_brush_type(SDL_Event e, t_element *elem)
-{
-	t_brush		*brush;
-	t_button	*this;
-	t_element	**buttons;
-	t_element	*other;
-	t_button	*that;
-	
-	this = (t_button *)elem->info;
-	brush = (t_brush *)this->extra;
-	buttons = (t_element **)elem->extra_info;
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
-		if (this->state == 0)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				other = (t_element *)buttons[i];
-				that = (t_button *)other->info;
-				that->state = 0;
-				ft_update_background(other->surface, other->bg_color);
-			}
-			this->state = 1;
-			brush->type = this->type;
-		}
+		buttons = (t_element **)elem->extra_info;
+		for (int i = 0; i < 4; i++) // the 4 is the amount of buttons in the array, if you add more you have to add more
+			buttons[i]->default_state = 0;
+		elem->default_state = 1;
 	}
-	update_buttons(buttons);
-}
-
-t_slider	create_slider_info(int min, int max, int value, int bar_color)
-{
-	t_slider	slider;
-
-	slider.min = min;
-	slider.max = max;
-	slider.value = value;
-	slider.bar_color = bar_color;
-	slider.clicked = 0;
-	slider.size = sizeof(t_slider);
-	return (slider);
-}
-
-t_button	create_button_info(int state, int type, void *extra)
-{
-	t_button	button;
-	
-	button.state = state;
-	button.type = type;
-	button.extra = extra;
-	button.size = sizeof(t_button);
-	return (button);
-}
-
-t_text		create_text_info(int x, int y, char *str, Uint32 color)
-{
-	t_text text;
-
-	text.x = x;
-	text.y = y;
-	text.text = ft_strdup(str);
-	text.color = color;
-	text.margin = 0;
-//	text.font = info->font;
-	return (text);
-}
-
-void	tin_reader(SDL_Event e, t_element *elem)
-{
-	char *tmp;
-
-	if (e.type == SDL_MOUSEBUTTONDOWN)
-		elem->info = (int *)1;
-	if (e.type == SDL_MOUSEBUTTONUP && (int)elem->info == 1)
-		elem->info = (int *)2;
-	if ((int)elem->info == 2)
-	{
-		elem->info = 0;
-		elem->set_text = 1;
-		elem->text.text = ft_read_text(20);
-		ft_update_element(elem);
-	}
-}
-
-void	save_surface(SDL_Event e, t_element *elem)
-{
-	SDL_Surface *pic;
-	t_button *button;
-	t_element *extra;
-	t_text *text_area;
-
-/*	if (e.type == SDL_MOUSEBUTTONDOWN)
-		elem->extra_info = (int *)1;
-	if (e.type == SDL_MOUSEBUTTONUP && (int)elem->extra_info == 1)
-		elem->extra_info = (int *)2;
-	if ((int)elem->extra_info == 2) */
-	if (e.type == SDL_MOUSEBUTTONDOWN)
-	{
-		button = (t_button *)elem->info;
-		extra = (t_element *)button->extra;
-		pic = extra->surface;
-		text_area = ((t_brush *)elem->extra_info)->text_area;
-		if (!save_image(pic, text_area->text))
-			printf("Picture couldnt be saved.\n");
-		else
-			printf("Picture saved to %s.\n", text_area->text);
-	}
-}
-
-t_drop_down	create_drop_down(int drop_height, int height)
-{
-	t_drop_down	dd;
-
-//	dd.items = NULL; // malloc here if you already know how many items you want in it
-	dd.item_amount = 0;
-	dd.state = 0;
-	dd.drop_height = drop_height;
-	dd.height = height;
-	dd.size = sizeof(t_drop_down);
-	return (dd);
-}
-
-void	drop_drop(SDL_Event e, t_element *elem)
-{
-	t_drop_down *drop;
-	t_element	*item;
-
-	drop = elem->info;
-	if (e.type == SDL_MOUSEBUTTONDOWN)
-	{
-		if (drop->state == 0)
-			drop->state = 1;
-		else if (drop->state == 2)
-			drop->state = 3;
-	}
+	if (e.type == SDL_MOUSEMOTION)
+		elem->state = 2;
 	else if (e.type == SDL_MOUSEBUTTONUP)
-	{
-		if (drop->state == 1)
-			drop->state = 2;
-		if (drop->state == 3)
-			drop->state = 0;
-	}
-	if (drop->state == 2)
-	{
-		elem->h = drop->drop_height;
-		ft_update_element(elem);
-		// rendering the elements of the drop menu
-		for (int i = 0; i < drop->item_amount; i++)
-		{
-			t_element *item;
-			SDL_Rect	temp;
-
-			item = drop->items[i];
-			temp.x = item->x;
-			temp.y = item->y;
-			temp.w = item->w;
-			temp.h = item->h;
-			SDL_BlitSurface(item->surface, NULL, elem->surface, &temp);
-		}
-	}
-	else if (drop->state == 0)
-	{
-		// checking item hitbox
-		if (e.type == SDL_MOUSEBUTTONUP) // if not this if it will trigger once if you hover over the dropdown menu after youve chosen an item
-		{
-			for (int i = 0; i < drop->item_amount; i++)
-			{
-				t_element *item;
-				int	ix;
-				int iy;
-	
-				item = drop->items[i];
-				ix = elem->x + item->x;
-				iy = elem->y + item->y;
-				if (e.button.x >= ix && e.button.x <= ix + item->w)
-					if (e.button.y >= iy && e.button.y <= iy + item->h)
-						item->f(e, item);
-			}
-		}
-		elem->h = drop->height;
-		ft_update_element(elem);
-	}
+		elem->state = 2;
 }
 
-void	scroll(SDL_Event e, t_element *elem)
+void	button_init(t_info *info)
 {
-	if (e.type == SDL_MOUSEWHEEL)
-	{
-		t_element *target;
+	info->buttons[0] = ui_create_button(info->toolbox->window, 75, 50);
+	info->buttons[0]->text.text = ft_strdup("circle");
+	info->buttons[0]->default_state = 1;
+	info->buttons[0]->f = &draw_buttons;
+	info->buttons[0]->extra_info = info->buttons;
 
-		target = ((t_scrollbar *)elem->info)->target;
-		if (e.wheel.y > 0) // up
-		{
-			target->y += 10;
-		}
-		else if (e.wheel.y < 0) // down
-		{
-			target->y -= 10;
-		}
-	}
+	info->buttons[1] = ui_create_button(info->toolbox->window, 200, 50);
+	info->buttons[1]->text.text = ft_strdup("text");
+	info->buttons[1]->f = &draw_buttons;
+	info->buttons[1]->extra_info = info->buttons;
+
+	info->buttons[2] = ui_create_button(info->toolbox->window, 75, 125);
+	info->buttons[2]->text.text = ft_strdup("delete");
+	info->buttons[2]->f = &draw_buttons;
+	info->buttons[2]->extra_info = info->buttons;
+
+	info->buttons[3] = ui_create_button(info->toolbox->window, 200, 125);
+	info->buttons[3]->text.text = ft_strdup("flood");
+	info->buttons[3]->f = &draw_buttons;
+	info->buttons[3]->extra_info = info->buttons;
+}
+
+void	window_init(t_libui *libui, t_info *info)
+{
+	t_window_info new_win;
+
+	if (!(info->toolbox = (t_win *)malloc(sizeof(t_win))))
+		exit (0);
+	if (!(info->main = (t_win *)malloc(sizeof(t_win))))
+		exit (0);
+	
+	new_win.x = 0;
+	new_win.y = 0;
+	new_win.w = 500;
+	new_win.h = 1250;
+	new_win.title = ft_strdup("toolbox");
+	info->toolbox->window = ft_create_window(libui, new_win);
+
+	new_win.x = 501;
+	new_win.y = 0;
+	new_win.w = 1000;
+	new_win.h = 1250;
+	new_win.title = ft_strdup("main");
+	info->main->window = ft_create_window(libui, new_win);
 }
 
 void	guimp_init(t_info *info)
 {
 	info->run = 1;
-	info->font = TTF_OpenFont("font.ttf", 32);
-	info->brush.font_dir = ft_strdup("font.ttf");
-	info->brush.draw = 0;
-	info->brush.type = 1;
-	info->brush.size = 20;
-	info->brush.color = 0xd3d3d3;
-	info->brush.old_x = -1;
-	info->brush.old_y = -1;
-	if (!(info->toolbox = (t_win *)malloc(sizeof(t_win))))
-		exit (0);
-	if (!(info->main = (t_win *)malloc(sizeof(t_win))))
-		exit (0);
 }
 
-t_window_info	init_window_info(int x, int y, int w, int h, char *title)
+int		main(void)
 {
-	t_window_info info;
-
-	info.x = x;
-	info.y = y;
-	info.w = w;
-	info.h = h;
-	info.flags = 0;
-	info.resizeable = 0;
-	info.title = ft_strdup(title);
-	return (info);
-}
-
-t_text	init_t_text(int x, int y, char *str, Uint32 color)
-{
-	t_text text;
-
-	text.x = x;
-	text.y = y;
-	text.text = ft_strdup(str);
-	text.color = color;
-	text.font = TTF_OpenFont("font.ttf", 32);
-	return (text);
-}
-
-int		main(int argc, char *argv[])
-{
-	t_libui	*libui;
-	t_info	*info;
+	t_libui *libui;
+	t_info *info;
 
 	if (!(libui = (t_libui *)malloc(sizeof(t_libui))))
-		exit(0);
+		exit (0);
 	if (!(info = (t_info *)malloc(sizeof(t_info))))
-		exit(0);
-	// INIT
+		exit (0);
 	SDL_Init(SDL_INIT_VIDEO);
 	TTF_Init();
 	IMG_Init(0);
+	ui_libui_init(libui);
 	guimp_init(info);
-	// END INIT
-////////////
-//WINDOWS
-	t_window_info test;
 
-	test = init_window_info(0, 0, 500, 1250, "title");
-	info->toolbox->window = ft_create_window(test); 
-	info->toolbox->elements = NULL;
-	info->toolbox->elem_amount = -1;
-	
-	test = init_window_info(501, 0, 1000, 1250, "main");
-	info->main->window = ft_create_window(test);
-	info->main->elements = NULL;
-	info->main->elem_amount = -1;
-/////////////
-	t_element_info	b;
-	t_button		blin;
-//
-	blin = create_button_info(1, 1, &info->brush);
-	b.info = &blin;
-	b.info_size = ((t_button *)b.info)->size;	
-	
-	b.x = 50;
-	b.y = 50;
-	b.w = 100;
-	b.h = 50;
-	b.parent = info->toolbox->window->surface;
-	b.f = &change_brush_type;
-	b.bg_color = 0xffffff;
-	b.extra_info = info->buttons;
-	b.set_text = 1;
-	b.text = init_t_text(0, 0, "circle", 0x000000);
-	add_elem_to_list(info->toolbox, b);
-	info->buttons[0] = info->toolbox->elements->content;	
-//
-	blin = create_button_info(0, 2, &info->brush);
-	b.info = &blin;
-	b.info_size = ((t_button *)b.info)->size;
-
-	b.x = 160;
-	b.y = 50;
-	b.w = 100;
-	b.h = 50;
-	b.parent = info->toolbox->window->surface;
-	b.f = &change_brush_type;
-	b.bg_color = 0xffffff;
-	b.extra_info = info->buttons;
-	b.set_text = 1;
-	b.text = init_t_text(0, 0, "text", 0x000000);
-	add_elem_to_list(info->toolbox, b);
-	info->buttons[1] = info->toolbox->elements->content;
-//
-	blin = create_button_info(0, 3, &info->brush);
-	b.info = &blin;
-	b.info_size = ((t_button *)b.info)->size;
-
-	b.x = 50;
-	b.y = 110;
-	b.w = 100;
-	b.h = 50;
-	b.parent = info->toolbox->window->surface;
-	b.f = &change_brush_type;
-	b.bg_color = 0xffffff;
-	b.extra_info = info->buttons;
-	b.set_text = 1;
-	b.text = init_t_text(0, 0, "text", 0x000000);
-	add_elem_to_list(info->toolbox, b);
-	info->buttons[2] = info->toolbox->elements->content;
-
-	blin = create_button_info(0, 4, &info->brush);
-	b.info = &blin;
-	b.info_size = ((t_button *)b.info)->size;
-
-	b.x = 160;
-	b.y = 110;
-	b.w = 100;
-	b.h = 50;
-	b.parent = info->toolbox->window->surface;
-	b.f = &change_brush_type;
-	b.bg_color = 0xffffff;
-	b.extra_info = info->buttons;
-	b.set_text = 1;
-	b.text = init_t_text(0, 0, "flood", 0x000000);
-	add_elem_to_list(info->toolbox, b);
-	info->buttons[3] = info->toolbox->elements->content;	
-///////////////
-//MAIN SURFACE
-	t_element_info s;
-
-	s.x = 50;
-	s.y = 50;
-	s.w = info->main->window->surface->w - (s.x * 2);
-	s.h = info->main->window->surface->h - (s.y * 2);
-	s.parent = info->main->window->surface;
-	s.f = &draw;
-	s.bg_color = 0xffffff;
-	s.info = &info->brush;
-	s.set_text = 0;
-	add_elem_to_list(info->main, s);
-	info->drawing_surface[0] = info->main->elements->content;
-// save button
-	blin = create_button_info(0, 0, info->drawing_surface[0]); // last param is the main surfaec you draw on
-	b.info = &blin;
-	b.info_size = ((t_button *)b.info)->size;
-
-	b.x = 100;
-	b.y = 700;
-	b.w = 100;
-	b.h = 50;
-	b.parent = info->toolbox->window->surface;
-	b.f = &save_surface;
-	b.bg_color = 0xffffff;
-	b.extra_info = &info->brush;
-	b.set_text = 1;
-	b.text = init_t_text(0, 0, "save", 0x000000);
-	add_elem_to_list(info->toolbox, b);
-	info->save_button = info->toolbox->elements->content;
-///////////
-//SLIDER
-	t_element_info	sinf;
-	t_slider		slin;
-//
-	slin = create_slider_info(0, 255, 150, 0xff0000);
-	sinf.info = &slin;
-	sinf.info_size = ((t_slider *)sinf.info)->size;
-
-	sinf.x = 100;
-	sinf.y = 200;
-	sinf.w = 200;
-	sinf.h = 20;
-	sinf.bg_color = 0xffffff;
-	sinf.parent = info->toolbox->window->surface;
-	sinf.f = &slider_event;
-	sinf.set_text = 0;
-	add_elem_to_list(info->toolbox, sinf);
-	info->r_slider = info->toolbox->elements->content;
-//
-	slin = create_slider_info(0, 255, 150, 0x00ff00);
-	sinf.info = &slin;
-	sinf.info_size = ((t_slider *)sinf.info)->size;
-
-	sinf.x = 100;
-	sinf.y = 250;
-	sinf.w = 200;
-	sinf.h = 20;
-	sinf.bg_color = 0xffffff;
-	sinf.parent = info->toolbox->window->surface;
-	sinf.f = &slider_event;
-	sinf.set_text = 0;
-	add_elem_to_list(info->toolbox, sinf);
-	info->g_slider = info->toolbox->elements->content;
-//
-	slin = create_slider_info(0, 255, 155, 0x0000ff);
-	sinf.info = &slin;
-	sinf.info_size = ((t_slider *)sinf.info)->size;
-
-	sinf.x = 100;
-	sinf.y = 300;
-	sinf.w = 200;
-	sinf.h = 20;
-	sinf.bg_color = 0xffffff;
-	sinf.parent = info->toolbox->window->surface;
-	sinf.f = &slider_event;
-	sinf.set_text = 0;
-	add_elem_to_list(info->toolbox, sinf);
-	info->b_slider = info->toolbox->elements->content; 
-//
-	slin = create_slider_info(1, 100, 10, 0xd3d3d3);
-	sinf.info = &slin;
-	sinf.info_size = ((t_slider *)sinf.info)->size;
-
-	sinf.x = 100;
-	sinf.y = 350;
-	sinf.w = 200;
-	sinf.h = 20;
-	sinf.bg_color = 0xffffff;
-	sinf.parent = info->toolbox->window->surface;
-	sinf.f = &slider_event;
-	sinf.set_text = 0;
-	add_elem_to_list(info->toolbox, sinf);
-	info->size_slider = info->toolbox->elements->content;
-//
-	t_element_info	bcol;
-
-	bcol.x = 100;
-	bcol.y = 400;
-	bcol.w = 100;
-	bcol.h = 100;
-	bcol.bg_color = 0x000000;
-	bcol.parent = info->toolbox->window->surface;
-	bcol.info_size = 0;
-	bcol.info = &info->brush;
-	bcol.f = NULL;
-	bcol.event_handler = &show_brush_color;
-	bcol.set_text = 0;
-	add_elem_to_list(info->toolbox, bcol);
-////
-//text input element
-	t_element_info tin;
-
-	tin.x = 100;
-	tin.y = 600;
-	tin.w = 300;
-	tin.h = 32;
-	tin.bg_color = 0xffffff;
-	tin.parent = info->toolbox->window->surface;
-	tin.info_size = 0;
-	tin.info = 0;
-	tin.f = &tin_reader;
-	tin.set_text = 1;
-	tin.text = init_t_text(0, 0, "A8D", 0x000000);
-	add_elem_to_list(info->toolbox, tin);
-	info->brush.text_area = &((t_element *)info->toolbox->elements->content)->text;
-//////////
-//DROP DOWN LISTS
-	t_element_info	drop;
-	t_drop_down		dd;
-	
-	drop.x = 100;
-	drop.y = 800;
-	drop.w = 300;
-	drop.h = 32;
-	drop.parent = info->toolbox->window->surface;
-
-	dd = create_drop_down(160, drop.h); // dropped height, normal height
-	dd.items[0] = info->save_button;
-	drop.info = &dd;
-	drop.info_size = ((t_drop_down *)drop.info)->size;
-
-	drop.bg_color = 0xffffff;
-	drop.f = &drop_drop;
-	drop.set_text = 1;
-	drop.text = init_t_text(0, 0, "drop", 0x000000);
-	drop.extra_info = libui;
-
-	add_elem_to_list(info->toolbox, drop);
-	info->drop_down = info->toolbox->elements->content;
-	/// drop down item adding, the dd menu must be made before the items are added
-	ft_drop_down_add_item(&info->drop_down, &click, "item1");
-	ft_drop_down_add_item(&info->drop_down, &click, "item2");
-	ft_drop_down_add_item(&info->drop_down, &click, "item3");
-	ft_drop_down_add_item(&info->drop_down, &click, "item4");
-///////////
-//SCROLLBAR
-	t_element_info	scrollb;
-	t_scrollbar		sb;
-
-	// should the parent be an element?	
-	sb.target = info->drawing_surface[0];
-	scrollb.parent = info->main->window->surface;
-	// these could be default...? relative to the parent
-	scrollb.w = 20;
-	scrollb.x = sb.target->x + sb.target->w;
-	scrollb.y = sb.target->y;
-	scrollb.h = sb.target->h;
-	scrollb.bg_color = 0xd3d3d3;
-	scrollb.info = &sb;
-	scrollb.info_size = sizeof(t_scrollbar);
-	scrollb.extra_info = NULL;
-	scrollb.f = &scroll;
-	scrollb.set_text = 0;
-	add_elem_to_list(info->main, scrollb);
-//
-	update_buttons(info->buttons);
-	update_slider(info->r_slider);
-	update_slider(info->g_slider);
-	update_slider(info->b_slider);
-	update_slider(info->size_slider);
+	window_init(libui, info);
+	button_init(info);
+//	slider_init();
+//	drop_down_init();
+//	layer_init();
 	while (info->run)
 	{
-		// EVENT HANDLING
-		ft_event_poller(libui);
-		if (libui->event.window.windowID == info->toolbox->window->id)
-			call_all_handlers(info->toolbox, libui);
-		else if (libui->event.window.windowID == info->main->window->id)
-			call_all_handlers(info->main, libui);
-		libui->event.type = NULL; // this is only for scrollthing
-		char *file;
-		if ((file = drag_and_drop(libui->event)) != NULL)
-		{
-			SDL_Surface *temp;
-
-			if (ft_nstrstr(file, ".ttf") == 0)
-				notify("Loaded Font:", info->brush.font_dir = ft_strdup(file));
-			else if ((temp = load_image(file)))
-				SDL_BlitSurface(temp, NULL, info->drawing_surface[0]->surface, NULL);
-			SDL_FreeSurface(temp);
-			free(file);
-		}
-		info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
-										((t_slider *)info->g_slider->info)->value,
-										((t_slider *)info->b_slider->info)->value);
-		info->brush.size = ((t_slider *)info->size_slider->info)->value;
-		// RENDERING
-		render_window(info->toolbox);
-		render_window(info->main);
+		ft_event_poller(libui); // input
+		ui_render(info->toolbox->window);
+//		ui_render(info->main->window);
 	}
+	return (0);
 }
