@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 15:23:08 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/08/30 18:36:09 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	ui_render_element(SDL_Surface *win, t_element *elem)
 {
 	SDL_Rect temp;
 
-	temp.x = elem->x;
-	temp.y = elem->y;
-	temp.w = elem->w;
-	temp.h = elem->h;
+	temp.x = elem->coord.x;
+	temp.y = elem->coord.y;
+	temp.w = elem->coord.w;
+	temp.h = elem->coord.h;
 	ft_update_element(elem);
 	SDL_BlitSurface(elem->surface, NULL, win, &temp);
 }

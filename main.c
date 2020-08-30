@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 17:54:30 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/08/30 19:28:05 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,29 @@ void	draw_buttons(SDL_Event e, t_element *elem)
 
 void	button_init(t_info *info)
 {
-	info->buttons[0] = ui_create_button(info->toolbox->window, 75, 50);
+	t_xywh coord;
+
+	coord = ui_init_coords(75, 50, 100, 50);
+	info->buttons[0] = ui_create_button(info->toolbox->window, coord);
 	info->buttons[0]->text.text = ft_strdup("circle");
 	info->buttons[0]->default_state = 1;
 	info->buttons[0]->f = &draw_buttons;
 	info->buttons[0]->extra_info = info->buttons;
 
-	info->buttons[1] = ui_create_button(info->toolbox->window, 200, 50);
+	coord = ui_init_coords(200, 50, 100, 50);
+	info->buttons[1] = ui_create_button(info->toolbox->window, coord);
 	info->buttons[1]->text.text = ft_strdup("text");
 	info->buttons[1]->f = &draw_buttons;
 	info->buttons[1]->extra_info = info->buttons;
 
-	info->buttons[2] = ui_create_button(info->toolbox->window, 75, 125);
+	coord = ui_init_coords(75, 125, 100, 50);
+	info->buttons[2] = ui_create_button(info->toolbox->window, coord);
 	info->buttons[2]->text.text = ft_strdup("delete");
 	info->buttons[2]->f = &draw_buttons;
 	info->buttons[2]->extra_info = info->buttons;
 
-	info->buttons[3] = ui_create_button(info->toolbox->window, 200, 125);
+	coord = ui_init_coords(200, 125, 100, 50);
+	info->buttons[3] = ui_create_button(info->toolbox->window, coord);
 	info->buttons[3]->text.text = ft_strdup("flood");
 	info->buttons[3]->f = &draw_buttons;
 	info->buttons[3]->extra_info = info->buttons;
@@ -56,10 +62,14 @@ void	button_init(t_info *info)
 
 void	layer_init(t_info *info)
 {
-	info->drawing_surface[0] = ui_create_surface(info->main->window, 50, 50);
-	info->drawing_surface[0]->w = info->main->window->surface->w - (info->drawing_surface[0]->x * 2);
-	info->drawing_surface[0]->h = info->main->window->surface->h - (info->drawing_surface[0]->y * 2);
+	t_xywh	coord;
+
+	coord = ui_init_coords(50, 50,
+			info->main->window->surface->w - (100),
+			info->main->window->surface->h - (100));
+	info->drawing_surface[0] = ui_create_surface(info->main->window, coord);
 	info->drawing_surface[0]->f = &draw;
+	info->drawing_surface[0]->statique = 1;
 	info->drawing_surface[0]->extra_info = &info->brush;
 }
 
@@ -71,26 +81,12 @@ void	window_init(t_libui *libui, t_info *info)
 		exit (0);
 	if (!(info->main = (t_win *)malloc(sizeof(t_win))))
 		exit (0);
-	
-	/*new_win.x = 0;
-	new_win.y = 0;
-	new_win.w = 500;
-	new_win.h = 1250;*/
-	new_win->cords.x = 0;
-	new_win->cords.y = 0;
-	new_win->cords.w = 500;
-	new_win->cords.h = 1250;
+
+	new_win.coord = ui_init_coords(0, 0, 500, 1250);
 	new_win.title = ft_strdup("toolbox");
 	info->toolbox->window = ft_create_window(libui, new_win);
-
-	/*new_win.x = 501;
-	new_win.y = 0;
-	new_win.w = 1000;
-	new_win.h = 1250;*/
-	new_win->cords.x = 501;
-	new_win->cords.y = 0;
-	new_win->cords.w = 1000;
-	new_win->cords.h = 1250;
+	
+	new_win.coord = ui_init_coords(501, 0, 1000, 1250);
 	new_win.title = ft_strdup("main");
 	info->main->window = ft_create_window(libui, new_win);
 }
