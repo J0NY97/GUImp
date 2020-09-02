@@ -201,6 +201,9 @@ void			flood_fill(SDL_Surface *surface, Uint32 w_color, Uint32 r_color, int x, i
 void			ft_create_square(SDL_Surface *surface, Uint32 color, t_shapes l);
 void			push_list(t_list **lst, void *content, size_t content_size);
 void			*pop_list(t_list **lst);
+char			*drag_and_drop(SDL_Event e);
+SDL_Surface		*load_image(char *file);
+int				save_image(SDL_Surface *img, char *file);
 
 /* TESTS */
 t_element		*ft_create_element(t_element_info info);

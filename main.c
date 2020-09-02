@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/02 16:02:00 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/02 16:42:09 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ void	layer_init(t_info *info)
 	info->drawing_surface[0]->f = &draw;
 	info->drawing_surface[0]->statique = 1;
 	info->drawing_surface[0]->extra_info = &info->brush;
+
+	// brush color surface
+	coord = ui_init_coords(325, 350, 100, 100);
+	info->brush_color = ui_create_surface(info->toolbox->window, coord);
+	info->brush_color->f = NULL; // not needed but it will spam the terminal otherwise
 }
 
 void	slider_init(t_info *info)
@@ -103,7 +108,7 @@ void	slider_init(t_info *info)
 	info->size_slider = ui_create_slider(info->toolbox->window, coord, 1, 100);
 	((t_slider *)info->size_slider->info)->value = 10;
 
-	int t = ((float)info->r_slider->coord.w / (((t_slider *)info->r_slider->info)->max - ((t_slider *)info->r_slider->info)->min)) *
+ 	int t = ((float)info->r_slider->coord.w / (((t_slider *)info->r_slider->info)->max - ((t_slider *)info->r_slider->info)->min)) *
 			((t_slider *)info->r_slider->info)->value;
 	ft_update_slider_bar(t + info->r_slider->coord.x, 0, info->r_slider);
 
@@ -172,19 +177,20 @@ void	update_brush(t_info *info)
 									((t_slider *)info->g_slider->info)->value,
 									((t_slider *)info->b_slider->info)->value);
 	info->brush.size = ((t_slider *)info->size_slider->info)->value;	
-	
-	// the thing that shows the color of the brush
-	SDL_Surface *color_surf;
-	SDL_Rect	temp;
+	ft_update_background(info->brush_color->surface, info->brush.color);
+}
 
-	color_surf = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
-	ft_update_background(color_surf, info->brush.color);
-	temp.x = 325;
-	temp.y = 350;
-	temp.w = color_surf->w;
-	temp.h = color_surf->h;
-	SDL_BlitSurface(color_surf, NULL, info->toolbox->window->surface, &temp);
-	SDL_FreeSurface(color_surf);
+void	check_for_drag_droppings(char *file, t_info *info)
+{
+	SDL_Surface *new_image;
+	if (file)
+	{
+		if ((new_image = load_image(file)))
+		{
+			SDL_BlitSurface(new_image, NULL, info->drawing_surface[0]->surface, NULL);
+		}
+		SDL_FreeSurface(new_image);
+	}
 }
 
 int		main(void)
@@ -206,11 +212,12 @@ int		main(void)
 	button_init(info);
 	slider_init(info);
 //	drop_down_init();
-	layer_init(info);
+	layer_init(info); // slider_init needs to be called before this.
 	hotkey_init(info, libui);
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
+		check_for_drag_droppings(drag_and_drop(libui->event), info);
 		update_brush(info);
 		ui_render(info->toolbox->window);
 		ui_render(info->main->window);

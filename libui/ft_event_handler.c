@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:35:47 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/02 15:57:34 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/02 16:42:18 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int		ft_event_handler(t_libui *libui, t_element *elem)
 		x <= elem->coord.x + elem->coord.w && y <= elem->coord.y + elem->coord.h)
 		|| libui->event.type == SDL_MOUSEWHEEL)
 	{
-		elem->f(libui->event, elem);
+		if (elem->f)
+			elem->f(libui->event, elem);
 		return (1);
 	}
 	elem->state = elem->default_state;

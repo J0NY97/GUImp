@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 11:33:36 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/02 12:48:00 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/02 16:34:07 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_update_slider_bar(int click_x, int click_y, t_element *elem)
 	SDL_BlitSurface(bar, NULL, elem->states[1], &temp);
 	SDL_BlitSurface(bar, NULL, elem->states[2], &temp);
 	slider->value = (float)ppv * x;
+	SDL_FreeSurface(bar);
 }
 
 void	ft_slider_function(SDL_Event e, t_element *elem)
