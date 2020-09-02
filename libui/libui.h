@@ -235,5 +235,8 @@ void			ft_update_slider_bar(int click_x, int click_y, t_element *elem);
 void			ft_add_hotkey(t_libui *libui, SDL_Keycode, void (*f)());
 void			ft_add_x_to_list(t_list *old, void *content, size_t content_size);
 int				ft_keyboard_handler(t_libui *libui);
+t_element		*ui_create_drop(t_window *win, t_xywh coord);
+void			ft_update_drop(t_element *elem);
+void			ft_drop_down_function(SDL_Event e, t_element *elem);
 
 #endif
