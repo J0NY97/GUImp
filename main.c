@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/02 16:42:09 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/02 17:12:15 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,14 @@ void	hotkey_init(t_info *info, t_libui *libui)
 	ft_add_hotkey(libui, SDLK_d, &key_press);
 }
 
+void	drop_down_init(t_info *info)
+{
+	t_xywh coord;
+
+	coord = ui_init_coords(100, 500, 200, 32);
+	info->drop_down = ui_create_drop(info->toolbox->window, coord);
+}
+
 void	update_brush(t_info *info)
 {
 	info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
@@ -211,7 +219,7 @@ int		main(void)
 	window_init(libui, info);
 	button_init(info);
 	slider_init(info);
-//	drop_down_init();
+	drop_down_init(info);
 	layer_init(info); // slider_init needs to be called before this.
 	hotkey_init(info, libui);
 	while (info->run)
