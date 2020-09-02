@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_libui_init.c                                    :+:      :+:    :+:   */
+/*   ft_add_x_to_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/30 14:49:35 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/02 14:52:26 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/09/02 14:55:22 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/09/02 15:01:07 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ui_libui_init(t_libui *libui)
+void	ft_add_x_to_list(t_list *old, void *content, size_t content_size)
 {
-	libui->windows = NULL;
-	libui->hotkeys = NULL;
+	t_list *lst;
+
+	lst = ft_lstnew(0, 0);
+	lst->content = content;
+	lst->content_size = content_size;
+	if (old == NULL)
+		old = lst;
+	else
+		ft_lstadd(&old, lst);
 }

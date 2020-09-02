@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:35:47 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 18:35:16 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/02 15:57:34 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,29 @@ int		ft_event_handler(t_libui *libui, t_element *elem)
 		return (1);
 	}
 	elem->state = elem->default_state;
+	return (0);
+}
+
+int		ft_keyboard_handler(t_libui *libui)
+{
+	t_list *lst;
+	t_hotkey *hk;
+	SDL_Event e;
+
+	e = libui->event;
+	if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP)
+	{
+		lst = libui->hotkeys;
+		while (lst != NULL)
+		{
+			hk = (t_hotkey *)lst->content;
+			if (hk->key == e.key.keysym.sym)
+			{
+				hk->f(libui->event, hk);
+				return (1);
+			}
+			lst = lst->next;
+		}
+	}
 	return (0);
 }

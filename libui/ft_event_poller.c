@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:16:58 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 19:05:00 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/02 15:59:09 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ void	ft_event_poller(t_libui *libui)
 				call_all_element_event_handlers(libui, win->content);
 			win = win->next;
 		}
+		ft_keyboard_handler(libui);
 	}
 }

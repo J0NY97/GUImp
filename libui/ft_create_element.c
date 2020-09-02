@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 19:18:35 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/02 12:08:56 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ t_element		*ft_create_element(t_element_info info)
 		elem->info = info.info;
 	elem->extra_info = info.extra_info;
 	elem->f = info.f;
-	if (info.f != NULL) // if you want an elem to call func every frame no matter what you have to put f to null and event_handler to the func
-		elem->event_handler = &ft_event_handler;
-	else
-		elem->event_handler = info.event_handler;
+	elem->event_handler = info.event_handler;
 	elem->statique = 0;
 	elem->set_text = info.set_text;
 	elem->text = info.text;
