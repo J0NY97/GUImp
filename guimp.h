@@ -51,6 +51,7 @@ struct			s_info
 	t_element	*g_slider;
 	t_element	*b_slider;
 	t_element	*size_slider;
+	t_element	*brush_color;
 	
 	t_element	*buttons[4];
 	t_element	*drawing_surface[1];
@@ -67,9 +68,6 @@ void			event_handler(t_info *info);
 void			check_input(t_info *info);
 void			draw(SDL_Event event, t_element *elem);
 void			text_to_screen(SDL_Surface *surface, t_shapes l, t_brush *brush);
-SDL_Surface		*load_image(char *file);
-int				save_image(SDL_Surface *img, char *file);
-char			*drag_and_drop(SDL_Event e);
 int				load_font(char *file, TTF_Font *font);
 
 /*
