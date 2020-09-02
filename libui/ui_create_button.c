@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:04:46 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 18:34:18 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/02 15:01:38 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ t_element	*ui_create_button(t_window *win, t_xywh coord)
 	elem = ft_create_element(info);
 	// @Important @Fix: move this to ft_create_element
 	ft_add_element_to_window_elements(win, elem);
+//	ft_add_x_to_list(win->elements, elem, sizeof(t_element));
 	return (elem);
 }

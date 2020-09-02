@@ -24,7 +24,12 @@ SRCS = ft_test_libui.c\
 	   ft_add_window_to_libui_windows.c\
 	   ui_libui_init.c\
 	   ui_create_surface.c\
-	   ui_init_coords.c
+	   ui_init_coords.c\
+	   ui_create_slider.c\
+	   ft_slider_function.c\
+	   ft_add_x_to_list.c\
+	   ft_add_hotkey.c\
+	   file_handling.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
 #FLAGS = -Wall -Wextra -Werror

@@ -24,6 +24,7 @@ typedef	struct	s_element_info	t_element_info;
 typedef	struct	s_text			t_text;
 typedef	struct	s_drop_down		t_drop_down;
 typedef	struct	s_scrollbar		t_scrollbar;
+typedef	struct	s_hotkey		t_hotkey;
 
 typedef	struct	s_emp
 {
@@ -48,7 +49,14 @@ typedef struct	s_libui
 {
 	SDL_Event	event;
 	t_list		*windows;
+	t_list		*hotkeys;
 }				t_libui;
+
+struct			s_hotkey
+{
+	SDL_Keycode	key;
+	void		(*f)(SDL_Event e, t_hotkey *hotkey);
+};
 
 struct			s_text
 {
@@ -109,13 +117,13 @@ struct			s_button
 
 struct			s_slider
 {
-	int			state;
+	int			state; // redundant
 	int			min;
 	int			max;
 	int			value;
-	int			clicked;
+	int			clicked; // redundant
 	int			bar_color;
-	size_t		size;
+	size_t		size; // redundant
 };
 
 struct			s_drop_down
@@ -218,5 +226,11 @@ void			ft_add_window_to_libui_windows(t_libui *libui, t_window *win);
 void			default_click(SDL_Event e, t_element *elem);
 void			ui_libui_init(t_libui *libui);
 t_xywh			ui_init_coords(int x, int y, int w, int h);
+t_element		*ui_create_slider(t_window *win, t_xywh coord, int min, int max);
+void			ft_slider_function(SDL_Event e, t_element *elem);
+void			ft_update_slider_bar(int click_x, int click_y, t_element *elem);
+void			ft_add_hotkey(t_libui *libui, SDL_Keycode, void (*f)());
+void			ft_add_x_to_list(t_list *old, void *content, size_t content_size);
+int				ft_keyboard_handler(t_libui *libui);
 
 #endif

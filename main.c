@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 19:28:05 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/02 16:02:00 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	button_init(t_info *info)
 	coord = ui_init_coords(75, 50, 100, 50);
 	info->buttons[0] = ui_create_button(info->toolbox->window, coord);
 	info->buttons[0]->text.text = ft_strdup("circle");
-	info->buttons[0]->default_state = 1;
 	info->buttons[0]->f = &draw_buttons;
 	info->buttons[0]->extra_info = info->buttons;
+	info->buttons[0]->default_state = 1;
 
 	coord = ui_init_coords(200, 50, 100, 50);
 	info->buttons[1] = ui_create_button(info->toolbox->window, coord);
@@ -58,6 +58,16 @@ void	button_init(t_info *info)
 	info->buttons[3]->text.text = ft_strdup("flood");
 	info->buttons[3]->f = &draw_buttons;
 	info->buttons[3]->extra_info = info->buttons;
+
+	// for now you have to manually update the buttons after change, pl0x fix
+	info->buttons[0]->old_state = 500;
+	ft_update_element(info->buttons[0]);
+	info->buttons[1]->old_state = 500;
+	ft_update_element(info->buttons[1]);
+	info->buttons[2]->old_state = 500;
+	ft_update_element(info->buttons[2]);
+	info->buttons[3]->old_state = 500;
+	ft_update_element(info->buttons[3]);
 }
 
 void	layer_init(t_info *info)
@@ -71,6 +81,43 @@ void	layer_init(t_info *info)
 	info->drawing_surface[0]->f = &draw;
 	info->drawing_surface[0]->statique = 1;
 	info->drawing_surface[0]->extra_info = &info->brush;
+}
+
+void	slider_init(t_info *info)
+{
+	t_xywh	coord;
+
+	coord = ui_init_coords(100, 350, 200, 20);
+	info->r_slider = ui_create_slider(info->toolbox->window, coord, 0, 255);
+	((t_slider *)info->r_slider->info)->bar_color = 0xff0000;
+
+	coord = ui_init_coords(100, 375, 200, 20);
+	info->g_slider = ui_create_slider(info->toolbox->window, coord, 0, 255);
+	((t_slider *)info->g_slider->info)->bar_color = 0x00ff00;
+
+	coord = ui_init_coords(100, 400, 200, 20);
+	info->b_slider = ui_create_slider(info->toolbox->window, coord, 0, 255);
+	((t_slider *)info->b_slider->info)->bar_color = 0x0000ff;
+
+	coord = ui_init_coords(100, 425, 200, 20);
+	info->size_slider = ui_create_slider(info->toolbox->window, coord, 1, 100);
+	((t_slider *)info->size_slider->info)->value = 10;
+
+	int t = ((float)info->r_slider->coord.w / (((t_slider *)info->r_slider->info)->max - ((t_slider *)info->r_slider->info)->min)) *
+			((t_slider *)info->r_slider->info)->value;
+	ft_update_slider_bar(t + info->r_slider->coord.x, 0, info->r_slider);
+
+	t = ((float)info->g_slider->coord.w / (((t_slider *)info->g_slider->info)->max - ((t_slider *)info->g_slider->info)->min)) *
+			((t_slider *)info->g_slider->info)->value;
+	ft_update_slider_bar(t + info->g_slider->coord.x, 0, info->g_slider);
+
+	t = ((float)info->b_slider->coord.w / (((t_slider *)info->b_slider->info)->max - ((t_slider *)info->b_slider->info)->min)) *
+			((t_slider *)info->b_slider->info)->value;
+	ft_update_slider_bar(t + info->b_slider->coord.x, 0, info->b_slider);
+
+	t = ((float)info->size_slider->coord.w / (((t_slider *)info->size_slider->info)->max - ((t_slider *)info->size_slider->info)->min)) *
+			((t_slider *)info->size_slider->info)->value;
+	ft_update_slider_bar(t + info->size_slider->coord.x, 0, info->size_slider);
 }
 
 void	window_init(t_libui *libui, t_info *info)
@@ -106,6 +153,40 @@ void	guimp_init(t_info *info)
 	}
 }
 
+void	key_press(SDL_Event e, t_hotkey *hotkey)
+{
+	printf("priss prass pross %s\n", SDL_GetKeyName(hotkey->key));
+}
+
+void	hotkey_init(t_info *info, t_libui *libui)
+{
+	ft_add_hotkey(libui, SDLK_a, &key_press);
+	ft_add_hotkey(libui, SDLK_b, &key_press);
+	ft_add_hotkey(libui, SDLK_c, &key_press);
+	ft_add_hotkey(libui, SDLK_d, &key_press);
+}
+
+void	update_brush(t_info *info)
+{
+	info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
+									((t_slider *)info->g_slider->info)->value,
+									((t_slider *)info->b_slider->info)->value);
+	info->brush.size = ((t_slider *)info->size_slider->info)->value;	
+	
+	// the thing that shows the color of the brush
+	SDL_Surface *color_surf;
+	SDL_Rect	temp;
+
+	color_surf = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
+	ft_update_background(color_surf, info->brush.color);
+	temp.x = 325;
+	temp.y = 350;
+	temp.w = color_surf->w;
+	temp.h = color_surf->h;
+	SDL_BlitSurface(color_surf, NULL, info->toolbox->window->surface, &temp);
+	SDL_FreeSurface(color_surf);
+}
+
 int		main(void)
 {
 	t_libui *libui;
@@ -123,14 +204,17 @@ int		main(void)
 
 	window_init(libui, info);
 	button_init(info);
-//	slider_init();
+	slider_init(info);
 //	drop_down_init();
 	layer_init(info);
+	hotkey_init(info, libui);
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
+		update_brush(info);
 		ui_render(info->toolbox->window);
 		ui_render(info->main->window);
 	}
+	// cleanup()
 	return (0);
 }
