@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:47:20 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/02 17:45:54 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 11:01:35 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ t_element *ui_create_drop(t_window *win, t_xywh coord)
 		dd = elem->info;
 		//dd->items = NULL; // malloc here if you already know the max amount of items you want to add
 		dd->item_amount = 0;
-//		dd->drop_height = (dd->item_amount + 2) * elem->coord.h;
-		dd->drop_height = 100;
+		dd->drop_height = (dd->item_amount + 1) * elem->coord.h;
+//		dd->drop_height = 100; // debugging purposes
 		ft_update_drop(elem);
 	}	
 	return (elem);
