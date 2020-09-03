@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:16:58 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 12:59:56 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 13:21:13 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_event_poller(t_libui *libui)
 			exit (1);
 		else if (libui->event.type == SDL_WINDOWEVENT &&
 				libui->event.window.event == SDL_WINDOWEVENT_CLOSE &&
-				pop_up(0, 0, "Exit the program?"))
+				true_false_popup(0, 0, "Exit the program?"))
 			exit (1);
 		else if (libui->event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 			exit (1);
