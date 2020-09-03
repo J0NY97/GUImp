@@ -163,7 +163,8 @@ struct			s_window_info
 	int			w;
 	int			h;
 	int			flags;
-	int			resizeable;	
+	int			resizeable;
+	int			bg_color;	
 };
 
 struct s_window
@@ -172,6 +173,7 @@ struct s_window
 	SDL_Surface	*surface;
 	t_list		*elements;
 	Uint32		id;
+	int			bg_color;
 };
 
 typedef struct	s_shapes
