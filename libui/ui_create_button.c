@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:04:46 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 15:23:00 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 16:54:38 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_element	*ui_create_button(t_window *win, t_xywh coord)
 	info.info_size = 0; // remove this in another iteration
 	info.f = &default_click;
 	info.event_handler = &ft_event_handler;
-	info.bg_color = 0xffffff;
+	info.bg_color = 0xf5f5f5;
 	info.extra_info = NULL;
 	info.set_text = 1;
 	// @Improvement: move this to set t_text or something liek that
