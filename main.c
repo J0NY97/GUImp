@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/02 17:12:15 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 11:41:04 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,12 +171,19 @@ void	hotkey_init(t_info *info, t_libui *libui)
 	ft_add_hotkey(libui, SDLK_d, &key_press);
 }
 
+void	drop_click(SDL_Event e, t_element *elem)
+{
+	printf("Drop item %s clicked\n", elem->text.text);
+}
+
 void	drop_down_init(t_info *info)
 {
 	t_xywh coord;
 
 	coord = ui_init_coords(100, 500, 200, 32);
 	info->drop_down = ui_create_drop(info->toolbox->window, coord);
+	ft_drop_down_add_item(&info->drop_down, &drop_click, "item1");
+	ft_drop_down_add_item(&info->drop_down, &drop_click, "item2");
 }
 
 void	update_brush(t_info *info)

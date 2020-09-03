@@ -22,6 +22,7 @@ typedef struct	s_slider		t_slider;
 typedef	struct	s_element		t_element;
 typedef	struct	s_element_info	t_element_info;
 typedef	struct	s_text			t_text;
+typedef	struct	s_drop_item		t_drop_item;
 typedef	struct	s_drop_down		t_drop_down;
 typedef	struct	s_scrollbar		t_scrollbar;
 typedef	struct	s_hotkey		t_hotkey;
@@ -82,7 +83,7 @@ struct	s_element_info
 	void		*info;
 	void		*extra_info;
 	void		(*f)(SDL_Event, t_element *);
-	int			(*event_handler)(t_libui *, t_element *);
+	int			(*event_handler)(SDL_Event, t_element *);
 	int			set_text;
 	t_text		text;
 	SDL_Surface	*parent;
@@ -99,7 +100,7 @@ struct	s_element
 	void		*info;
 	void		*extra_info;
 	void		(*f)(SDL_Event, t_element *);
-	int			(*event_handler)(t_libui *, t_element *);
+	int			(*event_handler)(SDL_Event, t_element *);
 	int			set_text;
 	t_text		text;
 	SDL_Surface	*parent;
@@ -124,6 +125,11 @@ struct			s_slider
 	int			clicked; // redundant
 	int			bar_color;
 	size_t		size; // redundant
+};
+
+struct			s_drop_item
+{
+	t_xywh		relative_coords;
 };
 
 struct			s_drop_down
@@ -208,7 +214,7 @@ int				save_image(SDL_Surface *img, char *file);
 /* TESTS */
 t_element		*ft_create_element(t_element_info info);
 void			ft_update_element(t_element *elem);
-int				ft_event_handler(t_libui *libui, t_element *elem);
+int				ft_event_handler(SDL_Event e, t_element *elem);
 void			ft_event_poller(t_libui *libui);
 void			ft_update_background(SDL_Surface *surface, Uint32 color);
 void			ft_create_text(t_text *text);

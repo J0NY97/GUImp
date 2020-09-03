@@ -6,25 +6,25 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:35:47 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/02 16:42:18 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 11:48:58 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-int		ft_event_handler(t_libui *libui, t_element *elem)
+int		ft_event_handler(SDL_Event e, t_element *elem)
 {
 	int x;
 	int y;
 
-	x = libui->event.button.x;
-	y = libui->event.button.y;
+	x = e.button.x;
+	y = e.button.y;
 	if ((x >= elem->coord.x && y >= elem->coord.y &&
 		x <= elem->coord.x + elem->coord.w && y <= elem->coord.y + elem->coord.h)
-		|| libui->event.type == SDL_MOUSEWHEEL)
+		|| e.type == SDL_MOUSEWHEEL)
 	{
 		if (elem->f)
-			elem->f(libui->event, elem);
+			elem->f(e, elem);
 		return (1);
 	}
 	elem->state = elem->default_state;
