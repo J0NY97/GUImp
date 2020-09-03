@@ -6,43 +6,42 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 12:26:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/27 12:52:05 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/03 12:27:10 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-char	*ft_read_text(int size)
+void	ft_read_text(t_element *elem, int size)
 {
+	int			t;
 	int			i;
-	char		*key;
 	char		*tmp;
-	char		*text;
 	SDL_Event	event;
 
+	t = 0;
 	i = 0;
 	SDL_PollEvent(&event);
 	while (i < size && event.key.keysym.sym != SDLK_RETURN)
 	{
-		if (event.type == SDL_KEYDOWN)
+		if (event.type == SDL_TEXTINPUT && t == 1)
 		{
-			key = ft_strdup(SDL_GetKeyName(event.key.keysym.sym));
-			if (key[1] == '\0' || event.key.keysym.sym == SDLK_SPACE)
+			if (i == 0 && (++i))
+				elem->text.text = ft_strdup(event.text.text);
+			else if ((++i))
 			{
-				if (i == 0 && (++i))
-					text = ft_strdup(key);
-				else if ((++i))
-				{
-					tmp = ft_strdup(text);
-					ft_strdel(&text);
-					text = ft_strjoin(tmp, key[1] != '\0' ? " " : key);
-					free(tmp);
-				}
+				tmp = ft_strdup(elem->text.text);
+				ft_strdel(&elem->text.text);
+				elem->text.text = ft_strjoin(tmp, event.text.text);
+				free(tmp);
 			}
-			ft_strdel(&key);
+			elem->old_state += 1;
+			ui_render_element(elem->parent, elem);
+			SDL_UpdateWindowSurface(elem->extra_info);
+			t = 0;
 		}
 		SDL_PollEvent(&event);
+		if (event.type == SDL_KEYDOWN)
+			t = 1;
 	}
-	free(key);
-	return (text);
 }
