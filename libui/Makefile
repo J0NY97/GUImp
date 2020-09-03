@@ -31,7 +31,8 @@ SRCS = ft_test_libui.c\
 	   ft_add_hotkey.c\
 	   file_handling.c\
 	   ui_create_drop.c\
-	   ft_drop_down_function.c
+	   ft_drop_down_function.c\
+	   ft_strjoiner.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
 #FLAGS = -Wall -Wextra -Werror
