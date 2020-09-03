@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 14:14:58 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 16:00:11 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,12 @@ void	window_init(t_libui *libui, t_info *info)
 
 	new_win.coord = ui_init_coords(0, 0, 500, 1250);
 	new_win.title = ft_strdup("toolbox");
+	new_win.bg_color = 0xd3d3d3;
 	info->toolbox->window = ft_create_window(libui, new_win);
 	
 	new_win.coord = ui_init_coords(501, 0, 1000, 1250);
 	new_win.title = ft_strdup("main");
+	new_win.bg_color = 0xd3d3d3;
 	info->main->window = ft_create_window(libui, new_win);
 }
 
@@ -172,17 +174,52 @@ void	save_img(SDL_Event e, t_element *elem)
 	}
 }
 
+void	add_new_layer(SDL_Event e, t_element *elem)
+{
+	char *temp;
+	char **dimensions;
+	t_element **drawing;
+// dont add this until shiit is done
+/*	
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+	{
+		drawing = elem->extra_info; // the drawing surfaces
+		temp = input_popup(0, 0);
+		dimensions = ft_strsplit(temp, 'x');
+	
+		printf("%sx%s\n", dimensions[0], dimensions[1]);
+
+		SDL_FreeSurface(drawing[0]->surface);
+		drawing[0]->surface = SDL_CreateRGBSurface(0, ft_atoi(dimensions[0]), ft_atoi(dimensions[1]), 32, 0, 0, 0, 0);
+		ft_update_background(drawing[0]->surface, drawing[0]->bg_color);
+		ft_strdel(&dimensions[0]);
+		ft_strdel(&dimensions[1]);
+		free(dimensions);
+		free(temp);
+	}
+	*/
+}
+
 void	utility_init(t_info *info)
 {
 	t_xywh coord;
 
-	coord = ui_init_coords(50, info->toolbox->window->surface->h - 50, 100, 50);
+	// save_button
+	coord = ui_init_coords(50, info->toolbox->window->surface->h - 60, 100, 50);
 	info->save_button = ui_create_button(info->toolbox->window, coord);
 	info->save_button->text.text = ft_strdup("save");
 	info->save_button->f = &save_img;
 	info->save_button->extra_info = info->drawing_surface[0];
 	info->save_button->old_state = 500;
 	ft_update_element(info->save_button);
+
+	coord = ui_init_coords(200, info->toolbox->window->surface->h - 60, 100, 50);
+	info->new_layer_button = ui_create_button(info->toolbox->window, coord);
+	info->new_layer_button->text.text = ft_strdup("new layer");
+	info->new_layer_button->f = &add_new_layer;
+	info->new_layer_button->extra_info = info->drawing_surface;
+	info->new_layer_button->old_state = 500;
+	ft_update_element(info->new_layer_button);
 }
 
 void	key_press(SDL_Event e, t_hotkey *hotkey)

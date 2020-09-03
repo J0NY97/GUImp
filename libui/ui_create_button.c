@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:04:46 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/02 15:01:38 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 15:23:00 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ t_element	*ui_create_button(t_window *win, t_xywh coord)
 	info.set_text = 1;
 	// @Improvement: move this to set t_text or something liek that
 	{
-		info.text.x = 10;
+		info.text.x = 0;
 		info.text.y = 5;
 		info.text.text = "button";
 		info.text.color = 0x000000;
 		info.text.margin = 0;
-		info.text.font = TTF_OpenFont("font.ttf", 32);
+		info.text.font = TTF_OpenFont("font.ttf", 28);
 	}
 	elem = ft_create_element(info);
 	// @Important @Fix: move this to ft_create_element

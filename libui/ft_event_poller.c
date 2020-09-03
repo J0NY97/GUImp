@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:16:58 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 14:09:59 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 15:56:29 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ void	ft_event_poller(t_libui *libui)
 		}
 		ft_keyboard_handler(libui);
 		if (libui->event.type == SDL_DROPFILE)
-		{
-			printf("hey hay hoy hi\n");
 			libui->drag_file = drag_and_drop(libui->event);
-		}
 	}
 }
