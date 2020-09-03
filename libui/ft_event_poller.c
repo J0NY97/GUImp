@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:16:58 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 12:32:12 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/03 12:59:56 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_event_poller(t_libui *libui)
 {
 	t_list *win;
 
-	SDL_PollEvent(&libui->event);
+	while(SDL_PollEvent(&libui->event))
 	{
 		if (libui->event.type == SDL_QUIT)
 			exit (1);
