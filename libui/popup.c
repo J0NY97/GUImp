@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/30 14:57:26 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 12:24:42 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,93 +19,145 @@ void	notify(char *title, char *msg)
 {
 	SDL_ShowSimpleMessageBox(
 			SDL_MESSAGEBOX_INFORMATION,
-			title,
-			msg,
-			NULL);
+			title, msg, NULL);
 }
 
 void	error_msg(char *str)
 {
 	SDL_ShowSimpleMessageBox(
 			SDL_MESSAGEBOX_ERROR,
-			"Error",
-			str,
-			NULL);
+			"Error", str, NULL);
 	ft_putstr(str);
 	exit(1);
 }
+void		k(SDL_Event e, t_element *elem)
+{
+	int *result;
 
+	result = elem->extra_info;
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+		*result = ((t_button *)elem->info)->type;
+}
+
+void		j(SDL_Event e, t_element *elem)
+{
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+	{
+		free(elem->text.text);
+		ft_read_text(elem, 20);
+	}
+}
 int			pop_up(int x1, int y1, char *msg) //int returns true or false
 {
 	t_window		*win;
 	t_window_info	test;
-	SDL_Event event;
 	t_libui *libui;
+	t_element *buttons[2];
 
-	test.x = 0;
-	test.y = 0;
-	test.w = 350;
-	test.h = 300;
-	test.resizeable = 0;
-	test.title = ft_strdup("PoPuP");
+	libui = (t_libui *)malloc(sizeof(t_libui));
+	ui_libui_init(libui);
+	test.coord = ui_init_coords(0, 0, 350, 300);
+	test.title = ft_strdup("Pop_up");
 	win = ft_create_window(libui, test);
 	ft_update_background(win->surface, 0xECECEC);
 
-	SDL_Surface *tmp;
-	SDL_Rect	temp;
-	int x;
-	int y;
+	int result;
+	t_xywh coord;
 
-	y = 200;
-	while (++y < 250 && (x = 50))
-		while (++x < 150)
-			set_pixel(win->surface, x, y, 0x0082C4);
-	y = 200;
-	while (++y < 250 && (x = 200))
-		while (++x < 300)
-			set_pixel(win->surface, x, y, 0xEE7F1B);
+	result = -1;
+	coord = ui_init_coords(50, 200, 100, 50);
+	buttons[0] = ui_create_button(win, coord);
+	buttons[0]->text.text = ft_strdup("OK");
+	buttons[0]->text.x = 25;
+	buttons[0]->text.y = 0;
+	buttons[0]->f = &k;
+	((t_button *)buttons[0]->info)->type = 1;
+	buttons[0]->extra_info = &result;
+	buttons[0]->old_state = 500;
+	ft_update_background(buttons[0]->states[0], 0x0082c4);
 
+	coord = ui_init_coords(50, 100, 250, 50);
+	buttons[1] = ui_create_button(win, coord);
+	buttons[1]->text.text = ft_strdup("Input");
+	buttons[1]->text.parent = win->surface;
+	buttons[1]->set_text = 1;
+	buttons[1]->f = &j;
+	buttons[1]->old_state = 500;
+	buttons[1]->extra_info = win->win;
+
+	ft_update_element(buttons[0]);
+	ft_update_element(buttons[1]);
 	t_text text;
 
-	text.x = 75;
-	text.y = 200;
-	text.margin = 0;
-	text.color = 0xFFFFFF;
-	text.text = ft_strdup("Yes");
-	text.font = TTF_OpenFont("./libui/TTF/OpenSans.ttf", 32);
-	text.parent = win->surface;
-	ft_create_text(&text);
-	free(text.text);
-	text.x = 225;
-	text.text = ft_strdup("NO");
-	ft_create_text(&text);
-	free(text.text);
-	text.x = 50;
-	text.y = 100;
-	text.color = 0x000000;
-	//TTF_CloseFont(text.font);
-	text.margin = 50;
-	text.text = ft_strdup(msg);
-	ft_create_text(&text);
-	free(text.text);
-	//TTF_CloseFont(text.font);
-
-
-	SDL_UpdateWindowSurface(win->win);
-	int is_running = 2;
-	while (is_running == 2)
+	ui_render(win);
+	while (result == -1)
 	{
-		while (SDL_PollEvent(&event))
-		{
-			if (event.type == SDL_MOUSEBUTTONDOWN)
-			{
-				if (BX >= 50 && BY >= 200 && BX <= 200 && BY <= 450)
-					is_running = 1;
-				if (BX >= 200 && BY >= 200 && BX <= 500 && BY <= 450)
-					is_running = 0;
-			}
-		}
+		ft_event_poller(libui);
+		ui_render(win);
 	}
 	SDL_DestroyWindow(win->win);
-	return (is_running);
+	printf("->%s", buttons[1]->text.text);
+	free(win);
+	return (result);
 }
+
+/*int			pop_up(int x1, int y1, char *msg) //int returns true or false
+{
+	t_window		*win;
+	t_window_info	test;
+	t_libui *libui;
+	t_element *buttons[2];
+
+	libui = (t_libui *)malloc(sizeof(t_libui));
+	ui_libui_init(libui);
+	test.coord = ui_init_coords(0, 0, 350, 300);
+	test.title = ft_strdup("Pop_up");
+	win = ft_create_window(libui, test);
+	ft_update_background(win->surface, 0xECECEC);
+
+	int result;
+	t_xywh coord;
+
+	result = -1;
+	coord = ui_init_coords(50, 200, 100, 50);
+	buttons[0] = ui_create_button(win, coord);
+	buttons[0]->text.text = ft_strdup("OK");
+	buttons[0]->text.x = 25;
+	buttons[0]->text.y = 0;
+	buttons[0]->f = &k;
+	((t_button *)buttons[0]->info)->type = 1;
+	buttons[0]->extra_info = &result;
+	buttons[0]->old_state = 500;
+	ft_update_background(buttons[0]->states[0], 0x0082c4);
+
+	coord = ui_init_coords(200, 200, 100, 50);
+	buttons[1] = ui_create_button(win, coord);
+	buttons[1]->text.text = ft_strdup("CANCEL");
+	buttons[1]->text.x = 25;
+	buttons[1]->text.y = 0;
+	buttons[1]->f = &k;
+	((t_button *)buttons[1]->info)->type = 0;
+	buttons[1]->extra_info = &result;
+	buttons[1]->old_state = 500;
+	ft_update_background(buttons[1]->states[0], 0xEE7f1B);
+
+	ft_update_element(buttons[0]);
+	ft_update_element(buttons[1]);
+	t_text text;
+
+	text.x = 50;
+	text.y = 100;
+	text.margin = 50;
+	text.color = 0x000000;
+	text.text = ft_strdup(msg);
+	text.parent = win->surface;
+	text.font = TTF_OpenFont("./libui/TTF/OpenSans.ttf", 22);
+	ft_create_text(&text);
+
+	ui_render(win);
+	while (result == -1)
+		ft_event_poller(libui);
+	SDL_DestroyWindow(win->win);
+	free(win);
+	return (result);
+}*/
