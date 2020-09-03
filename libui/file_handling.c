@@ -6,11 +6,11 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 15:55:38 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/29 18:30:36 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/02 16:28:25 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "guimp.h"
+#include "libui.h"
 
 SDL_Surface		*load_image(char *file)
 {
@@ -45,7 +45,7 @@ char	*drag_and_drop(SDL_Event e)
 	
 	if (e.type == SDL_DROPFILE)
 	{
-		printf("Event is dropfile\n");
+//		printf("Event is dropfile\n");
 		black_dhide = e.drop.file;
 		return (black_dhide);
 	}
