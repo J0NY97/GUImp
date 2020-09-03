@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 13:13:10 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 14:14:58 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	save_img(SDL_Event e, t_element *elem)
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
 		pic = ((t_element *)elem->extra_info)->surface;
-		if (!save_image(pic, "default")) // this should be file name without the file type.... for now
+		if (!save_image(pic, input_popup(100, 100))) // this should be file name without the file type.... for now
 			printf("Picture couldnt be saved.\n");
 		else
 			printf("Picture saved.\n");
@@ -225,16 +225,18 @@ void	update_brush(t_info *info)
 	ft_update_background(info->brush_color->surface, info->brush.color);
 }
 
-void	check_for_drag_droppings(char *file, t_info *info)
+void	drag_drop_thing(t_info *info, t_libui *libui)
 {
 	SDL_Surface *new_image;
-	if (file)
+
+	if (libui->drag_file != NULL)
 	{
-		if ((new_image = load_image(file)))
+		if ((new_image = load_image(libui->drag_file)))
 		{
 			SDL_BlitSurface(new_image, NULL, info->drawing_surface[0]->surface, NULL);
+			SDL_FreeSurface(new_image);
 		}
-		SDL_FreeSurface(new_image);
+		ft_strdel(&libui->drag_file);
 	}
 }
 
@@ -263,7 +265,7 @@ int		main(void)
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
-		check_for_drag_droppings(drag_and_drop(libui->event), info);
+		drag_drop_thing(info, libui);
 		update_brush(info);
 		ui_render(info->toolbox->window);
 		ui_render(info->main->window);

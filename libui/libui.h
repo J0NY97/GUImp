@@ -51,6 +51,7 @@ typedef struct	s_libui
 	SDL_Event	event;
 	t_list		*windows;
 	t_list		*hotkeys;
+	char		*drag_file;
 }				t_libui;
 
 struct			s_hotkey
@@ -246,5 +247,6 @@ int				ft_keyboard_handler(t_libui *libui);
 t_element		*ui_create_drop(t_window *win, t_xywh coord);
 void			ft_update_drop(t_element *elem);
 void			ft_drop_down_function(SDL_Event e, t_element *elem);
+char			*ft_strjoiner(char *first, ...);
 
 #endif
