@@ -222,7 +222,8 @@ void			ft_read_text(t_element *elem, int size);
 void			ft_drop_down_add_item(t_element **drop, void (*f)(SDL_Event e, t_element *elem), char *name);
 void			notify(char *title, char *msg);
 void			error_msg(char *str);
-int				pop_up(int x, int y, char *msg);
+int				true_false_popup(int x, int y, char *msg);
+char			*input_popup(int x, int y);
 /* UI */
 /*
  ** NOTE: the ui creation could use create_surface for the boilerplate and the element type specific stuff can be edited in the relevant funcs

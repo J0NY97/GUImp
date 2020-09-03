@@ -6,31 +6,13 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/03 12:24:42 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/03 13:23:40 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-# define BY event.button.y
-# define BX event.button.x
-
-void	notify(char *title, char *msg)
-{
-	SDL_ShowSimpleMessageBox(
-			SDL_MESSAGEBOX_INFORMATION,
-			title, msg, NULL);
-}
-
-void	error_msg(char *str)
-{
-	SDL_ShowSimpleMessageBox(
-			SDL_MESSAGEBOX_ERROR,
-			"Error", str, NULL);
-	ft_putstr(str);
-	exit(1);
-}
-void		k(SDL_Event e, t_element *elem)
+void		button(SDL_Event e, t_element *elem)
 {
 	int *result;
 
@@ -39,7 +21,7 @@ void		k(SDL_Event e, t_element *elem)
 		*result = ((t_button *)elem->info)->type;
 }
 
-void		j(SDL_Event e, t_element *elem)
+void		text_area(SDL_Event e, t_element *elem)
 {
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
@@ -47,7 +29,8 @@ void		j(SDL_Event e, t_element *elem)
 		ft_read_text(elem, 20);
 	}
 }
-int			pop_up(int x1, int y1, char *msg) //int returns true or false
+
+char		*input_popup(int x1, int y1)
 {
 	t_window		*win;
 	t_window_info	test;
@@ -70,7 +53,7 @@ int			pop_up(int x1, int y1, char *msg) //int returns true or false
 	buttons[0]->text.text = ft_strdup("OK");
 	buttons[0]->text.x = 25;
 	buttons[0]->text.y = 0;
-	buttons[0]->f = &k;
+	buttons[0]->f = &button;
 	((t_button *)buttons[0]->info)->type = 1;
 	buttons[0]->extra_info = &result;
 	buttons[0]->old_state = 500;
@@ -81,27 +64,26 @@ int			pop_up(int x1, int y1, char *msg) //int returns true or false
 	buttons[1]->text.text = ft_strdup("Input");
 	buttons[1]->text.parent = win->surface;
 	buttons[1]->set_text = 1;
-	buttons[1]->f = &j;
+	buttons[1]->f = &text_area;
 	buttons[1]->old_state = 500;
 	buttons[1]->extra_info = win->win;
 
 	ft_update_element(buttons[0]);
 	ft_update_element(buttons[1]);
-	t_text text;
 
-	ui_render(win);
 	while (result == -1)
 	{
-		ft_event_poller(libui);
 		ui_render(win);
+		ft_event_poller(libui);
 	}
 	SDL_DestroyWindow(win->win);
-	printf("->%s", buttons[1]->text.text);
 	free(win);
-	return (result);
+	char *str;
+	str = ft_strdup(buttons[1]->text.text);
+	return (str);
 }
 
-/*int			pop_up(int x1, int y1, char *msg) //int returns true or false
+int			true_false_popup(int x1, int y1, char *msg)
 {
 	t_window		*win;
 	t_window_info	test;
@@ -122,9 +104,9 @@ int			pop_up(int x1, int y1, char *msg) //int returns true or false
 	coord = ui_init_coords(50, 200, 100, 50);
 	buttons[0] = ui_create_button(win, coord);
 	buttons[0]->text.text = ft_strdup("OK");
-	buttons[0]->text.x = 25;
-	buttons[0]->text.y = 0;
-	buttons[0]->f = &k;
+	buttons[0]->text.x = 15;
+	buttons[0]->text.y = 5;
+	buttons[0]->f = &button;
 	((t_button *)buttons[0]->info)->type = 1;
 	buttons[0]->extra_info = &result;
 	buttons[0]->old_state = 500;
@@ -133,9 +115,9 @@ int			pop_up(int x1, int y1, char *msg) //int returns true or false
 	coord = ui_init_coords(200, 200, 100, 50);
 	buttons[1] = ui_create_button(win, coord);
 	buttons[1]->text.text = ft_strdup("CANCEL");
-	buttons[1]->text.x = 25;
-	buttons[1]->text.y = 0;
-	buttons[1]->f = &k;
+	buttons[1]->text.x = 5;
+	buttons[1]->text.y = 5;
+	buttons[1]->f = &button;
 	((t_button *)buttons[1]->info)->type = 0;
 	buttons[1]->extra_info = &result;
 	buttons[1]->old_state = 500;
@@ -160,4 +142,4 @@ int			pop_up(int x1, int y1, char *msg) //int returns true or false
 	SDL_DestroyWindow(win->win);
 	free(win);
 	return (result);
-}*/
+}
