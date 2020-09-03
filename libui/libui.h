@@ -22,8 +22,10 @@ typedef struct	s_slider		t_slider;
 typedef	struct	s_element		t_element;
 typedef	struct	s_element_info	t_element_info;
 typedef	struct	s_text			t_text;
+typedef	struct	s_drop_item		t_drop_item;
 typedef	struct	s_drop_down		t_drop_down;
 typedef	struct	s_scrollbar		t_scrollbar;
+typedef	struct	s_hotkey		t_hotkey;
 
 typedef	struct	s_emp
 {
@@ -48,7 +50,14 @@ typedef struct	s_libui
 {
 	SDL_Event	event;
 	t_list		*windows;
+	t_list		*hotkeys;
 }				t_libui;
+
+struct			s_hotkey
+{
+	SDL_Keycode	key;
+	void		(*f)(SDL_Event e, t_hotkey *hotkey);
+};
 
 struct			s_text
 {
@@ -74,7 +83,7 @@ struct	s_element_info
 	void		*info;
 	void		*extra_info;
 	void		(*f)(SDL_Event, t_element *);
-	int			(*event_handler)(t_libui *, t_element *);
+	int			(*event_handler)(SDL_Event, t_element *);
 	int			set_text;
 	t_text		text;
 	SDL_Surface	*parent;
@@ -91,7 +100,7 @@ struct	s_element
 	void		*info;
 	void		*extra_info;
 	void		(*f)(SDL_Event, t_element *);
-	int			(*event_handler)(t_libui *, t_element *);
+	int			(*event_handler)(SDL_Event, t_element *);
 	int			set_text;
 	t_text		text;
 	SDL_Surface	*parent;
@@ -109,13 +118,18 @@ struct			s_button
 
 struct			s_slider
 {
-	int			state;
+	int			state; // redundant
 	int			min;
 	int			max;
 	int			value;
-	int			clicked;
+	int			clicked; // redundant
 	int			bar_color;
-	size_t		size;
+	size_t		size; // redundant
+};
+
+struct			s_drop_item
+{
+	t_xywh		relative_coords;
 };
 
 struct			s_drop_down
@@ -193,11 +207,14 @@ void			flood_fill(SDL_Surface *surface, Uint32 w_color, Uint32 r_color, int x, i
 void			ft_create_square(SDL_Surface *surface, Uint32 color, t_shapes l);
 void			push_list(t_list **lst, void *content, size_t content_size);
 void			*pop_list(t_list **lst);
+char			*drag_and_drop(SDL_Event e);
+SDL_Surface		*load_image(char *file);
+int				save_image(SDL_Surface *img, char *file);
 
 /* TESTS */
 t_element		*ft_create_element(t_element_info info);
 void			ft_update_element(t_element *elem);
-int				ft_event_handler(t_libui *libui, t_element *elem);
+int				ft_event_handler(SDL_Event e, t_element *elem);
 void			ft_event_poller(t_libui *libui);
 void			ft_update_background(SDL_Surface *surface, Uint32 color);
 void			ft_create_text(t_text *text);
@@ -219,5 +236,14 @@ void			ft_add_window_to_libui_windows(t_libui *libui, t_window *win);
 void			default_click(SDL_Event e, t_element *elem);
 void			ui_libui_init(t_libui *libui);
 t_xywh			ui_init_coords(int x, int y, int w, int h);
+t_element		*ui_create_slider(t_window *win, t_xywh coord, int min, int max);
+void			ft_slider_function(SDL_Event e, t_element *elem);
+void			ft_update_slider_bar(int click_x, int click_y, t_element *elem);
+void			ft_add_hotkey(t_libui *libui, SDL_Keycode, void (*f)());
+void			ft_add_x_to_list(t_list *old, void *content, size_t content_size);
+int				ft_keyboard_handler(t_libui *libui);
+t_element		*ui_create_drop(t_window *win, t_xywh coord);
+void			ft_update_drop(t_element *elem);
+void			ft_drop_down_function(SDL_Event e, t_element *elem);
 
 #endif
