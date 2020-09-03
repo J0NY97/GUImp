@@ -53,7 +53,9 @@ struct			s_info
 	t_element	*size_slider;
 	t_element	*brush_color;
 	
-	t_element	*buttons[4];
+	int			brush_button_amount;	
+	t_element	*buttons[8];
+
 	t_element	*drawing_surface[1];
 	t_element	*text_area;
 	t_element	*save_button;

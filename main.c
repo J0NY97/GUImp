@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 16:00:11 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 16:53:47 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 void	draw_buttons(SDL_Event e, t_element *elem)
 {
 	t_element **buttons;
+	t_button	*but;
+	int			*but_am;
 
+	but = elem->info;
+	but_am = but->extra;
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
 		buttons = (t_element **)elem->extra_info;
 		// the 4 is the amount of buttons in the array, if you add more you have to add more
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < *but_am; i++)
 			buttons[i]->default_state = 0;
 		elem->default_state = 1;
 	}
@@ -37,37 +41,46 @@ void	button_init(t_info *info)
 	coord = ui_init_coords(75, 50, 100, 50);
 	info->buttons[0] = ui_create_button(info->toolbox->window, coord);
 	info->buttons[0]->text.text = ft_strdup("circle");
-	info->buttons[0]->f = &draw_buttons;
-	info->buttons[0]->extra_info = info->buttons;
 	info->buttons[0]->default_state = 1;
 
 	coord = ui_init_coords(200, 50, 100, 50);
 	info->buttons[1] = ui_create_button(info->toolbox->window, coord);
 	info->buttons[1]->text.text = ft_strdup("text");
-	info->buttons[1]->f = &draw_buttons;
-	info->buttons[1]->extra_info = info->buttons;
 
-	coord = ui_init_coords(75, 125, 100, 50);
+	coord = ui_init_coords(325, 50, 100, 50);
 	info->buttons[2] = ui_create_button(info->toolbox->window, coord);
 	info->buttons[2]->text.text = ft_strdup("delete");
-	info->buttons[2]->f = &draw_buttons;
-	info->buttons[2]->extra_info = info->buttons;
 
-	coord = ui_init_coords(200, 125, 100, 50);
+	coord = ui_init_coords(75, 125, 100, 50);
 	info->buttons[3] = ui_create_button(info->toolbox->window, coord);
 	info->buttons[3]->text.text = ft_strdup("flood");
-	info->buttons[3]->f = &draw_buttons;
-	info->buttons[3]->extra_info = info->buttons;
 
+	coord = ui_init_coords(200, 125, 100, 50);
+	info->buttons[4] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[4]->text.text = ft_strdup("sticker");
+
+	coord = ui_init_coords(325, 125, 100, 50);
+	info->buttons[5] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[5]->text.text = ft_strdup("magnify");
+
+	coord = ui_init_coords(75, 200, 100, 50);
+	info->buttons[6] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[6]->text.text = ft_strdup("move");
+
+	coord = ui_init_coords(200, 200, 100, 50);
+	info->buttons[7] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[7]->text.text = ft_strdup("pippette");
+
+	info->brush_button_amount = 8;
 	// for now you have to manually update the buttons after change, pl0x fix
-	info->buttons[0]->old_state = 500;
-	ft_update_element(info->buttons[0]);
-	info->buttons[1]->old_state = 500;
-	ft_update_element(info->buttons[1]);
-	info->buttons[2]->old_state = 500;
-	ft_update_element(info->buttons[2]);
-	info->buttons[3]->old_state = 500;
-	ft_update_element(info->buttons[3]);
+	for (int i = 0; i < info->brush_button_amount; i++)
+	{
+		info->buttons[i]->f = &draw_buttons;
+		info->buttons[i]->extra_info = info->buttons;
+		((t_button *)info->buttons[i]->info)->extra = &info->brush_button_amount;
+		info->buttons[i]->old_state = 500;
+		ft_update_element(info->buttons[i]);
+	}
 }
 
 void	layer_init(t_info *info)
@@ -251,12 +264,31 @@ void	drop_down_init(t_info *info)
 }
 
 void	update_brush(t_info *info)
-{
-	info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
+{	
+	if (info->brush.type == 8) // aka pipette
+	{
+		SDL_Color color;
+
+		color = hex_to_rgba(info->brush.color);
+		((t_slider *)info->r_slider->info)->value = color.r;
+		((t_slider *)info->g_slider->info)->value = color.g;
+		((t_slider *)info->b_slider->info)->value = color.b;
+
+		int t = ((float)info->r_slider->coord.w / 255) * ((t_slider *)info->r_slider->info)->value;
+		ft_update_slider_bar(t + info->r_slider->coord.x, 0, info->r_slider);
+		t = ((float)info->g_slider->coord.w / 255) * ((t_slider *)info->g_slider->info)->value;
+		ft_update_slider_bar(t + info->g_slider->coord.x, 0, info->g_slider);
+		t = ((float)info->b_slider->coord.w / 255) * ((t_slider *)info->b_slider->info)->value;
+		ft_update_slider_bar(t + info->b_slider->coord.x, 0, info->b_slider);
+	}
+	else
+	{
+		info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
 									((t_slider *)info->g_slider->info)->value,
 									((t_slider *)info->b_slider->info)->value);
+	}
 	info->brush.size = ((t_slider *)info->size_slider->info)->value;
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < info->brush_button_amount; i++)
 		if (info->buttons[i]->state == 1)
 			info->brush.type = i + 1;
 	ft_update_background(info->brush_color->surface, info->brush.color);
