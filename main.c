@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 11:41:04 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 13:13:10 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,33 @@ void	guimp_init(t_info *info)
 	}
 }
 
+void	save_img(SDL_Event e, t_element *elem)
+{
+	SDL_Surface *pic;
+
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+	{
+		pic = ((t_element *)elem->extra_info)->surface;
+		if (!save_image(pic, "default")) // this should be file name without the file type.... for now
+			printf("Picture couldnt be saved.\n");
+		else
+			printf("Picture saved.\n");
+	}
+}
+
+void	utility_init(t_info *info)
+{
+	t_xywh coord;
+
+	coord = ui_init_coords(50, info->toolbox->window->surface->h - 50, 100, 50);
+	info->save_button = ui_create_button(info->toolbox->window, coord);
+	info->save_button->text.text = ft_strdup("save");
+	info->save_button->f = &save_img;
+	info->save_button->extra_info = info->drawing_surface[0];
+	info->save_button->old_state = 500;
+	ft_update_element(info->save_button);
+}
+
 void	key_press(SDL_Event e, t_hotkey *hotkey)
 {
 	printf("priss prass pross %s\n", SDL_GetKeyName(hotkey->key));
@@ -191,7 +218,10 @@ void	update_brush(t_info *info)
 	info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
 									((t_slider *)info->g_slider->info)->value,
 									((t_slider *)info->b_slider->info)->value);
-	info->brush.size = ((t_slider *)info->size_slider->info)->value;	
+	info->brush.size = ((t_slider *)info->size_slider->info)->value;
+	for (int i = 0; i < 4; i++)
+		if (info->buttons[i]->state == 1)
+			info->brush.type = i + 1;
 	ft_update_background(info->brush_color->surface, info->brush.color);
 }
 
@@ -229,6 +259,7 @@ int		main(void)
 	drop_down_init(info);
 	layer_init(info); // slider_init needs to be called before this.
 	hotkey_init(info, libui);
+	utility_init(info); // layer_init needs to be called before this.
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
