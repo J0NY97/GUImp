@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 12:26:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/03 12:27:10 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/03 13:01:39 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_read_text(t_element *elem, int size)
 				elem->text.text = ft_strjoin(tmp, event.text.text);
 				free(tmp);
 			}
-			elem->old_state += 1;
+			elem->old_state = 500;;
 			ui_render_element(elem->parent, elem);
 			SDL_UpdateWindowSurface(elem->extra_info);
 			t = 0;
