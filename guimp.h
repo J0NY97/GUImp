@@ -27,6 +27,8 @@ typedef struct	s_brush
 	char		*font_dir;
 	TTF_Font	*font;
 	char		*str;
+	SDL_Surface	*stickers[5];
+	int			selected_sticker;
 }				t_brush;
 
 typedef	struct	s_win

@@ -136,7 +136,8 @@ struct			s_slider
 
 struct			s_drop_item
 {
-	t_xywh		relative_coords;
+	int			item_nbr;
+	int			selected;
 };
 
 struct			s_drop_down

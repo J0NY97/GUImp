@@ -148,6 +148,7 @@ void	guimp_init(t_info *info)
 		info->brush.old_x = -1;
 		info->brush.old_y = -1;
 		info->brush.str = NULL;
+		info->brush.selected_sticker = 0;
 		//info->brush.text_area->text = NULL;
 	}
 }
@@ -227,8 +228,21 @@ void	hotkey_init(t_info *info, t_libui *libui)
 	ft_add_hotkey(libui, SDLK_d, &key_press);
 }
 
-void	drop_click(SDL_Event e, t_element *elem)
+void	change_sticker(SDL_Event e, t_element *elem)
 {
+	t_element **items;
+	t_drop_down *dd;
+	
+	dd = elem->parent_elem->info;
+	items = dd->items;
+	for (int i = 0; i < dd->item_amount; i++)
+	{
+		dd->items[i]->state = 0;
+		ft_update_element(dd->items[i]);
+	}
+	elem->state = 1;
+	ft_update_element(elem);
+	ft_update_drop(elem->parent_elem);
 	printf("Drop item %s clicked\n", elem->text.text);
 }
 
@@ -238,8 +252,8 @@ void	drop_down_init(t_info *info)
 
 	coord = ui_init_coords(50, 200, 200, 32);
 	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
-	ft_drop_down_add_item(info->drop_down, &drop_click, "item1");
-	ft_drop_down_add_item(info->drop_down, &drop_click, "item2");
+	ft_drop_down_add_item(info->drop_down, &change_sticker, "item1");
+	ft_drop_down_add_item(info->drop_down, &change_sticker, "item2");
 }
 
 void	update_brush(t_info *info)
@@ -264,6 +278,10 @@ void	update_brush(t_info *info)
 	for (int i = 0; i < info->brush_button_amount; i++)
 		if (info->buttons[i]->state == 1)
 			info->brush.type = i + 1;
+	for (int i = 0; i < ((t_drop_down *)info->drop_down->info)->item_amount; i++)
+		if (((t_drop_down *)info->drop_down->info)->items[i]->state == 1)
+			info->brush.selected_sticker = i;
+
 	//should be moved somewhere else but idk where
 	if (info->brush.type == 2 && info->brush.str == NULL)
 		info->brush.str = input_popup(0, 0);
@@ -291,7 +309,7 @@ void	menu_init(t_info *info)
 	info->brush_menu->old_state = 500;
 	ft_update_element(info->brush_menu);
 
-	coord = ui_init_coords(40, 325, 400, 250);
+	coord = ui_init_coords(40, 325, 400, 400);
 	info->col_menu = ui_create_surface(info->toolbox->window, coord, NULL);
 	info->col_menu->set_text = 1;
 	info->col_menu->f = NULL;
@@ -317,6 +335,11 @@ void	drag_drop_thing(t_info *info, t_libui *libui)
 		}
 		ft_strdel(&libui->drag_file);
 	}
+}
+
+void	sticker_init(t_info *info)
+{
+	info->brush.stickers[0] = load_image("resources/stickers/minion.png");
 }
 
 void	parent_elem_test(t_info *info)
@@ -358,8 +381,9 @@ int		main(void)
 	layer_init(info); // slider_init needs to be called before this.
 	hotkey_init(info, libui);
 	utility_init(info); // layer_init needs to be called before this.
+	sticker_init(info);
 	// z_buffer_sort(); // this has to happen after ALL elem inits and BEFORE the main loop
-	ft_set_icon(info->main->window->win, "resources/gimp-icon.png");
+	ft_set_icon(info->main->window->win, "resources/icon/gimp-icon.png");
 
 	parent_elem_test(info);
 	while (info->run)

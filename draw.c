@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/05 15:10:19 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/05 18:09:26 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@ void	pencil(SDL_Surface *surf, t_brush *brush, t_shapes l)
 		ft_create_circle(surf, brush->color, l, 1);
 	if (brush->old_x != -1 && brush->old_y != -1)
 		ft_create_line(surf, brush->color, l);
+}
+
+void	set_sticker(SDL_Surface *surf, t_brush *brush, int x, int y)
+{
+	SDL_Rect temp;
+
+	temp.x = x - (brush->stickers[brush->selected_sticker]->w / 2);
+	temp.y = y - (brush->stickers[brush->selected_sticker]->h / 2);
+	temp.h = 0;
+	temp.w = 0;
+	SDL_BlitSurface(brush->stickers[brush->selected_sticker], NULL, surf, &temp);
 }
 
 void	draw(SDL_Event event, t_element *elem)
@@ -52,6 +63,10 @@ void	draw(SDL_Event event, t_element *elem)
 		{
 			Uint32 targetColor = get_color(elem->surface, l.x2, l.y2);
 			flood_fill(elem->surface, targetColor, brush->color, l.x2, l.y2);
+		}
+		else if (brush->type == 5)
+		{
+			set_sticker(elem->surface, brush, l.x2, l.y2);
 		}
 		else if (brush->type == 8) // pipette
 		{
