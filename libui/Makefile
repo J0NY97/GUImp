@@ -34,6 +34,7 @@ SRCS = ft_test_libui.c\
 	   ft_drop_down_function.c\
 	   ft_strjoiner.c\
 	   ft_default_elem_info.c\
+	   ft_default_text.c\
 	   free.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
