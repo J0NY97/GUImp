@@ -26,7 +26,7 @@ typedef struct	s_brush
 	int			old_y;
 	char		*font_dir;
 	TTF_Font	*font;
-	t_text		*text_area;
+	char		*str;
 }				t_brush;
 
 typedef	struct	s_win
@@ -72,7 +72,7 @@ struct			s_info
 void			event_handler(t_info *info);
 void			check_input(t_info *info);
 void			draw(SDL_Event event, t_element *elem);
-void			text_to_screen(SDL_Surface *surface, t_shapes l, t_brush *brush);
+void			text_to_screen(t_element *elem, t_shapes l, t_brush *brush);
 int				load_font(char *file, TTF_Font *font);
 
 /*

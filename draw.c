@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/03 16:34:25 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 15:10:19 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	draw(SDL_Event event, t_element *elem)
 		if (brush->type == 1)
 			pencil(surface, brush, l);
 		else if (brush->type == 2)
-			text_to_screen(elem->surface, l, brush);
+			text_to_screen(elem, l, brush);
 		else if (brush->type == 3)
 		{
 			brush->color = elem->bg_color;

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 17:32:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/30 16:09:45 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/05 16:42:53 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ void	ft_create_text(t_text *text)
 			(text->parent->w - text->margin));
 	temp.w = text->surface->w;
 	temp.h = text->surface->h;
+	if (text->centered == 1)
+	{
+		temp.x = (text->parent->w / 2) - (text->surface->w / 2);
+		temp.y = (text->parent->h / 2) - (text->surface->h / 2);
+	}
 	SDL_BlitSurface(text->surface, NULL, text->parent, &temp);
 	SDL_FreeSurface(text->surface);
 }
