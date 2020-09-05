@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:54:31 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 19:32:13 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 19:36:51 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_drop_down_function(SDL_Event e, t_element *elem)
 			temp.w = elem->rel_coord.w;
 			temp.h = elem->rel_coord.h;
 			SDL_BlitSurface(elem->parent_elem->surface, &temp, elem->states[2], NULL);
-		//	elem->default_state = 1;
+			elem->default_state = 1;
 		}
 		else if (elem->state == 1)
 		{
