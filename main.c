@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 12:19:20 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/05 14:42:41 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	draw_buttons(SDL_Event e, t_element *elem)
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
 		buttons = (t_element **)elem->extra_info;
-		// the 4 is the amount of buttons in the array, if you add more you have to add more
 		for (int i = 0; i < *but_am; i++)
 			buttons[i]->default_state = 0;
 		elem->default_state = 1;
@@ -32,6 +31,7 @@ void	draw_buttons(SDL_Event e, t_element *elem)
 		elem->state = 2;
 	else if (e.type == SDL_MOUSEBUTTONUP)
 		elem->state = 2;
+
 }
 
 void	button_init(t_info *info)
@@ -170,6 +170,8 @@ void	guimp_init(t_info *info)
 		info->brush.color = 0xd3d3d3;
 		info->brush.old_x = -1;
 		info->brush.old_y = -1;
+		info->brush.str = NULL;
+		//info->brush.text_area->text = NULL;
 	}
 }
 
@@ -289,6 +291,14 @@ void	update_brush(t_info *info)
 	for (int i = 0; i < info->brush_button_amount; i++)
 		if (info->buttons[i]->state == 1)
 			info->brush.type = i + 1;
+	//should be moved somewhere else but idk where
+	if (info->brush.type == 2 && info->brush.str == NULL)
+		info->brush.str = input_popup(0, 0);
+	else if (info->brush.type != 2 && info->brush.str != NULL)
+	{
+		free(info->brush.str);
+		info->brush.str = NULL;
+	}
 	ft_update_background(info->brush_color->surface, info->brush.color);
 }
 
