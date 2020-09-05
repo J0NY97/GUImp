@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 11:18:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 11:11:33 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 11:27:39 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,8 @@ t_element	*ui_create_slider(t_window *win, t_xywh coord, int min, int max)
 	info.f = &ft_slider_function;
 	info.info = (t_slider *)malloc(sizeof(t_slider));
 	info.info_size = 0; // this probably shouldnt be removed, someone who wants to make a custom element can do that using the create_elem()
-	// ft_create_text?
-	{
-		info.text.x = 0;
-		info.text.y = 0;
-		info.text.text = "slider";
-		info.text.color = 0x000000;
-		info.text.margin = 0;
-		info.text.font = TTF_OpenFont("font.ttf", 32);
-	}
+	info.set_text = 0;
+	info.text = ft_default_text(NULL); // This may not be needed
 	if ((elem = ft_create_element(info)) == NULL)
 		ft_putstr("Slider coulndt be created!\n");
 	ft_add_element_to_window_elements(win, elem);

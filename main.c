@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 12:16:24 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/05 12:19:20 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,6 @@ void	add_new_layer(SDL_Event e, t_element *elem)
 	char **dimensions;
 	t_element **drawing;
 // dont add this until shiit is done
-/*	
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
 		drawing = elem->extra_info; // the drawing surfaces
@@ -210,7 +209,6 @@ void	add_new_layer(SDL_Event e, t_element *elem)
 		free(dimensions);
 		free(temp);
 	}
-	*/
 }
 
 void	utility_init(t_info *info)
