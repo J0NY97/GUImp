@@ -228,7 +228,7 @@ void			ft_event_poller(t_libui *libui);
 void			ft_update_background(SDL_Surface *surface, Uint32 color);
 void			ft_create_text(t_text *text);
 void			ft_read_text(t_element *elem, int size);
-void			ft_drop_down_add_item(t_element **drop, void (*f)(SDL_Event e, t_element *elem), char *name);
+void			ft_drop_down_add_item(t_element *drop, void (*f)(SDL_Event e, t_element *elem), char *name);
 void			notify(char *title, char *msg);
 void			error_msg(char *str);
 int				true_false_popup(int x, int y, char *msg);
@@ -242,7 +242,7 @@ t_element_info	ft_default_elem_info(t_window *win, t_xywh coord, t_element *pare
 t_element		*ui_create_button(t_window *win, t_xywh coord, t_element *parent);
 t_element		*ui_create_surface(t_window *win, t_xywh coord, t_element *parent);
 t_element		*ui_create_slider(t_window *win, t_xywh coord, t_element *parent, int min, int max);
-t_element		*ui_create_drop(t_window *win, t_xywh coord);
+t_element		*ui_create_drop(t_window *win, t_xywh coord, t_element *elem);
 t_xywh			ui_init_coords(int x, int y, int w, int h);
 t_text			ft_default_text(char *txt);
 void			ui_render(t_window *win);
@@ -258,6 +258,7 @@ void			ft_add_x_to_list(t_list *old, void *content, size_t content_size);
 void			ft_update_drop(t_element *elem);
 void			ft_drop_down_function(SDL_Event e, t_element *elem);
 void			ft_set_icon(SDL_Window *window, char *dir);
+void			ft_set_slider_value(t_element *elem, int new_value);
 char			*ft_strjoiner(char *first, ...);
 int				ft_keyboard_handler(t_libui *libui);
 /*

@@ -38,6 +38,7 @@ SRCS = ft_test_libui.c\
 	   ft_set_icon.c\
 	   ft_default_text.c\
 	   ft_notify.c\
+	   ft_set_slider_value.c\
 	   free.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 14:35:13 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 16:44:45 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,18 @@ void	ui_clean(t_window *win, t_element *elem)
 	temp.w = elem->surface->w;
 	temp.h = elem->surface->h;
 	black = SDL_CreateRGBSurface(0, temp.w, temp.h, 32, 0, 0, 0, 0);
-	ft_update_background(black, win->bg_color);
-	SDL_BlitSurface(black, NULL, win->surface, &temp);
+	if (elem->parent_elem != NULL)
+	{
+		temp.x = elem->rel_coord.x;
+		temp.y = elem->rel_coord.y;
+		ft_update_background(black, elem->parent_elem->bg_color);
+		SDL_BlitSurface(black, NULL, elem->parent_elem->surface, &temp);
+	}
+	else
+	{
+		ft_update_background(black, win->bg_color);
+		SDL_BlitSurface(black, NULL, win->surface, &temp);
+	}
 	SDL_FreeSurface(black);
 }
 
