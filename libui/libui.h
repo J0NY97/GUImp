@@ -252,4 +252,10 @@ void			ft_drop_down_function(SDL_Event e, t_element *elem);
 char			*ft_strjoiner(char *first, ...);
 t_element_info	ft_default_elem_info(t_window *win, t_xywh coord);
 
+/*
+** Free
+*/
+void		free_element(t_element *elem);
+void		free_window(t_window *win);
+
 #endif
