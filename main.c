@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 16:53:47 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 12:16:24 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,6 +331,7 @@ int		main(void)
 	layer_init(info); // slider_init needs to be called before this.
 	hotkey_init(info, libui);
 	utility_init(info); // layer_init needs to be called before this.
+	ft_set_icon(info->main->window->win, "resources/gimp-icon.png");
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
