@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 11:18:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 13:13:42 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 13:38:07 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ t_element	*ui_create_slider(t_window *win, t_xywh rel_coord, int min, int max)
 		((t_slider *)elem->info)->bar_color = 0xd3d3d3;
 	}
 	int p = ((float)elem->rel_coord.w / (max - min)) * ((t_slider *)elem->info)->value;
-	ft_update_slider_bar(p + elem->rel_coord.x, elem->rel_coord.y, elem);
+	ft_update_slider_bar(p + elem->rel_coord.x, elem->rel_coord.y, elem); // this wont work before the recalc....
 	return (elem);
 }
