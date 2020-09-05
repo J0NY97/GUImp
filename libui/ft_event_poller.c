@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:16:58 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 13:21:13 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/03 15:56:29 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	call_all_element_event_handlers(t_libui *libui, t_window *win)
 void	ft_event_poller(t_libui *libui)
 {
 	t_list *win;
-
+	
 	while(SDL_PollEvent(&libui->event))
 	{
 		if (libui->event.type == SDL_QUIT)
@@ -48,5 +48,7 @@ void	ft_event_poller(t_libui *libui)
 			win = win->next;
 		}
 		ft_keyboard_handler(libui);
+		if (libui->event.type == SDL_DROPFILE)
+			libui->drag_file = drag_and_drop(libui->event);
 	}
 }

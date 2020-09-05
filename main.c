@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 13:13:10 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/03 16:00:11 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,12 @@ void	window_init(t_libui *libui, t_info *info)
 
 	new_win.coord = ui_init_coords(0, 0, 500, 1250);
 	new_win.title = ft_strdup("toolbox");
+	new_win.bg_color = 0xd3d3d3;
 	info->toolbox->window = ft_create_window(libui, new_win);
 	
 	new_win.coord = ui_init_coords(501, 0, 1000, 1250);
 	new_win.title = ft_strdup("main");
+	new_win.bg_color = 0xd3d3d3;
 	info->main->window = ft_create_window(libui, new_win);
 }
 
@@ -165,24 +167,59 @@ void	save_img(SDL_Event e, t_element *elem)
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
 		pic = ((t_element *)elem->extra_info)->surface;
-		if (!save_image(pic, "default")) // this should be file name without the file type.... for now
+		if (!save_image(pic, input_popup(100, 100))) // this should be file name without the file type.... for now
 			printf("Picture couldnt be saved.\n");
 		else
 			printf("Picture saved.\n");
 	}
 }
 
+void	add_new_layer(SDL_Event e, t_element *elem)
+{
+	char *temp;
+	char **dimensions;
+	t_element **drawing;
+// dont add this until shiit is done
+/*	
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+	{
+		drawing = elem->extra_info; // the drawing surfaces
+		temp = input_popup(0, 0);
+		dimensions = ft_strsplit(temp, 'x');
+	
+		printf("%sx%s\n", dimensions[0], dimensions[1]);
+
+		SDL_FreeSurface(drawing[0]->surface);
+		drawing[0]->surface = SDL_CreateRGBSurface(0, ft_atoi(dimensions[0]), ft_atoi(dimensions[1]), 32, 0, 0, 0, 0);
+		ft_update_background(drawing[0]->surface, drawing[0]->bg_color);
+		ft_strdel(&dimensions[0]);
+		ft_strdel(&dimensions[1]);
+		free(dimensions);
+		free(temp);
+	}
+	*/
+}
+
 void	utility_init(t_info *info)
 {
 	t_xywh coord;
 
-	coord = ui_init_coords(50, info->toolbox->window->surface->h - 50, 100, 50);
+	// save_button
+	coord = ui_init_coords(50, info->toolbox->window->surface->h - 60, 100, 50);
 	info->save_button = ui_create_button(info->toolbox->window, coord);
 	info->save_button->text.text = ft_strdup("save");
 	info->save_button->f = &save_img;
 	info->save_button->extra_info = info->drawing_surface[0];
 	info->save_button->old_state = 500;
 	ft_update_element(info->save_button);
+
+	coord = ui_init_coords(200, info->toolbox->window->surface->h - 60, 100, 50);
+	info->new_layer_button = ui_create_button(info->toolbox->window, coord);
+	info->new_layer_button->text.text = ft_strdup("new layer");
+	info->new_layer_button->f = &add_new_layer;
+	info->new_layer_button->extra_info = info->drawing_surface;
+	info->new_layer_button->old_state = 500;
+	ft_update_element(info->new_layer_button);
 }
 
 void	key_press(SDL_Event e, t_hotkey *hotkey)
@@ -225,16 +262,18 @@ void	update_brush(t_info *info)
 	ft_update_background(info->brush_color->surface, info->brush.color);
 }
 
-void	check_for_drag_droppings(char *file, t_info *info)
+void	drag_drop_thing(t_info *info, t_libui *libui)
 {
 	SDL_Surface *new_image;
-	if (file)
+
+	if (libui->drag_file != NULL)
 	{
-		if ((new_image = load_image(file)))
+		if ((new_image = load_image(libui->drag_file)))
 		{
 			SDL_BlitSurface(new_image, NULL, info->drawing_surface[0]->surface, NULL);
+			SDL_FreeSurface(new_image);
 		}
-		SDL_FreeSurface(new_image);
+		ft_strdel(&libui->drag_file);
 	}
 }
 
@@ -263,7 +302,7 @@ int		main(void)
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
-		check_for_drag_droppings(drag_and_drop(libui->event), info);
+		drag_drop_thing(info, libui);
 		update_brush(info);
 		ui_render(info->toolbox->window);
 		ui_render(info->main->window);

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:15:15 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 15:20:28 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/05 10:56:45 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ t_window	*ft_create_window(t_libui *libui, t_window_info info)
 	if (!new_window->win)
 		printf("[create_window] : %s\n", SDL_GetError());
 	new_window->surface = SDL_GetWindowSurface(new_window->win);
+	ft_update_background(new_window->surface, info.bg_color);
 //	SDL_SetWindowResizable(new_window->win, info.resizeable);
 	new_window->id = SDL_GetWindowID(new_window->win);
 	new_window->elements = NULL;
+	new_window->bg_color = info.bg_color;
 	ft_strdel(&info.title);
 	free(info.title);
 	ft_add_window_to_libui_windows(libui, new_window);

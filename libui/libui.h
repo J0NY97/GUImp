@@ -51,6 +51,7 @@ typedef struct	s_libui
 	SDL_Event	event;
 	t_list		*windows;
 	t_list		*hotkeys;
+	char		*drag_file;
 }				t_libui;
 
 struct			s_hotkey
@@ -162,7 +163,8 @@ struct			s_window_info
 	int			w;
 	int			h;
 	int			flags;
-	int			resizeable;	
+	int			resizeable;
+	int			bg_color;	
 };
 
 struct s_window
@@ -171,6 +173,7 @@ struct s_window
 	SDL_Surface	*surface;
 	t_list		*elements;
 	Uint32		id;
+	int			bg_color;
 };
 
 typedef struct	s_shapes
@@ -246,6 +249,7 @@ int				ft_keyboard_handler(t_libui *libui);
 t_element		*ui_create_drop(t_window *win, t_xywh coord);
 void			ft_update_drop(t_element *elem);
 void			ft_drop_down_function(SDL_Event e, t_element *elem);
+char			*ft_strjoiner(char *first, ...);
 
 /*
 ** Free
