@@ -247,4 +247,10 @@ t_element		*ui_create_drop(t_window *win, t_xywh coord);
 void			ft_update_drop(t_element *elem);
 void			ft_drop_down_function(SDL_Event e, t_element *elem);
 
+/*
+** Free
+*/
+void		free_element(t_element *elem);
+void		free_window(t_window *win);
+
 #endif
