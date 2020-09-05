@@ -338,6 +338,9 @@ void	parent_elem_test(t_info *info)
 
 	coord = ui_init_coords(10, 10, 10, 10);
 	butt = ui_create_button(info->toolbox->window, coord, menu);
+	butt->bg_color = 0x3dffff;
+	ft_update_background(butt->states[0], butt->bg_color);
+	butt->old_state = 500;
 }
 
 int		main(void)
