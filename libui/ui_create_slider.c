@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 11:18:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/02 13:05:08 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 11:11:33 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,10 @@ t_element	*ui_create_slider(t_window *win, t_xywh coord, int min, int max)
 	t_element_info	info;
 	t_element		*elem;
 
-	info.coord = coord;
-	info.parent = win->surface;
+	info = ft_default_elem_info(win, coord);
+	info.f = &ft_slider_function;
 	info.info = (t_slider *)malloc(sizeof(t_slider));
 	info.info_size = 0; // this probably shouldnt be removed, someone who wants to make a custom element can do that using the create_elem()
-	info.f = &ft_slider_function; // thsi should be slider specific...
-	info.event_handler = &ft_event_handler;
-	info.bg_color = 0xffffff;
-	info.extra_info = NULL;
-	info.set_text = 0;
 	// ft_create_text?
 	{
 		info.text.x = 0;
