@@ -225,6 +225,17 @@ void	utility_init(t_info *info)
 	info->new_layer_button->extra_info = info->drawing_surface;
 	info->new_layer_button->old_state = 500;
 	ft_update_element(info->new_layer_button);
+
+	coord = ui_init_coords(50, 1000, 250, 50);
+	info->text_area = ui_create_button(info->toolbox->window, coord, NULL);
+	info->text_area->text.text = ft_strdup("Print Text");
+	info->text_area->f = &text_area;
+	info->text_area->text.y = 10;
+	info->text_area->text.x = 10;
+	info->text_area->set_text = 1;
+	info->text_area->old_state = 500;
+	info->text_area->extra_info = info->toolbox->window->win;
+	ft_update_element(info->text_area);
 }
 
 void	key_press(SDL_Event e, t_hotkey *hotkey)
@@ -283,14 +294,6 @@ void	update_brush(t_info *info)
 	for (int i = 0; i < info->brush_button_amount; i++)
 		if (info->buttons[i]->state == 1)
 			info->brush.type = i + 1;
-	//should be moved somewhere else but idk where
-	if (info->brush.type == 2 && info->brush.str == NULL)
-		info->brush.str = input_popup(0, 0);
-	else if (info->brush.type != 2 && info->brush.str != NULL)
-	{
-		free(info->brush.str);
-		info->brush.str = NULL;
-	}
 	ft_update_background(info->brush_color->surface, info->brush.color);
 }
 
@@ -302,8 +305,9 @@ void	menu_init(t_info *info)
 	info->brush_menu = ui_create_surface(info->toolbox->window, coord, NULL);
 	info->brush_menu->set_text = 1;
 	info->brush_menu->f = NULL;
-	info->brush_menu->text = ft_default_text("brush buttons");
+	info->brush_menu->text = ft_default_text("Brush buttons");
 	info->brush_menu->bg_color = 0xa9a9a9;
+	info->brush_menu->text.x = 5;
 	ft_update_background(info->brush_menu->states[0], 0xa9a9a9);
 	TTF_CloseFont(info->brush_menu->text.font);
 	info->brush_menu->text.font = TTF_OpenFont("font.ttf", 20);
@@ -314,8 +318,9 @@ void	menu_init(t_info *info)
 	info->col_menu = ui_create_surface(info->toolbox->window, coord, NULL);
 	info->col_menu->set_text = 1;
 	info->col_menu->f = NULL;
-	info->col_menu->text = ft_default_text("brush modifier");
+	info->col_menu->text = ft_default_text("Brush modifier");
 	info->col_menu->bg_color = 0xaa9a9;
+	info->col_menu->text.x = 5;
 	ft_update_background(info->col_menu->states[0], 0xa9a9a9);
 	TTF_CloseFont(info->col_menu->text.font);
 	info->col_menu->text.font = TTF_OpenFont("font.ttf", 20);
@@ -364,9 +369,9 @@ int		main(void)
 
 	if (!(libui = (t_libui *)malloc(sizeof(t_libui))))
 		exit (0);
+	ui_libui_init(libui);
 	if (!(info = (t_info *)malloc(sizeof(t_info))))
 		exit (0);
-	ui_libui_init(libui);
 	guimp_init(info);
 
 	window_init(libui, info);
