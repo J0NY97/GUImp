@@ -257,6 +257,7 @@ void			ft_add_x_to_list(t_list *old, void *content, size_t content_size);
 void			ft_update_drop(t_element *elem);
 void			ft_drop_down_function(SDL_Event e, t_element *elem);
 void			ft_set_icon(SDL_Window *window, char *dir);
+void			ft_set_slider_value(t_element *elem, int new_value);
 char			*ft_strjoiner(char *first, ...);
 int				ft_keyboard_handler(t_libui *libui);
 /*

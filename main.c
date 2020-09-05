@@ -20,7 +20,6 @@ void	draw_buttons(SDL_Event e, t_element *elem)
 		elem->state = 2;
 	else if (e.type == SDL_MOUSEBUTTONUP)
 		elem->state = 2;
-
 }
 
 void	button_init(t_info *info)
@@ -109,23 +108,11 @@ void	slider_init(t_info *info)
 
 	coord = ui_init_coords(25, 125, 200, 20);
 	info->size_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 1, 100);
-	((t_slider *)info->size_slider->info)->value = 10;
 
- 	int t = ((float)info->r_slider->coord.w / (((t_slider *)info->r_slider->info)->max - ((t_slider *)info->r_slider->info)->min)) *
-			((t_slider *)info->r_slider->info)->value;
-	ft_update_slider_bar(t + info->r_slider->coord.x, 0, info->r_slider);
-
-	t = ((float)info->g_slider->coord.w / (((t_slider *)info->g_slider->info)->max - ((t_slider *)info->g_slider->info)->min)) *
-			((t_slider *)info->g_slider->info)->value;
-	ft_update_slider_bar(t + info->g_slider->coord.x, 0, info->g_slider);
-
-	t = ((float)info->b_slider->coord.w / (((t_slider *)info->b_slider->info)->max - ((t_slider *)info->b_slider->info)->min)) *
-			((t_slider *)info->b_slider->info)->value;
-	ft_update_slider_bar(t + info->b_slider->coord.x, 0, info->b_slider);
-
-	t = ((float)info->size_slider->coord.w / (((t_slider *)info->size_slider->info)->max - ((t_slider *)info->size_slider->info)->min)) *
-			((t_slider *)info->size_slider->info)->value;
-	ft_update_slider_bar(t + info->size_slider->coord.x, 0, info->size_slider);
+	ft_set_slider_value(info->r_slider, 125);
+	ft_set_slider_value(info->g_slider, 125);
+	ft_set_slider_value(info->b_slider, 125);
+	ft_set_slider_value(info->size_slider, 10);
 }
 
 void	window_init(t_libui *libui, t_info *info)
@@ -249,7 +236,7 @@ void	drop_down_init(t_info *info)
 {
 	t_xywh coord;
 
-	coord = ui_init_coords(50, 100, 200, 32);
+	coord = ui_init_coords(50, 200, 200, 32);
 	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
 	ft_drop_down_add_item(info->drop_down, &drop_click, "item1");
 	ft_drop_down_add_item(info->drop_down, &drop_click, "item2");
@@ -262,16 +249,10 @@ void	update_brush(t_info *info)
 		SDL_Color color;
 
 		color = hex_to_rgba(info->brush.color);
-		((t_slider *)info->r_slider->info)->value = color.r;
-		((t_slider *)info->g_slider->info)->value = color.g;
-		((t_slider *)info->b_slider->info)->value = color.b;
 
-		int t = ((float)info->r_slider->coord.w / 255) * ((t_slider *)info->r_slider->info)->value;
-		ft_update_slider_bar(t + info->r_slider->coord.x, 0, info->r_slider);
-		t = ((float)info->g_slider->coord.w / 255) * ((t_slider *)info->g_slider->info)->value;
-		ft_update_slider_bar(t + info->g_slider->coord.x, 0, info->g_slider);
-		t = ((float)info->b_slider->coord.w / 255) * ((t_slider *)info->b_slider->info)->value;
-		ft_update_slider_bar(t + info->b_slider->coord.x, 0, info->b_slider);
+		ft_set_slider_value(info->r_slider, color.r);
+		ft_set_slider_value(info->g_slider, color.g);
+		ft_set_slider_value(info->b_slider, color.b);
 	}
 	else
 	{
@@ -348,7 +329,7 @@ void	parent_elem_test(t_info *info)
 	menu = ui_create_surface(info->toolbox->window, coord, NULL);
 	menu->bg_color = 0xa9a9a9;
 	menu->old_state = 500;
-	ft_update_background(menu->states[0], 0xa9a9a9);
+	ft_update_background(menu->states[0], menu->bg_color);
 
 	coord = ui_init_coords(10, 10, 10, 10);
 	butt = ui_create_button(info->toolbox->window, coord, menu);
