@@ -78,7 +78,8 @@ struct	s_element_info
 	int			y;
 	int			w;
 	int			h;
-	t_xywh		coord;
+	t_xywh		rel_coord;
+	int			z_buffer;
 	int			bg_color;
 	size_t		info_size;
 	void		*info;
@@ -87,16 +88,19 @@ struct	s_element_info
 	int			(*event_handler)(SDL_Event, t_element *);
 	int			set_text;
 	t_text		text;
+	t_element	*parent_elem;
 	SDL_Surface	*parent;
 };
 
 struct	s_element
 {
 	int			state; //0 = press, 1 = hover, 2 = click
+	int			z_buffer;
 	int			old_state;
 	int			default_state;
 	int			statique;
 	t_xywh		coord;
+	t_xywh		rel_coord;
 	int			bg_color;
 	void		*info;
 	void		*extra_info;
@@ -104,6 +108,7 @@ struct	s_element
 	int			(*event_handler)(SDL_Event, t_element *);
 	int			set_text;
 	t_text		text;
+	t_element	*parent_elem;
 	SDL_Surface	*parent;
 	SDL_Surface *surface;
 	SDL_Surface	*states[3];

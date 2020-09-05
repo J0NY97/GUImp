@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 16:01:39 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 13:31:22 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,21 @@ void	ui_clean(t_window *win, t_element *elem)
 	SDL_FreeSurface(black);
 }
 
+void	ui_recalc_elem(t_element *elem)
+{
+	if (elem->parent_elem != NULL)
+	{
+		elem->coord.x = elem->rel_coord.x + elem->parent_elem->coord.x;
+		elem->coord.y = elem->rel_coord.y + elem->parent_elem->coord.y;
+		elem->coord.w = elem->rel_coord.w;
+		elem->coord.h = elem->rel_coord.h;
+	}
+	else
+	{
+		elem->coord = elem->rel_coord;
+	}
+}
+
 void	ui_render(t_window *win)
 {
 	t_list *curr;
@@ -50,6 +65,7 @@ void	ui_render(t_window *win)
 	curr = win->elements;
 	while (curr != NULL)
 	{
+		ui_recalc_elem((t_element *)curr->content);
 		ui_render_element(win->surface, (t_element *)curr->content);
 		curr = curr->next;
 	}
