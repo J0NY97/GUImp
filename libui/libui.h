@@ -252,6 +252,7 @@ void			ft_drop_down_function(SDL_Event e, t_element *elem);
 char			*ft_strjoiner(char *first, ...);
 t_element_info	ft_default_elem_info(t_window *win, t_xywh coord);
 void			ft_set_icon(SDL_Window *window, char *dir);
+t_text			ft_default_text(char *txt);
 /*
 ** Free
 */
