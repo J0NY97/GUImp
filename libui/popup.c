@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/03 16:35:44 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/05 11:20:34 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,23 +76,25 @@ char		*input_popup(int x1, int y1)
 		ui_render(win);
 		ft_event_poller(libui);
 	}
-	SDL_DestroyWindow(win->win);
-	free(win);
 	char *str;
+
 	str = ft_strdup(buttons[1]->text.text);
-	free(win);
-	free(buttons[0]);
-	free(buttons[1]);
+	free_element(buttons[1]);
+	free_element(buttons[0]);
+	free_window(win);
+
+	free(libui->windows);
+	free(libui->hotkeys);
 	free(libui);
 	return (str);
 }
 
 int			true_false_popup(int x1, int y1, char *msg)
 {
-	t_window		*win;
 	t_window_info	test;
+	t_window		*win;
 	t_libui			*libui;
-	t_element *buttons[2];
+	t_element		*buttons[2];
 
 	libui = (t_libui *)malloc(sizeof(t_libui));
 	ui_libui_init(libui);
