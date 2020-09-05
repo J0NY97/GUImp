@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 11:31:44 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 13:32:52 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,6 +292,35 @@ void	update_brush(t_info *info)
 	ft_update_background(info->brush_color->surface, info->brush.color);
 }
 
+void	menu_init(t_info *info)
+{
+	t_xywh coord;
+
+	coord = ui_init_coords(40, 20, 400, 250);
+	info->brush_menu = ui_create_surface(info->toolbox->window, coord);
+	info->brush_menu->set_text = 1;
+	info->brush_menu->f = NULL;
+	info->brush_menu->text = ft_default_text("brush buttons");
+	info->brush_menu->bg_color = 0xa9a9a9;
+	ft_update_background(info->brush_menu->states[0], 0xa9a9a9);
+	TTF_CloseFont(info->brush_menu->text.font);
+	info->brush_menu->text.font = TTF_OpenFont("font.ttf", 20);
+	info->brush_menu->old_state = 500;
+	ft_update_element(info->brush_menu);
+
+	coord = ui_init_coords(40, 325, 400, 250);
+	info->col_menu = ui_create_surface(info->toolbox->window, coord);
+	info->col_menu->set_text = 1;
+	info->col_menu->f = NULL;
+	info->col_menu->text = ft_default_text("brush modifier");
+	info->col_menu->bg_color = 0xaa9a9;
+	ft_update_background(info->col_menu->states[0], 0xa9a9a9);
+	TTF_CloseFont(info->col_menu->text.font);
+	info->col_menu->text.font = TTF_OpenFont("font.ttf", 20);
+	info->col_menu->old_state = 500;
+	ft_update_element(info->col_menu);
+}
+
 void	drag_drop_thing(t_info *info, t_libui *libui)
 {
 	SDL_Surface *new_image;
@@ -316,19 +345,18 @@ int		main(void)
 		exit (0);
 	if (!(info = (t_info *)malloc(sizeof(t_info))))
 		exit (0);
-	SDL_Init(SDL_INIT_VIDEO);
-	TTF_Init();
-	IMG_Init(0);
 	ui_libui_init(libui);
 	guimp_init(info);
 
 	window_init(libui, info);
 	button_init(info);
 	slider_init(info);
-	drop_down_init(info);
+//	drop_down_init(info);
 	layer_init(info); // slider_init needs to be called before this.
 	hotkey_init(info, libui);
 	utility_init(info); // layer_init needs to be called before this.
+	menu_init(info); // this needs to be called last because otherwise it will be drawn on top of everything
+	// z_buffer_sort(); // this has to happen after ALL elem inits and BEFORE the main loop
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
