@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 11:11:57 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 11:32:27 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 13:15:54 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_drop_down_add_item(t_element **drop, void (*f)(SDL_Event e, t_element *elem), char *name)
 {
-	t_drop_down *dd;
+/*	t_drop_down *dd;
 	t_element_info info;
 	t_element *last_item;
 	
@@ -28,7 +28,7 @@ void	ft_drop_down_add_item(t_element **drop, void (*f)(SDL_Event e, t_element *e
 	info.info = (t_drop_item *)malloc(sizeof(t_drop_item));
 	((t_drop_item *)info.info)->relative_coords = ui_init_coords(0, info.coord.y - (*drop)->coord.y, info.coord.w, info.coord.h);
 
-	printf("actual y %d, relative y %d\n", info.coord.y, ((t_drop_item *)info.info)->relative_coords.y);
+//	printf("actual y %d, relative y %d\n", info.coord.y, ((t_drop_item *)info.info)->relative_coords.y);
 
 	info.info_size = 0;
 	info.parent = (*drop)->parent; // this wont work because the surface of the parent will update everytime it is clicked
@@ -48,4 +48,6 @@ void	ft_drop_down_add_item(t_element **drop, void (*f)(SDL_Event e, t_element *e
 	dd->items[dd->item_amount] = ft_create_element(info);
 	dd->item_amount += 1;
 	ft_update_drop((*drop));
+	*/
+	printf("You called create drop down and it is currently not working, so dont do that please =)\n");
 }

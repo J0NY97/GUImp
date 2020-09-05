@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:47:20 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 11:12:54 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 14:24:29 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_element *ui_create_drop(t_window *win, t_xywh coord)
 	t_element_info	info;
 	t_element		*elem;
 
-	info = ft_default_elem_info(win, coord);
+	info = ft_default_elem_info(win, coord, NULL);
 	info.info = (t_drop_down *)malloc(sizeof(t_drop_down));
 	info.info_size = 0;
 	info.f = &ft_drop_down_function;

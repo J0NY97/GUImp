@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 14:42:41 by nneronin         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "guimp.h"
 
@@ -39,36 +28,36 @@ void	button_init(t_info *info)
 	t_xywh coord;
 
 	coord = ui_init_coords(75, 50, 100, 50);
-	info->buttons[0] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[0] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	info->buttons[0]->text.text = ft_strdup("circle");
 	info->buttons[0]->default_state = 1;
 
 	coord = ui_init_coords(200, 50, 100, 50);
-	info->buttons[1] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[1] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	info->buttons[1]->text.text = ft_strdup("text");
 
 	coord = ui_init_coords(325, 50, 100, 50);
-	info->buttons[2] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[2] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	info->buttons[2]->text.text = ft_strdup("delete");
 
 	coord = ui_init_coords(75, 125, 100, 50);
-	info->buttons[3] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[3] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	info->buttons[3]->text.text = ft_strdup("flood");
 
 	coord = ui_init_coords(200, 125, 100, 50);
-	info->buttons[4] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[4] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	info->buttons[4]->text.text = ft_strdup("sticker");
 
 	coord = ui_init_coords(325, 125, 100, 50);
-	info->buttons[5] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[5] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	info->buttons[5]->text.text = ft_strdup("magnify");
 
 	coord = ui_init_coords(75, 200, 100, 50);
-	info->buttons[6] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[6] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	info->buttons[6]->text.text = ft_strdup("move");
 
 	coord = ui_init_coords(200, 200, 100, 50);
-	info->buttons[7] = ui_create_button(info->toolbox->window, coord);
+	info->buttons[7] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	info->buttons[7]->text.text = ft_strdup("pippette");
 
 	info->brush_button_amount = 8;
@@ -90,14 +79,14 @@ void	layer_init(t_info *info)
 	coord = ui_init_coords(50, 50,
 			info->main->window->surface->w - (100),
 			info->main->window->surface->h - (100));
-	info->drawing_surface[0] = ui_create_surface(info->main->window, coord);
+	info->drawing_surface[0] = ui_create_surface(info->main->window, coord, NULL);
 	info->drawing_surface[0]->f = &draw;
 	info->drawing_surface[0]->statique = 1;
 	info->drawing_surface[0]->extra_info = &info->brush;
 
 	// brush color surface
 	coord = ui_init_coords(325, 350, 100, 100);
-	info->brush_color = ui_create_surface(info->toolbox->window, coord);
+	info->brush_color = ui_create_surface(info->toolbox->window, coord, NULL);
 	info->brush_color->f = NULL; // not needed but it will spam the terminal otherwise
 }
 
@@ -105,20 +94,20 @@ void	slider_init(t_info *info)
 {
 	t_xywh	coord;
 
-	coord = ui_init_coords(100, 350, 200, 20);
-	info->r_slider = ui_create_slider(info->toolbox->window, coord, 0, 255);
+	coord = ui_init_coords(50, 50, 200, 20);
+	info->r_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 0, 255);
 	((t_slider *)info->r_slider->info)->bar_color = 0xff0000;
 
 	coord = ui_init_coords(100, 375, 200, 20);
-	info->g_slider = ui_create_slider(info->toolbox->window, coord, 0, 255);
+	info->g_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 0, 255);
 	((t_slider *)info->g_slider->info)->bar_color = 0x00ff00;
 
 	coord = ui_init_coords(100, 400, 200, 20);
-	info->b_slider = ui_create_slider(info->toolbox->window, coord, 0, 255);
+	info->b_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 0, 255);
 	((t_slider *)info->b_slider->info)->bar_color = 0x0000ff;
 
 	coord = ui_init_coords(100, 425, 200, 20);
-	info->size_slider = ui_create_slider(info->toolbox->window, coord, 1, 100);
+	info->size_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 1, 100);
 	((t_slider *)info->size_slider->info)->value = 10;
 
  	int t = ((float)info->r_slider->coord.w / (((t_slider *)info->r_slider->info)->max - ((t_slider *)info->r_slider->info)->min)) *
@@ -219,7 +208,7 @@ void	utility_init(t_info *info)
 
 	// save_button
 	coord = ui_init_coords(50, info->toolbox->window->surface->h - 60, 100, 50);
-	info->save_button = ui_create_button(info->toolbox->window, coord);
+	info->save_button = ui_create_button(info->toolbox->window, coord, NULL);
 	info->save_button->text.text = ft_strdup("save");
 	info->save_button->f = &save_img;
 	info->save_button->extra_info = info->drawing_surface[0];
@@ -227,7 +216,7 @@ void	utility_init(t_info *info)
 	ft_update_element(info->save_button);
 
 	coord = ui_init_coords(200, info->toolbox->window->surface->h - 60, 100, 50);
-	info->new_layer_button = ui_create_button(info->toolbox->window, coord);
+	info->new_layer_button = ui_create_button(info->toolbox->window, coord, NULL);
 	info->new_layer_button->text.text = ft_strdup("new layer");
 	info->new_layer_button->f = &add_new_layer;
 	info->new_layer_button->extra_info = info->drawing_surface;
@@ -302,6 +291,35 @@ void	update_brush(t_info *info)
 	ft_update_background(info->brush_color->surface, info->brush.color);
 }
 
+void	menu_init(t_info *info)
+{
+	t_xywh coord;
+
+	coord = ui_init_coords(40, 20, 400, 250);
+	info->brush_menu = ui_create_surface(info->toolbox->window, coord, NULL);
+	info->brush_menu->set_text = 1;
+	info->brush_menu->f = NULL;
+	info->brush_menu->text = ft_default_text("brush buttons");
+	info->brush_menu->bg_color = 0xa9a9a9;
+	ft_update_background(info->brush_menu->states[0], 0xa9a9a9);
+	TTF_CloseFont(info->brush_menu->text.font);
+	info->brush_menu->text.font = TTF_OpenFont("font.ttf", 20);
+	info->brush_menu->old_state = 500;
+	ft_update_element(info->brush_menu);
+
+	coord = ui_init_coords(40, 325, 400, 250);
+	info->col_menu = ui_create_surface(info->toolbox->window, coord, NULL);
+	info->col_menu->set_text = 1;
+	info->col_menu->f = NULL;
+	info->col_menu->text = ft_default_text("brush modifier");
+	info->col_menu->bg_color = 0xaa9a9;
+	ft_update_background(info->col_menu->states[0], 0xa9a9a9);
+	TTF_CloseFont(info->col_menu->text.font);
+	info->col_menu->text.font = TTF_OpenFont("font.ttf", 20);
+	info->col_menu->old_state = 500;
+	ft_update_element(info->col_menu);
+}
+
 void	drag_drop_thing(t_info *info, t_libui *libui)
 {
 	SDL_Surface *new_image;
@@ -317,6 +335,25 @@ void	drag_drop_thing(t_info *info, t_libui *libui)
 	}
 }
 
+void	parent_elem_test(t_info *info)
+{
+	t_xywh		coord;
+	t_element	*menu;
+	t_element	*butt;
+
+	coord = ui_init_coords(50, 800, 100, 100);
+	menu = ui_create_surface(info->toolbox->window, coord, NULL);
+	menu->bg_color = 0xa9a9a9;
+	menu->old_state = 500;
+	ft_update_background(menu->states[0], 0xa9a9a9);
+
+	coord = ui_init_coords(10, 10, 10, 10);
+	butt = ui_create_button(info->toolbox->window, coord, menu);
+	butt->bg_color = 0x3dffff;
+	ft_update_background(butt->states[0], butt->bg_color);
+	butt->old_state = 500;
+}
+
 int		main(void)
 {
 	t_libui *libui;
@@ -326,20 +363,21 @@ int		main(void)
 		exit (0);
 	if (!(info = (t_info *)malloc(sizeof(t_info))))
 		exit (0);
-	SDL_Init(SDL_INIT_VIDEO);
-	TTF_Init();
-	IMG_Init(0);
 	ui_libui_init(libui);
 	guimp_init(info);
 
 	window_init(libui, info);
+	menu_init(info);
 	button_init(info);
 	slider_init(info);
-	drop_down_init(info);
+//	drop_down_init(info);
 	layer_init(info); // slider_init needs to be called before this.
 	hotkey_init(info, libui);
 	utility_init(info); // layer_init needs to be called before this.
+	// z_buffer_sort(); // this has to happen after ALL elem inits and BEFORE the main loop
 	ft_set_icon(info->main->window->win, "resources/gimp-icon.png");
+
+	parent_elem_test(info);
 	while (info->run)
 	{
 		ft_event_poller(libui); // input

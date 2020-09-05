@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/05 11:20:34 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/05 14:24:05 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char		*input_popup(int x1, int y1)
 
 	result = -1;
 	coord = ui_init_coords(50, 200, 100, 50);
-	buttons[0] = ui_create_button(win, coord);
+	buttons[0] = ui_create_button(win, coord, NULL); // NIKLAS, sista parametern is parenten for elementen
 	buttons[0]->text.text = ft_strdup("OK");
 	buttons[0]->text.x = 25;
 	buttons[0]->text.y = 0;
@@ -60,7 +60,7 @@ char		*input_popup(int x1, int y1)
 	ft_update_background(buttons[0]->states[0], 0x0082c4);
 
 	coord = ui_init_coords(50, 100, 250, 50);
-	buttons[1] = ui_create_button(win, coord);
+	buttons[1] = ui_create_button(win, coord, NULL);
 	buttons[1]->text.text = ft_strdup("Input");
 	buttons[1]->text.parent = win->surface;
 	buttons[1]->set_text = 1;
@@ -107,7 +107,7 @@ int			true_false_popup(int x1, int y1, char *msg)
 
 	result = -1;
 	coord = ui_init_coords(50, 200, 100, 50);
-	buttons[0] = ui_create_button(win, coord);
+	buttons[0] = ui_create_button(win, coord, NULL);
 	buttons[0]->text.text = ft_strdup("OK");
 	buttons[0]->text.x = 15;
 	buttons[0]->text.y = 5;
@@ -118,7 +118,7 @@ int			true_false_popup(int x1, int y1, char *msg)
 	ft_update_background(buttons[0]->states[0], 0x0082c4);
 
 	coord = ui_init_coords(200, 200, 100, 50);
-	buttons[1] = ui_create_button(win, coord);
+	buttons[1] = ui_create_button(win, coord, NULL);
 	buttons[1]->text.text = ft_strdup("CANCEL");
 	buttons[1]->text.x = 5;
 	buttons[1]->text.y = 5;

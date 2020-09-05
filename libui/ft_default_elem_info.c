@@ -6,17 +6,19 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 10:57:10 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 11:09:36 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 14:21:08 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-t_element_info		ft_default_elem_info(t_window *win, t_xywh coord)
+t_element_info		ft_default_elem_info(t_window *win, t_xywh rel_coord, t_element *parent)
 {
 	t_element_info info;
 
-	info.coord = coord;
+	info.rel_coord = rel_coord;
+	info.parent_elem = parent;
+	info.z_buffer = 0;
 	info.parent = win->surface;
 	info.f = &default_click;
 	info.event_handler = &ft_event_handler;

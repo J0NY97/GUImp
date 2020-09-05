@@ -78,7 +78,8 @@ struct	s_element_info
 	int			y;
 	int			w;
 	int			h;
-	t_xywh		coord;
+	t_xywh		rel_coord;
+	int			z_buffer;
 	int			bg_color;
 	size_t		info_size;
 	void		*info;
@@ -87,16 +88,19 @@ struct	s_element_info
 	int			(*event_handler)(SDL_Event, t_element *);
 	int			set_text;
 	t_text		text;
+	t_element	*parent_elem;
 	SDL_Surface	*parent;
 };
 
 struct	s_element
 {
 	int			state; //0 = press, 1 = hover, 2 = click
+	int			z_buffer;
 	int			old_state;
 	int			default_state;
 	int			statique;
 	t_xywh		coord;
+	t_xywh		rel_coord;
 	int			bg_color;
 	void		*info;
 	void		*extra_info;
@@ -104,6 +108,7 @@ struct	s_element
 	int			(*event_handler)(SDL_Event, t_element *);
 	int			set_text;
 	t_text		text;
+	t_element	*parent_elem;
 	SDL_Surface	*parent;
 	SDL_Surface *surface;
 	SDL_Surface	*states[3];
@@ -231,28 +236,28 @@ char			*input_popup(int x, int y);
 /*
  ** NOTE: the ui creation could use create_surface for the boilerplate and the element type specific stuff can be edited in the relevant funcs
 */
-t_element		*ui_create_button(t_window *win, t_xywh coord);
-t_element		*ui_create_surface(t_window *win, t_xywh coord);
+t_element_info	ft_default_elem_info(t_window *win, t_xywh coord, t_element *parent);
+t_element		*ui_create_button(t_window *win, t_xywh coord, t_element *parent);
+t_element		*ui_create_surface(t_window *win, t_xywh coord, t_element *parent);
+t_element		*ui_create_slider(t_window *win, t_xywh coord, t_element *parent, int min, int max);
+t_element		*ui_create_drop(t_window *win, t_xywh coord);
+t_xywh			ui_init_coords(int x, int y, int w, int h);
+t_text			ft_default_text(char *txt);
 void			ui_render(t_window *win);
 void			ui_render_element(SDL_Surface *win, t_element *elem);
 void			ft_add_element_to_window_elements(t_window *win, t_element *elem);
 void			ft_add_window_to_libui_windows(t_libui *libui, t_window *win);
 void			default_click(SDL_Event e, t_element *elem);
 void			ui_libui_init(t_libui *libui);
-t_xywh			ui_init_coords(int x, int y, int w, int h);
-t_element		*ui_create_slider(t_window *win, t_xywh coord, int min, int max);
 void			ft_slider_function(SDL_Event e, t_element *elem);
 void			ft_update_slider_bar(int click_x, int click_y, t_element *elem);
 void			ft_add_hotkey(t_libui *libui, SDL_Keycode, void (*f)());
 void			ft_add_x_to_list(t_list *old, void *content, size_t content_size);
-int				ft_keyboard_handler(t_libui *libui);
-t_element		*ui_create_drop(t_window *win, t_xywh coord);
 void			ft_update_drop(t_element *elem);
 void			ft_drop_down_function(SDL_Event e, t_element *elem);
-char			*ft_strjoiner(char *first, ...);
-t_element_info	ft_default_elem_info(t_window *win, t_xywh coord);
 void			ft_set_icon(SDL_Window *window, char *dir);
-t_text			ft_default_text(char *txt);
+char			*ft_strjoiner(char *first, ...);
+int				ft_keyboard_handler(t_libui *libui);
 /*
 ** Free
 */
