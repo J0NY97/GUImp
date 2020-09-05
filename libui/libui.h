@@ -234,6 +234,7 @@ void			notify(char *title, char *msg);
 void			error_msg(char *str);
 int				true_false_popup(int x, int y, char *msg);
 char			*input_popup(int x, int y);
+void			text_area(SDL_Event e, t_element *elem);
 /* UI */
 /*
  ** NOTE: the ui creation could use create_surface for the boilerplate and the element type specific stuff can be edited in the relevant funcs
