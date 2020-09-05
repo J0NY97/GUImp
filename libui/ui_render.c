@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 13:31:22 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 14:35:13 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,20 @@ void	ui_render_element(SDL_Surface *win, t_element *elem)
 	temp.y = elem->coord.y;
 	temp.w = elem->coord.w;
 	temp.h = elem->coord.h;
-	ft_update_element(elem);
-	SDL_BlitSurface(elem->surface, NULL, win, &temp);
+	if (elem->parent_elem != NULL)
+	{
+		temp.x = elem->rel_coord.x;
+		temp.y = elem->rel_coord.y;
+		temp.w = elem->rel_coord.w;
+		temp.h = elem->rel_coord.h;
+		ft_update_element(elem);
+		SDL_BlitSurface(elem->surface, NULL, elem->parent_elem->surface, &temp);
+	}
+	else
+	{
+		ft_update_element(elem);
+		SDL_BlitSurface(elem->surface, NULL, win, &temp);
+	}
 }
 
 void	ui_clean(t_window *win, t_element *elem)
