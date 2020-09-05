@@ -66,6 +66,7 @@ struct			s_text
 	int			y;
 	int			margin; // maximum width of the text (parent->w - margin)
 	int			color;
+	int			centered;
 	char		*text;
 	TTF_Font	*font;
 	SDL_Surface *surface;

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 11:18:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 11:29:48 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 16:11:58 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_text	ft_default_text(char *txt)
 
 	text.x = 0;
 	text.y = 0;
+	text.centered = 0;
 	if (txt != NULL)
 		text.text = txt; // this shouldnt work
 	else
