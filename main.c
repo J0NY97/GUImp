@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/30 10:56:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 13:32:52 by jsalmi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "guimp.h"
 
 void	draw_buttons(SDL_Event e, t_element *elem)
@@ -357,6 +345,7 @@ int		main(void)
 	utility_init(info); // layer_init needs to be called before this.
 	menu_init(info); // this needs to be called last because otherwise it will be drawn on top of everything
 	// z_buffer_sort(); // this has to happen after ALL elem inits and BEFORE the main loop
+	ft_set_icon(info->main->window->win, "resources/gimp-icon.png");
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
