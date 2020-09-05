@@ -6,12 +6,12 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:15:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/30 13:43:15 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/03 13:37:20 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdarg.h>
-#include "guimp.h"
+#include "libui.h"
 
 char 	*ft_strjoiner(char *first, ...)
 {

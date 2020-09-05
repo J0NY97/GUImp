@@ -6,7 +6,7 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/10 12:48:11 by jsalmi            #+#    #+#              #
-#    Updated: 2020/09/02 16:09:21 by jsalmi           ###   ########.fr        #
+#    Updated: 2020/09/03 13:38:40 by jsalmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@ NAME = guimp
 SRCS = ./main.c\
 		./draw.c\
 		./text_to_screen.c\
-		./load_font.c\
-		./ft_strjoiner.c
+		./load_font.c
 OBJS = ./*.o
 INCLUDES = ./libft/libft.a\
 		   ./libui/libui.a

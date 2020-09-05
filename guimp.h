@@ -57,6 +57,7 @@ struct			s_info
 	t_element	*drawing_surface[1];
 	t_element	*text_area;
 	t_element	*save_button;
+	t_element	*new_layer_button;
 	t_element	*font_button;
 	t_element	*drop_down;
 
