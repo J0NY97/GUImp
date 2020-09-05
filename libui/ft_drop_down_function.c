@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:54:31 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 11:49:43 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/05 16:26:18 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ void	ft_update_drop(t_element *elem)
 	dd->drop_height = (dd->item_amount + 1) * elem->coord.h;
 	elem->states[1] = SDL_CreateRGBSurface(0, elem->coord.w, dd->drop_height, 32, 0, 0, 0, 0);
 	ft_update_background(elem->states[1], 0x00ff00);
-	
+	printf("drop height %d\n", dd->drop_height);	
 	for (int i = 0; i < dd->item_amount; i++)
 	{
 		t_element *item;
 		SDL_Rect	temp;
 
 		item = dd->items[i];
-		temp.x = ((t_drop_item *)item->info)->relative_coords.x;
-		temp.y = ((t_drop_item *)item->info)->relative_coords.y;
-		temp.w = ((t_drop_item *)item->info)->relative_coords.w;
-		temp.h = ((t_drop_item *)item->info)->relative_coords.h;
+		temp.x = item->rel_coord.x;
+		temp.y = item->rel_coord.y;
+		temp.w = item->coord.w;
+		temp.h = item->coord.h;
 		printf("x %d, y %d, w %d, h %d\n", temp.x, temp.y, temp.w, temp.h);
 		SDL_BlitSurface(item->surface, NULL, elem->states[1], &temp);
 	}
@@ -47,6 +47,7 @@ void	ft_drop_down_function(SDL_Event e, t_element *elem)
 	{
 		if (elem->state == 1)
 		{
+			printf("clicked %d %d\n", e.button.x, e.button.y);
 			for (int i = 0; i < dd->item_amount; i++)
 			{
 				dd->items[i]->event_handler(e, dd->items[i]);
@@ -64,5 +65,6 @@ void	ft_drop_down_function(SDL_Event e, t_element *elem)
 			elem->state = 0;
 			elem->default_state = 0;
 		}
+		printf("drop coords: %d %d %d %d\n", elem->coord.x, elem->coord.y, elem->coord.w, elem->coord.h);
 	}
 }

@@ -243,10 +243,10 @@ void	drop_down_init(t_info *info)
 {
 	t_xywh coord;
 
-	coord = ui_init_coords(100, 500, 200, 32);
-	info->drop_down = ui_create_drop(info->toolbox->window, coord);
-	ft_drop_down_add_item(&info->drop_down, &drop_click, "item1");
-	ft_drop_down_add_item(&info->drop_down, &drop_click, "item2");
+	coord = ui_init_coords(50, 100, 200, 32);
+	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
+	ft_drop_down_add_item(info->drop_down, &drop_click, "item1");
+	ft_drop_down_add_item(info->drop_down, &drop_click, "item2");
 }
 
 void	update_brush(t_info *info)
@@ -301,7 +301,7 @@ void	menu_init(t_info *info)
 	info->col_menu->set_text = 1;
 	info->col_menu->f = NULL;
 	info->col_menu->text = ft_default_text("brush modifier");
-	info->col_menu->bg_color = 0xaa9a9;
+	info->col_menu->bg_color = 0xa9a9a9;
 	ft_update_background(info->col_menu->states[0], 0xa9a9a9);
 	TTF_CloseFont(info->col_menu->text.font);
 	info->col_menu->text.font = TTF_OpenFont("font.ttf", 20);
@@ -359,7 +359,7 @@ int		main(void)
 	menu_init(info);
 	button_init(info);
 	slider_init(info);
-//	drop_down_init(info);
+	drop_down_init(info);
 	layer_init(info); // slider_init needs to be called before this.
 	hotkey_init(info, libui);
 	utility_init(info); // layer_init needs to be called before this.
