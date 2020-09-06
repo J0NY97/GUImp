@@ -156,14 +156,21 @@ void	guimp_init(t_info *info)
 void	save_img(SDL_Event e, t_element *elem)
 {
 	SDL_Surface *pic;
+	char *file;
 
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
 		pic = ((t_element *)elem->extra_info)->surface;
-		if (!save_image(pic, input_popup(100, 100))) // this should be file name without the file type.... for now
-			printf("Picture couldnt be saved.\n");
-		else
+		if ((file = input_popup(100, 100)) == NULL)
+		{
+			printf("You decided not to save the picture..\n");
+			return;
+		}
+		if (save_image(pic, file))
 			printf("Picture saved.\n");
+		else
+			printf("Picture couldnt be saved.\n");
+		free(file);
 	}
 }
 
@@ -257,6 +264,11 @@ void	change_sticker(SDL_Event e, t_element *elem)
 	printf("Drop item %s clicked\n", elem->text.text);
 }
 
+void	change_font(SDL_Event e, t_element *elem)
+{
+	printf("Item %s clicked!\n", elem->text.text);
+}
+
 void	drop_down_init(t_info *info)
 {
 	t_xywh coord;
@@ -268,6 +280,7 @@ void	drop_down_init(t_info *info)
 	temp.x = 200 - temp.w;
 	temp.y = 0;
 
+	// STICKER SELECTION DROP DOWN
 	coord = ui_init_coords(50, 200, 200, 32);
 	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
 	info->drop_down->text.text = ft_strdup("sticker select");
@@ -287,6 +300,20 @@ void	drop_down_init(t_info *info)
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[1], &temp);
 	SDL_FreeSurface(icon);
+
+	// FONT SELECTION DROP DOWN
+	coord = ui_init_coords(50, 250, 200, 32);
+	info->font_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
+	info->font_down->text.text = ft_strdup("font select");
+	info->font_down->old_state = 500;
+	ft_update_element(info->font_down);
+
+	ft_drop_down_add_item(info->font_down, &change_font, "font.ttf");
+	ft_drop_down_add_item(info->font_down, &change_font, "Amatic.ttf");
+	ft_drop_down_add_item(info->font_down, &change_font, "OpenSans.ttf");
+	ft_drop_down_add_item(info->font_down, &change_font, "Pacifico.ttf");
+	ft_drop_down_add_item(info->font_down, &change_font, "SeaSideResort.ttf");
+//	ft_drop_down_add_item(info->font_down, &change_font, "Tusj.ttf");
 }
 
 void	update_brush(t_info *info)
