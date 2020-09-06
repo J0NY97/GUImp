@@ -108,6 +108,7 @@ struct	s_element
 	void		(*f)(SDL_Event, t_element *);
 	int			(*event_handler)(SDL_Event, t_element *);
 	int			set_text;
+	int			loop;
 	t_text		text;
 	t_element	*parent_elem;
 	SDL_Surface	*parent;

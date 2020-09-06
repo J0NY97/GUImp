@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:35:47 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 13:48:58 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/06 13:53:35 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ int		ft_event_handler(SDL_Event e, t_element *elem)
 	if ((x >= elem->coord.x && y >= elem->coord.y &&
 		x <= elem->coord.x + elem->coord.w && y <= elem->coord.y + elem->coord.h)
 		|| e.type == SDL_MOUSEWHEEL)
+	{
+		if (elem->f)
+			elem->f(e, elem);
+		return (1);
+	}
+	else if (elem->loop == 1)
 	{
 		if (elem->f)
 			elem->f(e, elem);

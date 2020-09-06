@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/05 19:00:57 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/06 14:27:37 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,24 @@ static void		button(SDL_Event e, t_element *elem)
 
 void		text_area(SDL_Event e, t_element *elem)
 {
+	char		*tmp;
+
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
+		elem->loop = 1;
 		free(elem->text.text);
-		ft_read_text(elem, 19);
+		elem->text.text = ft_strdup("|");
 	}
+	else if (e.type == SDL_TEXTINPUT)
+	{
+		tmp = ft_strdup(elem->text.text);
+		ft_strdel(&elem->text.text);
+		elem->text.text = ft_strjoin(tmp, e.text.text);
+		free(tmp);
+	}
+	if (e.key.keysym.sym == SDLK_RETURN)
+		elem->loop = 0;
+	elem->old_state = 500;
 }
 
 static void		init_button(t_window *win, t_element *buttons[2])
