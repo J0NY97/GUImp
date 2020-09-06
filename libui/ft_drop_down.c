@@ -6,13 +6,13 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 11:11:57 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 18:57:24 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/06 17:30:55 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ft_drop_down_add_item(t_element *drop, void (*f)(SDL_Event e, t_element *elem), char *name)
+void	ft_drop_down_add_item(t_element *drop, char *name)
 {
 	t_drop_down *dd;
 	t_element_info new_item;
@@ -31,7 +31,7 @@ void	ft_drop_down_add_item(t_element *drop, void (*f)(SDL_Event e, t_element *el
 	new_item.parent_elem = drop;
 	new_item.parent = drop->parent;
 	new_item.bg_color = dd->item_amount % 2 == 0 ? 0xffffff : 0xd3d3d3;
-	new_item.f = f;
+	new_item.f = &ft_drop_item_function;
 	new_item.event_handler = &ft_event_handler;
 	new_item.set_text = name != NULL;
 	if (name != NULL)

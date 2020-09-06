@@ -246,29 +246,6 @@ void	hotkey_init(t_info *info, t_libui *libui)
 	ft_add_hotkey(libui, SDLK_d, &key_press);
 }
 
-void	change_sticker(SDL_Event e, t_element *elem)
-{
-	t_element **items;
-	t_drop_down *dd;
-	
-	dd = elem->parent_elem->info;
-	items = dd->items;
-	for (int i = 0; i < dd->item_amount; i++)
-	{
-		dd->items[i]->state = 0;
-		ft_update_element(dd->items[i]);
-	}
-	elem->state = 1;
-	ft_update_element(elem);
-	ft_update_drop(elem->parent_elem);
-	printf("Drop item %s clicked\n", elem->text.text);
-}
-
-void	change_font(SDL_Event e, t_element *elem)
-{
-	printf("Item %s clicked!\n", elem->text.text);
-}
-
 void	drop_down_init(t_info *info)
 {
 	t_xywh coord;
@@ -287,14 +264,14 @@ void	drop_down_init(t_info *info)
 	info->drop_down->old_state = 500;
 	ft_update_element(info->drop_down);
 	// item1
-	ft_drop_down_add_item(info->drop_down, &change_sticker, "minion");
+	ft_drop_down_add_item(info->drop_down, "minion");
 	icon = load_image("resources/stickers/icon-minion.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[1], &temp);
 	SDL_FreeSurface(icon);
 	// item2
-	ft_drop_down_add_item(info->drop_down, &change_sticker, "gimp-icon");
+	ft_drop_down_add_item(info->drop_down, "gimp-icon");
 	icon = load_image("resources/stickers/icon-gimp-icon.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[0], &temp);
@@ -308,11 +285,11 @@ void	drop_down_init(t_info *info)
 	info->font_down->old_state = 500;
 	ft_update_element(info->font_down);
 
-	ft_drop_down_add_item(info->font_down, &change_font, "font.ttf");
-	ft_drop_down_add_item(info->font_down, &change_font, "Amatic.ttf");
-	ft_drop_down_add_item(info->font_down, &change_font, "OpenSans.ttf");
-	ft_drop_down_add_item(info->font_down, &change_font, "Pacifico.ttf");
-	ft_drop_down_add_item(info->font_down, &change_font, "SeaSideResort.ttf");
+	ft_drop_down_add_item(info->font_down, "font.ttf");
+	ft_drop_down_add_item(info->font_down, "Amatic.ttf");
+	ft_drop_down_add_item(info->font_down, "OpenSans.ttf");
+	ft_drop_down_add_item(info->font_down, "Pacifico.ttf");
+	ft_drop_down_add_item(info->font_down, "SeaSideResort.ttf");
 //	ft_drop_down_add_item(info->font_down, &change_font, "Tusj.ttf");
 }
 
@@ -341,6 +318,9 @@ void	update_brush(t_info *info)
 	for (int i = 0; i < ((t_drop_down *)info->drop_down->info)->item_amount; i++)
 		if (((t_drop_down *)info->drop_down->info)->items[i]->state == 1)
 			info->brush.selected_sticker = i;
+	for (int i = 0; i < ((t_drop_down *)info->font_down->info)->item_amount; i++)
+		if (((t_drop_down *)info->font_down->info)->items[i]->state == 1)
+			info->brush.font_dir = ft_strjoiner("libui/TTF/", ((t_drop_down *)info->font_down->info)->items[i]->text.text, NULL);
 	free(info->brush.str);
 	info->brush.str = ft_strdup(info->text_area->text.text);
 	ft_update_background(info->brush_color->surface, info->brush.color);
