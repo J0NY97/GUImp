@@ -267,5 +267,13 @@ int				ft_keyboard_handler(t_libui *libui);
 */
 void		free_element(t_element *elem);
 void		free_window(t_window *win);
+/*
+ ** Prefabs
+*/
+t_element	*prefab_tools_init(t_window *win, int x, int y);
+/*
+ ** Event handlers
+*/
+void		ft_button_handler(SDL_Event e, t_element *elem);
 
 #endif

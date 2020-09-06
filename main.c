@@ -265,6 +265,9 @@ void	drop_down_init(t_info *info)
 
 	coord = ui_init_coords(50, 200, 200, 32);
 	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
+	info->drop_down->text.text = ft_strdup("sticker select");
+	info->drop_down->old_state = 500;
+	ft_update_element(info->drop_down);
 	// item1
 	ft_drop_down_add_item(info->drop_down, &change_sticker, "minion");
 	icon = load_image("resources/stickers/icon-minion.png");
@@ -411,6 +414,10 @@ int		main(void)
 	ft_set_icon(info->main->window->win, "resources/icon/gimp-icon.png");
 
 	parent_elem_test(info);
+	
+	// libui prefab test
+	t_element *menu = prefab_tools_init(info->toolbox->window, 50, 1075);
+
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
