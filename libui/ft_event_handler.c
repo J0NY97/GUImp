@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:35:47 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/06 13:53:35 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/06 14:35:34 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		ft_keyboard_handler(t_libui *libui)
 	SDL_Event e;
 
 	e = libui->event;
-	if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP)
+	if (e.type == SDL_KEYDOWN)// || e.type == SDL_KEYUP)
 	{
 		lst = libui->hotkeys;
 		while (lst != NULL)
