@@ -263,6 +263,11 @@ void	drop_down_init(t_info *info)
 	SDL_Surface *icon;
 	SDL_Rect	temp;
 
+	temp.w = 32;
+	temp.h = 32;
+	temp.x = 200 - temp.w;
+	temp.y = 0;
+
 	coord = ui_init_coords(50, 200, 200, 32);
 	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
 	info->drop_down->text.text = ft_strdup("sticker select");
@@ -271,16 +276,17 @@ void	drop_down_init(t_info *info)
 	// item1
 	ft_drop_down_add_item(info->drop_down, &change_sticker, "minion");
 	icon = load_image("resources/stickers/icon-minion.png");
-	temp.x = 168;
-	temp.y = 0;
-	temp.w = icon->w;
-	temp.h = icon->h;
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[1], &temp);
 	SDL_FreeSurface(icon);
 	// item2
-	ft_drop_down_add_item(info->drop_down, &change_sticker, "segfault");
+	ft_drop_down_add_item(info->drop_down, &change_sticker, "gimp-icon");
+	icon = load_image("resources/stickers/icon-gimp-icon.png");
+	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->surface, &temp);
+	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[0], &temp);
+	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[1], &temp);
+	SDL_FreeSurface(icon);
 }
 
 void	update_brush(t_info *info)
@@ -341,7 +347,7 @@ void	menu_init(t_info *info)
 	info->col_menu->set_text = 1;
 	info->col_menu->f = NULL;
 	info->col_menu->text = ft_default_text("Brush modifier");
-	info->col_menu->bg_color = 0xaa9a9;
+	info->col_menu->bg_color = 0xa9a9a9;
 	info->col_menu->text.x = 5;
 	ft_update_background(info->col_menu->states[0], 0xa9a9a9);
 	TTF_CloseFont(info->col_menu->text.font);
@@ -368,6 +374,7 @@ void	drag_drop_thing(t_info *info, t_libui *libui)
 void	sticker_init(t_info *info)
 {
 	info->brush.stickers[0] = load_image("resources/stickers/minion.png");
+	info->brush.stickers[1] = load_image("resources/icon/gimp-icon.png");
 }
 
 void	parent_elem_test(t_info *info)
