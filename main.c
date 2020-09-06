@@ -274,14 +274,14 @@ void	drop_down_init(t_info *info)
 	info->drop_down->old_state = 500;
 	ft_update_element(info->drop_down);
 	// item1
-	ft_drop_down_add_item(info->drop_down, &change_sticker, "minion");
+	ft_drop_down_add_item(info->drop_down, &change_sticker, "Minion");
 	icon = load_image("resources/stickers/icon-minion.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[1], &temp);
 	SDL_FreeSurface(icon);
 	// item2
-	ft_drop_down_add_item(info->drop_down, &change_sticker, "gimp-icon");
+	ft_drop_down_add_item(info->drop_down, &change_sticker, "Gimp-icon");
 	icon = load_image("resources/stickers/icon-gimp-icon.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[0], &temp);
