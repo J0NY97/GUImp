@@ -6,11 +6,28 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/06 14:27:37 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/06 14:55:55 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
+
+char	*ft_strndup(const char *s1, ssize_t len)
+{
+	ssize_t	counter;
+	char	*sdest;
+
+	counter = 0;
+	if (!(sdest = (char *)ft_memalloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	while (s1[counter] != '\0' && counter < len)
+	{
+		sdest[counter] = s1[counter];
+		counter++;
+	}
+	sdest[counter] = '\0';
+	return (sdest);
+}
 
 static void		button(SDL_Event e, t_element *elem)
 {
@@ -29,17 +46,30 @@ void		text_area(SDL_Event e, t_element *elem)
 	{
 		elem->loop = 1;
 		free(elem->text.text);
-		elem->text.text = ft_strdup("|");
+		elem->text.text = ft_strdup("<-");
 	}
 	else if (e.type == SDL_TEXTINPUT)
 	{
-		tmp = ft_strdup(elem->text.text);
+		tmp = ft_strndup(elem->text.text, (ft_strlen(elem->text.text) - 2));
 		ft_strdel(&elem->text.text);
-		elem->text.text = ft_strjoin(tmp, e.text.text);
+		elem->text.text = ft_strjoiner(tmp, e.text.text, "<-");
+		free(tmp);
+	}
+	else if (elem->loop == 1 && e.key.keysym.sym == SDLK_BACKSPACE && e.type == SDL_KEYDOWN)
+	{
+		tmp = ft_strndup(elem->text.text, (ft_strlen(elem->text.text) - 3));
+		ft_strdel(&elem->text.text);
+		elem->text.text = ft_strjoin(tmp, "<-");
 		free(tmp);
 	}
 	if (e.key.keysym.sym == SDLK_RETURN)
+	{
+		tmp = ft_strndup(elem->text.text, (ft_strlen(elem->text.text) - 2));
+		ft_strdel(&elem->text.text);
+		elem->text.text = ft_strdup(tmp);
+		free(tmp);
 		elem->loop = 0;
+	}
 	elem->old_state = 500;
 }
 

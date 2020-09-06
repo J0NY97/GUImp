@@ -314,14 +314,8 @@ void	update_brush(t_info *info)
 	for (int i = 0; i < ((t_drop_down *)info->drop_down->info)->item_amount; i++)
 		if (((t_drop_down *)info->drop_down->info)->items[i]->state == 1)
 			info->brush.selected_sticker = i;
-	//should be moved somewhere else but idk where
-	if (info->brush.type == 2 && info->brush.str == NULL)
-		info->brush.str = input_popup(0, 0);
-	else if (info->brush.type != 2 && info->brush.str != NULL)
-	{
-		free(info->brush.str);
-		info->brush.str = NULL;
-	}
+	free(info->brush.str);
+	info->brush.str = ft_strdup(info->text_area->text.text);
 	ft_update_background(info->brush_color->surface, info->brush.color);
 }
 
