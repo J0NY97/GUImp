@@ -64,6 +64,7 @@ struct			s_info
 	t_element	*new_layer_button;
 	t_element	*font_button;
 	t_element	*drop_down;
+	t_element	*font_down;
 	t_element	*brush_menu;
 	t_element	*col_menu;
 
