@@ -6,11 +6,29 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:54:31 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/06 12:22:15 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/06 17:28:19 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
+
+void	ft_drop_item_function(SDL_Event e, t_element *elem)
+{
+	t_element **items;
+	t_drop_down *dd;
+
+	dd = elem->parent_elem->info;
+	items = dd->items;
+	for (int i = 0; i < dd->item_amount; i++)
+	{
+		dd->items[i]->state = 0;
+		ft_update_element(dd->items[i]);
+	}
+	elem->state = 1;
+	ft_update_element(elem);
+	ft_update_drop(elem->parent_elem);
+	printf("Drop item %s clicked\n", elem->text.text);
+}
 
 // this should be called when new item is added to the drop menu
 void	ft_update_drop(t_element *elem)

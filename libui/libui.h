@@ -230,7 +230,7 @@ void			ft_event_poller(t_libui *libui);
 void			ft_update_background(SDL_Surface *surface, Uint32 color);
 void			ft_create_text(t_text *text);
 void			ft_read_text(t_element *elem, int size);
-void			ft_drop_down_add_item(t_element *drop, void (*f)(SDL_Event e, t_element *elem), char *name);
+void			ft_drop_down_add_item(t_element *drop, char *name);
 void			notify(char *title, char *msg);
 void			error_msg(char *str);
 int				true_false_popup(int x, int y, char *msg);
@@ -275,6 +275,7 @@ t_element	*prefab_tools_init(t_window *win, int x, int y);
 /*
  ** Event handlers
 */
+void		ft_drop_item_function(SDL_Event e, t_element *elem);
 void		ft_button_handler(SDL_Event e, t_element *elem);
 
 #endif
