@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:54:31 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 19:36:51 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/06 10:58:15 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_update_drop(t_element *elem)
 void	ft_drop_down_function(SDL_Event e, t_element *elem)
 {
 	t_drop_down *dd;
+	SDL_Rect temp;
 
 	dd = elem->info;
 	if (e.type == SDL_MOUSEBUTTONDOWN)
@@ -60,7 +61,6 @@ void	ft_drop_down_function(SDL_Event e, t_element *elem)
 
 			SDL_FreeSurface(elem->states[2]);
 			elem->states[2] = SDL_CreateRGBSurface(0, elem->coord.w, elem->coord.h, 32, 0, 0, 0, 0);
-			SDL_Rect temp;
 
 			temp.x = elem->rel_coord.x;
 			temp.y = elem->rel_coord.y;
@@ -76,14 +76,12 @@ void	ft_drop_down_function(SDL_Event e, t_element *elem)
 			elem->state = 0;
 			elem->default_state = 0;
 
-			SDL_Rect temp;
-
 			temp.x = elem->rel_coord.x;
 			temp.y = elem->rel_coord.y;
 			temp.w = elem->rel_coord.w;
 			temp.h = elem->rel_coord.h;
 			SDL_BlitSurface(elem->states[2], NULL, elem->parent_elem->surface, &temp);
 		}
-		printf("drop coords: %d %d %d %d\n", elem->coord.x, elem->coord.y, elem->coord.w, elem->coord.h);
+//		printf("drop coords: %d %d %d %d\n", elem->coord.x, elem->coord.y, elem->coord.w, elem->coord.h);
 	}
 }

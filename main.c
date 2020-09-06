@@ -260,11 +260,24 @@ void	change_sticker(SDL_Event e, t_element *elem)
 void	drop_down_init(t_info *info)
 {
 	t_xywh coord;
+	SDL_Surface *icon;
+	SDL_Rect	temp;
 
 	coord = ui_init_coords(50, 200, 200, 32);
 	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
-	ft_drop_down_add_item(info->drop_down, &change_sticker, "item1");
-	ft_drop_down_add_item(info->drop_down, &change_sticker, "item2");
+	// item1
+	ft_drop_down_add_item(info->drop_down, &change_sticker, "minion");
+	icon = load_image("resources/stickers/icon-minion.png");
+	temp.x = 168;
+	temp.y = 0;
+	temp.w = icon->w;
+	temp.h = icon->h;
+	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->surface, &temp);
+	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[0], &temp);
+	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[1], &temp);
+	SDL_FreeSurface(icon);
+	// item2
+	ft_drop_down_add_item(info->drop_down, &change_sticker, "segfault");
 }
 
 void	update_brush(t_info *info)
