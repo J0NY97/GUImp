@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 12:26:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/03 13:01:39 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/06 12:17:35 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,22 @@ void	ft_read_text(t_element *elem, int size)
 				elem->text.text = ft_strjoin(tmp, event.text.text);
 				free(tmp);
 			}
-			elem->old_state = 500;;
-			ui_render_element(elem->parent, elem);
-			SDL_UpdateWindowSurface(elem->extra_info);
+			elem->old_state = 500;
+			ui_render(elem->extra_info);
 			t = 0;
 		}
+		else if (event.key.keysym.sym == SDLK_BACKSPACE && i != 0 && t == 1)
+		{
+			elem->text.text[i] = '\0';
+			i -= 1;
+			t = 0;
+			elem->old_state = 500;
+			ui_render(elem->extra_info);
+		}
 		SDL_PollEvent(&event);
-		if (event.type == SDL_KEYDOWN)
+		//if (event.key.repeat != 0)
+		//	printf("%d\n", event.key.repeat);
+		if (event.type == SDL_KEYDOWN && event.key.repeat == 0)
 			t = 1;
 	}
 }

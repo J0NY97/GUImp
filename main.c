@@ -222,7 +222,7 @@ void	utility_init(t_info *info)
 	info->text_area->text.x = 10;
 	info->text_area->set_text = 1;
 	info->text_area->old_state = 500;
-	info->text_area->extra_info = info->toolbox->window->win;
+	info->text_area->extra_info = info->toolbox->window;
 	ft_update_element(info->text_area);
 }
 
