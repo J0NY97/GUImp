@@ -442,6 +442,13 @@ void	parent_elem_test(t_info *info)
 	butt->old_state = 500;
 }
 
+void	update_layers(t_info *info)
+{
+	for (int i = 0; i < 5; i++)
+	{
+	}
+}
+			
 void	zoom_and_move(t_info *info, t_libui *libui)
 {
 	SDL_Surface *surf;
@@ -488,12 +495,14 @@ int		main(void)
 	
 	// libui prefab test
 	t_element *menu = prefab_tools_init(info->toolbox->window, 50, 1075);
+	ft_update_background(info->drawing_surface[0]->surface, 0xff0000);
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
 		drag_drop_thing(info, libui);
 		zoom_and_move(info, libui);
 		update_brush(info);
+		update_layers(info);
 		ui_render(info->toolbox->window);
 		ui_render(info->main->window);
 		ui_render(info->layers->window);
