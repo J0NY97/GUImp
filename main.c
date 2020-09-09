@@ -399,6 +399,24 @@ void	parent_elem_test(t_info *info)
 	butt->old_state = 500;
 }
 
+void	zoom_and_move(t_info *info, t_libui *libui)
+{
+	SDL_Surface *surf;
+	int w = info->drawing_surface[0]->surface->w;
+	int h = info->drawing_surface[0]->surface->h;
+
+	if (libui->event.type == SDL_MOUSEWHEEL)
+	{
+		if (libui->event.wheel.y > 0)
+			surf = SDL_CreateRGBSurface(0, w + 4, h + 4, 32, 0, 0, 0, 0);
+		else if (libui->event.wheel.y < 0)
+			surf = SDL_CreateRGBSurface(0, w - 4, h - 4, 32, 0, 0, 0, 0);
+		SDL_BlitScaled(info->drawing_surface[0]->surface, NULL, surf, NULL);
+		SDL_FreeSurface(info->drawing_surface[0]->surface);
+		info->drawing_surface[0]->surface = surf;
+	}
+}
+
 int		main(void)
 {
 	t_libui *libui;
@@ -427,11 +445,11 @@ int		main(void)
 	
 	// libui prefab test
 	t_element *menu = prefab_tools_init(info->toolbox->window, 50, 1075);
-
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
 		drag_drop_thing(info, libui);
+		zoom_and_move(info, libui);
 		update_brush(info);
 		ui_render(info->toolbox->window);
 		ui_render(info->main->window);
