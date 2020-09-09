@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/09 13:07:25 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/09 17:37:29 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ void	draw(SDL_Event event, t_element *elem)
 {
 	t_shapes l;
 	t_brush *brush;
+	t_element **drawing_surfaces;
 	SDL_Surface *surface;
 
 	brush = (t_brush *)elem->extra_info;
-	surface = elem->surface;
+	drawing_surfaces = ((t_surface *)elem->info)->extra;
+	surface = drawing_surfaces[brush->selected_layer]->surface;
 	l.x2 = event.button.x - elem->coord.x;
 	l.y2 = event.button.y - elem->coord.y;
 	l.size = brush->size;
@@ -51,7 +53,10 @@ void	draw(SDL_Event event, t_element *elem)
 		l.x1 = brush->old_x;
 		l.y1 = brush->old_y;
 		if (brush->type == 1)
+		{
+			printf("color %d, layer %d\n", brush->color, brush->selected_layer);
 			pencil(surface, brush, l);
+		}
 		else if (brush->type == 2)
 			text_to_screen(elem, l, brush);
 		else if (brush->type == 3)
@@ -61,16 +66,16 @@ void	draw(SDL_Event event, t_element *elem)
 		}
 		else if (brush->type == 4) // flood
 		{
-			Uint32 targetColor = get_color(elem->surface, l.x2, l.y2);
-			flood_fill(elem->surface, targetColor, brush->color, l.x2, l.y2);
+			Uint32 targetColor = get_color(surface, l.x2, l.y2);
+			flood_fill(surface, targetColor, brush->color, l.x2, l.y2);
 		}
 		else if (brush->type == 5)
 		{
-			set_sticker(elem->surface, brush, l.x2, l.y2);
+			set_sticker(surface, brush, l.x2, l.y2);
 		}
 		else if (brush->type == 8) // pipette
 		{
-			brush->color = get_color(elem->surface, l.x2, l.y2);
+			brush->color = get_color(surface, l.x2, l.y2);
 		}
 		brush->old_x = l.x2;
 		brush->old_y = l.y2;

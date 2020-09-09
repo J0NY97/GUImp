@@ -153,7 +153,7 @@ struct			s_drop_down
 
 struct			s_surface
 {
-	SDL_Surface	*surface;
+	void		*extra;
 };
 
 struct			s_scrollbar
@@ -212,7 +212,7 @@ void			ft_create_line(SDL_Surface *surf, Uint32 color, t_shapes l);
 void			ft_create_circle(SDL_Surface *surface, Uint32 color, t_shapes c, int i);
 void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
 SDL_Color		hex_to_rgba(int color);
-int				rgb_to_hex(int r, int g, int b);
+int				rgb_to_hex(int r, int g, int b, int a);
 Uint32			get_color(SDL_Surface *surface, int x, int y);
 void			flood_fill(SDL_Surface *surface, Uint32 w_color, Uint32 r_color, int x, int y);
 void			ft_create_square(SDL_Surface *surface, Uint32 color, t_shapes l);

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/15 13:51:34 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/15 13:58:01 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/09 17:45:33 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ SDL_Color	hex_to_rgba(int rgba)
 {
 	SDL_Color color;
 	
-	color.a = (rgba >> 24) & 0xFF;
+	color.a = (rgba >> 24) & 0x00;
 	color.r = (rgba >> 16) & 0xFF;
 	color.g = (rgba >> 8) & 0xFF;
 	color.b = (rgba) & 0xFF;

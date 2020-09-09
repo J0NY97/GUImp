@@ -22,6 +22,28 @@ void	draw_buttons(SDL_Event e, t_element *elem)
 		elem->state = 2;
 }
 
+void	change_selected_layer(SDL_Event e, t_element *elem)
+{
+	t_element **buttons;
+	t_button	*but;
+	int			*but_am;
+
+	but = elem->info;
+	but_am = but->extra;
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+	{
+		buttons = (t_element **)elem->extra_info;
+		for (int i = 0; i < 5; i++)
+			buttons[i]->default_state = 0;
+		elem->default_state = 1;
+	}
+	if (e.type == SDL_MOUSEMOTION)
+		elem->state = 2;
+	else if (e.type == SDL_MOUSEBUTTONUP)
+		elem->state = 2;
+}
+
+
 void	button_init(t_info *info)
 {
 	t_xywh coord;
@@ -79,37 +101,50 @@ void	layer_init(t_info *info)
 	coord = ui_init_coords(50, 50,
 			info->main->window->surface->w - (100),
 			info->main->window->surface->h - (100));
-	info->drawing_surface[0] = ui_create_surface(info->main->window, coord, NULL);
-	info->drawing_surface[0]->f = &draw;
+	info->drawing_surface[0] = ui_create_surface(NULL, coord, NULL);
+	SDL_FreeSurface(info->drawing_surface[0]->surface);
+	info->drawing_surface[0]->surface = SDL_CreateRGBSurface(0, coord.w, coord.h, 32, 0xff0000, 0x00ff00, 0x0000ff, 0xff000000);
 	info->drawing_surface[0]->statique = 1;
-	info->drawing_surface[0]->extra_info = &info->brush;
+	// init all the drawing layers
+	for (int i = 1; i < 5; i++)
+	{
+		info->drawing_surface[i] = ui_create_surface(NULL, coord, NULL);
+		SDL_FreeSurface(info->drawing_surface[i]->surface);
+		info->drawing_surface[i]->surface = SDL_CreateRGBSurface(0, coord.w, coord.h, 32, 0xff0000, 0x00ff00, 0x0000ff, 0xff000000);
+//		info->drawing_surface[i]->bg_color = 0xff000000;
+		ft_update_background(info->drawing_surface[i]->surface, 0x00000000);
+		info->drawing_surface[i]->old_state = 500;
+		info->drawing_surface[i]->statique = 1;
+	}
+
+	// the screen_surface element gets the same stats as the drawing_surfac[0]]
+	info->screen_surface = ui_create_surface(info->main->window, coord, NULL);
+	SDL_FreeSurface(info->screen_surface->surface);
+	info->screen_surface->surface = SDL_CreateRGBSurface(0, coord.w, coord.h, 32, 0xff0000, 0x00ff00, 0x0000ff, 0xff000000);
+	ft_update_background(info->screen_surface->surface, 0xff000000);
+	info->screen_surface->statique = 1;
+	info->screen_surface->f = &draw;
+	info->screen_surface->extra_info = &info->brush;
+	((t_surface *)info->screen_surface->info)->extra = info->drawing_surface;
 
 	// brush color surface
 	coord = ui_init_coords(275, 50, 100, 100);
 	info->brush_color = ui_create_surface(info->toolbox->window, coord, info->col_menu);
 	info->brush_color->f = NULL; // not needed but it will spam the terminal otherwise
 
-	// t_window info->layers stuff
-	//		loop all the drawing surfaces and put that element on the layers menu
-	//		this is something that needs to be done every frame
-	for (int i  = 0; i < 5; i++) // the 5 in i < 5 is the amount of layers:w
+	for (int i = 0; i < 5; i++)	
 	{
-		int offset = 25;
-		int w = 300;
-		int h = 200;
-		int x = 50;
-		int y = (i) * h + (i * offset) + offset;
-		// surface (this is only for visuals, the button is the one actually doing the real stuff)
-		// 		 the size of this should be the size of the layer scaled down + a little padding
-		coord = ui_init_coords(x + 10, y + 10, w - 20, h - 20);
-		info->layer_layers[i] = ui_create_surface(info->layers->window, coord, info->layer_menu);
-		// button
-		coord = ui_init_coords(x, y, w, h);
+		coord = ui_init_coords(50, i * 200 + (i * 25) + 25, info->layer_menu->surface->w - 100, 200);
 		info->layer_buttons[i] = ui_create_button(info->layers->window, coord, info->layer_menu);
-		info->layer_buttons[i]->f = &ft_button_handler;
+		info->layer_buttons[i]->f = &change_selected_layer;
 		info->layer_buttons[i]->set_text = 0;
+		info->layer_buttons[i]->extra_info = info->layer_buttons;
 		info->layer_buttons[i]->old_state = 500;
+		((t_button *)info->layer_buttons[i]->info)->extra = &info->layer_amount;
 		ft_update_element(info->layer_buttons[i]);
+	
+		coord = ui_init_coords(10, 10, info->layer_buttons[i]->surface->w - 20, info->layer_buttons[i]->surface->h - 20);
+		info->layer_layers[i] = ui_create_surface(info->layers->window, coord, info->layer_buttons[i]);
 	}
 }
 
@@ -132,9 +167,13 @@ void	slider_init(t_info *info)
 	coord = ui_init_coords(25, 128, 225, 20);
 	info->size_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 1, 100);
 
+	coord = ui_init_coords(25, 154, 225, 20);
+	info->a_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 1, 100);
+
 	ft_set_slider_value(info->r_slider, 127);
 	ft_set_slider_value(info->g_slider, 127);
 	ft_set_slider_value(info->b_slider, 127);
+	ft_set_slider_value(info->a_slider, 0);
 	ft_set_slider_value(info->size_slider, 49);
 }
 
@@ -179,7 +218,12 @@ void	guimp_init(t_info *info)
 		info->brush.old_y = -1;
 		info->brush.str = NULL;
 		info->brush.selected_sticker = 0;
+		info->brush.selected_layer = 0;
 		//info->brush.text_area->text = NULL;
+	}
+	// layer stuff
+	{
+		info->layer_amount = 1;
 	}
 }
 
@@ -206,25 +250,19 @@ void	save_img(SDL_Event e, t_element *elem)
 
 void	add_new_layer(SDL_Event e, t_element *elem)
 {
-	char *temp;
-	char **dimensions;
-	t_element **drawing;
-// dont add this until shiit is done
+	t_xywh		coords;
+	int			*layer_amount;
+	
+	layer_amount = elem->extra_info;
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
-		drawing = elem->extra_info; // the drawing surfaces
-		temp = input_popup(0, 0);
-		dimensions = ft_strsplit(temp, 'x');
-	
-		printf("%sx%s\n", dimensions[0], dimensions[1]);
-
-		SDL_FreeSurface(drawing[0]->surface);
-		drawing[0]->surface = SDL_CreateRGBSurface(0, ft_atoi(dimensions[0]), ft_atoi(dimensions[1]), 32, 0, 0, 0, 0);
-		ft_update_background(drawing[0]->surface, drawing[0]->bg_color);
-		ft_strdel(&dimensions[0]);
-		ft_strdel(&dimensions[1]);
-		free(dimensions);
-		free(temp);
+		if (*layer_amount == 5)
+		{
+			ft_putstr("Maximum layers created.");
+			return ;
+		}
+		*layer_amount += 1;
+		printf("layer_amount %d\n", *layer_amount);
 	}
 }
 
@@ -242,14 +280,17 @@ void	utility_init(t_info *info)
 	info->save_button->old_state = 500;
 	ft_update_element(info->save_button);
 
-	coord = ui_init_coords(200, info->toolbox->window->surface->h - 60, 100, 50);
-	info->new_layer_button = ui_create_button(info->toolbox->window, coord, NULL);
-	info->new_layer_button->text.text = ft_strdup("New layer");
-	info->new_layer_button->text.centered = 1;
-	info->new_layer_button->f = &add_new_layer;
-	info->new_layer_button->extra_info = info->drawing_surface;
-	info->new_layer_button->old_state = 500;
-	ft_update_element(info->new_layer_button);
+	// new layer button
+	{
+		coord = ui_init_coords(200, info->toolbox->window->surface->h - 60, 100, 50);
+		info->new_layer_button = ui_create_button(info->toolbox->window, coord, NULL);
+		info->new_layer_button->text.text = ft_strdup("New layer");
+		info->new_layer_button->text.centered = 1;
+		info->new_layer_button->f = &add_new_layer;
+		info->new_layer_button->extra_info = &info->layer_amount;
+		info->new_layer_button->old_state = 500;
+		ft_update_element(info->new_layer_button);
+	}
 
 	coord = ui_init_coords(50, 1000, 250, 50);
 	info->text_area = ui_create_button(info->toolbox->window, coord, NULL);
@@ -341,12 +382,16 @@ void	update_brush(t_info *info)
 	{
 		info->brush.color = rgb_to_hex(((t_slider *)info->r_slider->info)->value,
 									((t_slider *)info->g_slider->info)->value,
-									((t_slider *)info->b_slider->info)->value);
+									((t_slider *)info->b_slider->info)->value,
+									((t_slider *)info->a_slider->info)->value);
 	}
 	info->brush.size = ((t_slider *)info->size_slider->info)->value;
 	for (int i = 0; i < info->brush_button_amount; i++)
 		if (info->buttons[i]->state == 1)
 			info->brush.type = i + 1;
+	for (int i = 0; i < info->layer_amount; i++)
+		if (info->layer_buttons[i]->state == 1)
+			info->brush.selected_layer = i;
 	for (int i = 0; i < ((t_drop_down *)info->drop_down->info)->item_amount; i++)
 		if (((t_drop_down *)info->drop_down->info)->items[i]->state == 1)
 			info->brush.selected_sticker = i;
@@ -444,26 +489,17 @@ void	parent_elem_test(t_info *info)
 
 void	update_layers(t_info *info)
 {
-	for (int i = 0; i < 5; i++)
+	SDL_Surface *new_surface;
+	
+	for (int i = 0; i < info->layer_amount; i++)
 	{
+		new_surface = ft_scale_surface(info->drawing_surface[i]->surface, info->layer_layers[i]->surface->w, info->layer_layers[i]->surface->h);
+		SDL_BlitSurface(new_surface, NULL, info->layer_layers[i]->surface, NULL);
+		SDL_FreeSurface(new_surface);
 	}
-}
-			
-void	zoom_and_move(t_info *info, t_libui *libui)
-{
-	SDL_Surface *surf;
-	int w = info->drawing_surface[0]->surface->w;
-	int h = info->drawing_surface[0]->surface->h;
-
-	if (libui->event.type == SDL_MOUSEWHEEL)
+	for (int i = 0; i < info->layer_amount; i++)
 	{
-		if (libui->event.wheel.y > 0)
-			surf = SDL_CreateRGBSurface(0, w + 4, h + 4, 32, 0, 0, 0, 0);
-		else if (libui->event.wheel.y < 0)
-			surf = SDL_CreateRGBSurface(0, w - 4, h - 4, 32, 0, 0, 0, 0);
-		SDL_BlitScaled(info->drawing_surface[0]->surface, NULL, surf, NULL);
-		SDL_FreeSurface(info->drawing_surface[0]->surface);
-		info->drawing_surface[0]->surface = surf;
+		SDL_BlitScaled(info->drawing_surface[i]->surface, NULL, info->screen_surface->surface, NULL);
 	}
 }
 
@@ -495,12 +531,15 @@ int		main(void)
 	
 	// libui prefab test
 	t_element *menu = prefab_tools_init(info->toolbox->window, 50, 1075);
+
+	// remove these
 	ft_update_background(info->drawing_surface[0]->surface, 0xff0000);
+	// end remove these
+	
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
 		drag_drop_thing(info, libui);
-		zoom_and_move(info, libui);
 		update_brush(info);
 		update_layers(info);
 		ui_render(info->toolbox->window);
