@@ -58,7 +58,6 @@ struct			s_info
 	int			brush_button_amount;	
 	t_element	*buttons[8];
 
-	t_element	*drawing_surface[1];
 	t_element	*text_area;
 	t_element	*save_button;
 	t_element	*new_layer_button;
@@ -67,6 +66,11 @@ struct			s_info
 	t_element	*font_down;
 	t_element	*brush_menu;
 	t_element	*col_menu;
+	t_element	*drawing_surface[5];
+
+	t_element	*layer_menu;
+	t_element	*layer_layers[5];
+	t_element	*layer_buttons[5];
 
 	t_brush		brush;
 	int			draw;

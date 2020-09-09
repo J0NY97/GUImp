@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:04:46 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/09 10:56:11 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/09 12:36:04 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_element	*ui_create_button(t_window *win, t_xywh rel_coord, t_element *parent)
 
 	info = ft_default_elem_info(win, rel_coord, parent);
 	info.info = (t_button *)malloc(sizeof(t_button));
-	info.info_size = 0; // remove this in another iteration
+	info.info_size = 0;
 	info.set_text = 1;
 	info.text = ft_default_text("Button");
 	elem = ft_create_element(info);
