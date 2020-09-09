@@ -446,7 +446,24 @@ void	update_layers(t_info *info)
 {
 	for (int i = 0; i < 5; i++)
 	{
+	}
+}
 			
+void	zoom_and_move(t_info *info, t_libui *libui)
+{
+	SDL_Surface *surf;
+	int w = info->drawing_surface[0]->surface->w;
+	int h = info->drawing_surface[0]->surface->h;
+
+	if (libui->event.type == SDL_MOUSEWHEEL)
+	{
+		if (libui->event.wheel.y > 0)
+			surf = SDL_CreateRGBSurface(0, w + 4, h + 4, 32, 0, 0, 0, 0);
+		else if (libui->event.wheel.y < 0)
+			surf = SDL_CreateRGBSurface(0, w - 4, h - 4, 32, 0, 0, 0, 0);
+		SDL_BlitScaled(info->drawing_surface[0]->surface, NULL, surf, NULL);
+		SDL_FreeSurface(info->drawing_surface[0]->surface);
+		info->drawing_surface[0]->surface = surf;
 	}
 }
 
@@ -483,6 +500,7 @@ int		main(void)
 	{
 		ft_event_poller(libui); // input
 		drag_drop_thing(info, libui);
+		zoom_and_move(info, libui);
 		update_brush(info);
 		update_layers(info);
 		ui_render(info->toolbox->window);
