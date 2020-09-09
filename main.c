@@ -88,6 +88,29 @@ void	layer_init(t_info *info)
 	coord = ui_init_coords(275, 50, 100, 100);
 	info->brush_color = ui_create_surface(info->toolbox->window, coord, info->col_menu);
 	info->brush_color->f = NULL; // not needed but it will spam the terminal otherwise
+
+	// t_window info->layers stuff
+	//		loop all the drawing surfaces and put that element on the layers menu
+	//		this is something that needs to be done every frame
+	for (int i  = 0; i < 5; i++) // the 5 in i < 5 is the amount of layers:w
+	{
+		int offset = 25;
+		int w = 300;
+		int h = 200;
+		int x = 50;
+		int y = (i) * h + (i * offset) + offset;
+		// surface (this is only for visuals, the button is the one actually doing the real stuff)
+		// 		 the size of this should be the size of the layer scaled down + a little padding
+		coord = ui_init_coords(x + 10, y + 10, w - 20, h - 20);
+		info->layer_layers[i] = ui_create_surface(info->layers->window, coord, info->layer_menu);
+		// button
+		coord = ui_init_coords(x, y, w, h);
+		info->layer_buttons[i] = ui_create_button(info->layers->window, coord, info->layer_menu);
+		info->layer_buttons[i]->f = &ft_button_handler;
+		info->layer_buttons[i]->set_text = 0;
+		info->layer_buttons[i]->old_state = 500;
+		ft_update_element(info->layer_buttons[i]);
+	}
 }
 
 void	slider_init(t_info *info)
@@ -123,6 +146,8 @@ void	window_init(t_libui *libui, t_info *info)
 		exit (0);
 	if (!(info->main = (t_win *)malloc(sizeof(t_win))))
 		exit (0);
+	if (!(info->layers = (t_win *)malloc(sizeof(t_win))))
+		exit (0);
 
 	new_win.coord = ui_init_coords(0, 0, 500, 1250);
 	new_win.title = ft_strdup("Toolbox");
@@ -133,6 +158,11 @@ void	window_init(t_libui *libui, t_info *info)
 	new_win.title = ft_strdup("Canvas");
 	new_win.bg_color = 0xd3d3d3;
 	info->main->window = ft_create_window(libui, new_win);
+
+	new_win.coord = ui_init_coords(1502, 0, 500, 1250);
+	new_win.title = ft_strdup("Layers");
+	new_win.bg_color = 0xd3d3d3;
+	info->layers->window = ft_create_window(libui, new_win);
 }
 
 void	guimp_init(t_info *info)
@@ -357,6 +387,19 @@ void	menu_init(t_info *info)
 	info->col_menu->text.font = TTF_OpenFont("font.ttf", 20);
 	info->col_menu->old_state = 500;
 	ft_update_element(info->col_menu);
+
+	coord = ui_init_coords(50, 50, 400, 1150);
+	info->layer_menu = ui_create_surface(info->layers->window, coord, NULL);
+	info->layer_menu->set_text = 1;
+	info->layer_menu->f = NULL;
+	info->layer_menu->text = ft_default_text("Layers");
+	info->layer_menu->bg_color = 0xa9a9a9;
+	info->layer_menu->text.x = 5;
+	ft_update_background(info->layer_menu->states[0], 0xa9a9a9);
+	TTF_CloseFont(info->layer_menu->text.font);
+	info->layer_menu->text.font = TTF_OpenFont("font.ttf", 20);
+	info->layer_menu->old_state = 500;
+	ft_update_element(info->layer_menu);
 }
 
 void	drag_drop_thing(t_info *info, t_libui *libui)
@@ -435,6 +478,7 @@ int		main(void)
 		update_brush(info);
 		ui_render(info->toolbox->window);
 		ui_render(info->main->window);
+		ui_render(info->layers->window);
 	}
 	// cleanup()
 	return (0);

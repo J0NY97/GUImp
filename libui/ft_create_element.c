@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/06 13:55:41 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/09 12:38:51 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_element		*ft_create_element(t_element_info info)
 		elem->coord.x += elem->parent_elem->coord.x;
 		elem->coord.y += elem->parent_elem->coord.y;	
 	}
-	elem->bg_color = info.bg_color;
 	if (info.info_size > 0)
 	{
 		elem->info = malloc(info.info_size);
@@ -34,6 +33,7 @@ t_element		*ft_create_element(t_element_info info)
 	}
 	else
 		elem->info = info.info;
+	elem->bg_color = info.bg_color;
 	elem->extra_info = info.extra_info;
 	elem->f = info.f;
 	elem->event_handler = info.event_handler;
