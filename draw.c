@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/09 13:07:25 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/09 16:50:28 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ void	draw(SDL_Event event, t_element *elem)
 		else if (brush->type == 5)
 		{
 			set_sticker(elem->surface, brush, l.x2, l.y2);
+		}
+		else if (brush->type == 6)
+		{
+			zoom_and_move(elem, event);
 		}
 		else if (brush->type == 8) // pipette
 		{
