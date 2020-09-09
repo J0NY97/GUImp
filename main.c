@@ -541,7 +541,7 @@ int		main(void)
 		ft_event_poller(libui); // input
 		drag_drop_thing(info, libui);
 		update_brush(info);
-		//update_layers(info);
+		update_layers(info);
 		ui_render(info->toolbox->window);
 		ui_render(info->main->window);
 		ui_render(info->layers->window);
