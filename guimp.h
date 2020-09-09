@@ -66,7 +66,11 @@ struct			s_info
 	t_element	*font_down;
 	t_element	*brush_menu;
 	t_element	*col_menu;
-	t_element	*drawing_surface[5];
+
+	t_element	*drawing_surface[5]; // the real surfaces
+	
+	t_element	*screen_surface; // the surface that will be shown on the screen
+	t_element	*hidden_surface; // the surface that will have the brush types drawn on it
 
 	t_element	*layer_menu;
 	t_element	*layer_layers[5];
