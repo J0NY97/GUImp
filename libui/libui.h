@@ -263,6 +263,7 @@ void			ft_set_icon(SDL_Window *window, char *dir);
 void			ft_set_slider_value(t_element *elem, int new_value);
 char			*ft_strjoiner(char *first, ...);
 int				ft_keyboard_handler(t_libui *libui);
+SDL_Surface		*ft_scale_surface(SDL_Surface *surface, int w, int h);
 /*
 ** Free
 */

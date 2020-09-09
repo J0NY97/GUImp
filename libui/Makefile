@@ -41,6 +41,7 @@ SRCS = ft_test_libui.c\
 	   ft_set_slider_value.c\
 	   prefab_tools_init.c\
 	   ft_button_handler.c\
+	   ft_scaled_surface.c\
 	   free.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
