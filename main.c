@@ -94,25 +94,25 @@ void	slider_init(t_info *info)
 {
 	t_xywh	coord;
 
-	coord = ui_init_coords(25, 50, 200, 20);
+	coord = ui_init_coords(25, 50, 225, 20);
 	info->r_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 0, 255);
 	((t_slider *)info->r_slider->info)->bar_color = 0xff0000;
 
-	coord = ui_init_coords(25, 75, 200, 20);
+	coord = ui_init_coords(25, 76, 225, 20);
 	info->g_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 0, 255);
 	((t_slider *)info->g_slider->info)->bar_color = 0x00ff00;
 
-	coord = ui_init_coords(25, 100, 200, 20);
+	coord = ui_init_coords(25, 102, 225, 20);
 	info->b_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 0, 255);
 	((t_slider *)info->b_slider->info)->bar_color = 0x0000ff;
 
-	coord = ui_init_coords(25, 125, 200, 20);
+	coord = ui_init_coords(25, 128, 225, 20);
 	info->size_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 1, 100);
 
-	ft_set_slider_value(info->r_slider, 125);
-	ft_set_slider_value(info->g_slider, 125);
-	ft_set_slider_value(info->b_slider, 125);
-	ft_set_slider_value(info->size_slider, 10);
+	ft_set_slider_value(info->r_slider, 127);
+	ft_set_slider_value(info->g_slider, 127);
+	ft_set_slider_value(info->b_slider, 127);
+	ft_set_slider_value(info->size_slider, 49);
 }
 
 void	window_init(t_libui *libui, t_info *info)
@@ -258,20 +258,21 @@ void	drop_down_init(t_info *info)
 	temp.y = 0;
 
 	// STICKER SELECTION DROP DOWN
-	coord = ui_init_coords(50, 200, 200, 32);
+	coord = ui_init_coords(25, 200, 225, 32);
 	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
-	info->drop_down->text.text = ft_strdup("sticker select");
+	info->drop_down->text.text = ft_strdup("Sticker select");
+	info->drop_down->text.x = 10;
 	info->drop_down->old_state = 500;
 	ft_update_element(info->drop_down);
 	// item1
-	ft_drop_down_add_item(info->drop_down, &change_sticker, "Minion");
+	ft_drop_down_add_item(info->drop_down, "Minion");
 	icon = load_image("resources/stickers/icon-minion.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[1], &temp);
 	SDL_FreeSurface(icon);
 	// item2
-	ft_drop_down_add_item(info->drop_down, &change_sticker, "Gimp-icon");
+	ft_drop_down_add_item(info->drop_down, "Gimp-icon");
 	icon = load_image("resources/stickers/icon-gimp-icon.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[0], &temp);
@@ -279,9 +280,10 @@ void	drop_down_init(t_info *info)
 	SDL_FreeSurface(icon);
 
 	// FONT SELECTION DROP DOWN
-	coord = ui_init_coords(50, 250, 200, 32);
+	coord = ui_init_coords(25, 250, 225, 32);
 	info->font_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
-	info->font_down->text.text = ft_strdup("font select");
+	info->font_down->text.text = ft_strdup("Font select");
+	info->font_down->text.x = 10;
 	info->font_down->old_state = 500;
 	ft_update_element(info->font_down);
 

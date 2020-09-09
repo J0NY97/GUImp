@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 15:55:38 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/03 14:08:02 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/06 16:12:42 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ int		save_image(SDL_Surface *img, char *file)
 		free(real_file);
 		return (0);
 	}
+	ft_putstr("File save to: ");
+	ft_putstr(real_file);
+	ft_putstr("\n");
 	free(real_file);
 	return (1);
 }

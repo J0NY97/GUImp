@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/06 14:55:55 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/06 16:29:24 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void		text_area(SDL_Event e, t_element *elem)
 {
 	char		*tmp;
 
-	if (e.type == SDL_MOUSEBUTTONDOWN)
+	if (e.type == SDL_MOUSEBUTTONDOWN && elem->loop != 1)
 	{
 		elem->loop = 1;
 		free(elem->text.text);
@@ -121,27 +121,27 @@ char		*input_popup(int x1, int y1)
 	t_window		*win;
 	t_window_info	test;
 
+	str = NULL; //cant be NULL
+	result = -1;
 	libui = (t_libui *)malloc(sizeof(t_libui));
 	ui_libui_init(libui);
 	test.coord = ui_init_coords(0, 0, 350, 300);
 	test.title = ft_strdup("~Pop~Up~");
 	win = ft_create_window(libui, test);
 	ft_update_background(win->surface, 0xECECEC);
-	result = -1;
 	init_button(win, buttons);
 	buttons[0]->extra_info = &result;
 	buttons[1]->extra_info = &result;
 	while (result == -1)
 	{
-		ui_render(win);
 		ft_event_poller(libui);
+		ui_render(win);
 	}
-
-
-	if (result == 1)
-		str = ft_strdup(buttons[1]->text.text);
-	else
-		str = NULL; //cant be NULL
+	if (result == 1 && buttons[2]->loop == 1)
+		str = ft_strndup(buttons[2]->text.text, ft_strlen(buttons[2]->text.text) - 2);
+	else if (result == 1 && buttons[2]->loop == 0)
+		str = ft_strdup(buttons[2]->text.text);
+	free_element(buttons[2]);
 	free_element(buttons[1]);
 	free_element(buttons[0]);
 	free_window(win);
