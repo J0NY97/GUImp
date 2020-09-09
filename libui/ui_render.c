@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/06 12:28:45 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/09 17:29:15 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,10 @@ void	ui_render_element(SDL_Surface *win, t_element *elem)
 	{
 		temp.x = elem->rel_coord.x;//+ (elem->state == 1 ? 5 : 0);
 		temp.y = elem->rel_coord.y;//+ (elem->state == 1 ? 5 : 0);
-		temp.w = elem->rel_coord.w;
-		temp.h = elem->rel_coord.h;
+	//	temp.w = elem->rel_coord.w;
+	//	temp.h = elem->rel_coord.h;
+		temp.w = elem->surface->w;
+		temp.h = elem->surface->h;
 		ft_update_element(elem);
 		// shadow
 		s_temp.x = temp.x + 5;//+ (elem->state != 1 ? 5 : 0);
