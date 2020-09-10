@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 14:54:43 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/23 15:06:13 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/10 15:11:07 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@ void	ft_create_square(SDL_Surface *surface, Uint32 color, t_shapes l)
 	int sx;
 	int sy;
 
-	sx = l.x1 - l.size;
-	while (sx < l.x1 + l.size)
+	sx = l.x1;
+	while (sx < l.x2)
 	{
-		sy = l.y1 - l.size;
-		while (sy < l.y1 + l.size)
+		sy = l.y1;
+		while (sy < l.y2)
 		{
-			if (sx >= 0 && sy >= 0 && sx <= surface->w && sy <= surface->h)
-				set_pixel(surface, sx, sy, color);
+			set_pixel(surface, ft_clamp(sx, 0, surface->w), ft_clamp(sy, 0, surface->h), color);
 			sy++;
 		}
 		sx++;
