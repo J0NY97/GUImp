@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 10:57:10 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/09 15:07:19 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/10 12:25:10 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ t_element_info		ft_default_elem_info(t_window *win, t_xywh rel_coord, t_element 
 	info.extra_info = NULL;
 	info.info = NULL;
 	info.set_text = 0;
+	info.shadow = 1;
 	return (info);
 }

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:16:58 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/06 14:39:21 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/10 12:29:27 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	call_all_element_event_handlers(t_libui *libui, t_window *win)
 	while (curr != NULL)
 	{
 		elem = curr->content;
-		elem->event_handler(libui->event, elem);
+		if (elem->event_handler)
+			elem->event_handler(libui->event, elem);
 		curr = curr->next;
 	}
 }

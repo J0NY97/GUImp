@@ -80,6 +80,7 @@ struct	s_element_info
 	int			w;
 	int			h;
 	t_xywh		rel_coord;
+	int			shadow;
 	int			z_buffer;
 	int			bg_color;
 	size_t		info_size;
@@ -100,6 +101,7 @@ struct	s_element
 	int			old_state;
 	int			default_state;
 	int			statique;
+	int			shadow;
 	t_xywh		coord;
 	t_xywh		rel_coord;
 	int			bg_color;
@@ -221,6 +223,7 @@ void			*pop_list(t_list **lst);
 char			*drag_and_drop(SDL_Event e);
 SDL_Surface		*load_image(char *file);
 int				save_image(SDL_Surface *img, char *file);
+int				ft_clamp(int val, int min, int max);
 
 /* TESTS */
 t_element		*ft_create_element(t_element_info info);

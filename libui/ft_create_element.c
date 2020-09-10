@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/09 12:38:51 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/10 12:24:59 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_element		*ft_create_element(t_element_info info)
 	}
 	else
 		elem->info = info.info;
+	elem->shadow = info.shadow;
 	elem->bg_color = info.bg_color;
 	elem->extra_info = info.extra_info;
 	elem->f = info.f;

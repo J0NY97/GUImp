@@ -98,6 +98,17 @@ void	layer_init(t_info *info)
 {
 	t_xywh	coord;
 
+	// the hidden surface, that shows the small image of the selected brush
+	coord = ui_init_coords(0, 0, info->main->window->surface->w, info->main->window->surface->h);
+	info->hidden_surface = ui_create_surface(info->main->window, coord, NULL);
+	info->hidden_surface->shadow = 0;
+	info->hidden_surface->event_handler = NULL;
+	SDL_FreeSurface(info->hidden_surface->surface);
+	info->hidden_surface->surface = SDL_CreateRGBSurface(0, info->main->window->surface->w, info->main->window->surface->w, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	ft_update_background(info->hidden_surface->surface, 0x00000000);
+
+
+
 	coord = ui_init_coords(50, 50,
 			info->main->window->surface->w - (100),
 			info->main->window->surface->h - (100));
@@ -168,12 +179,12 @@ void	slider_init(t_info *info)
 	info->size_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 1, 100);
 
 	coord = ui_init_coords(25, 154, 225, 20);
-	info->a_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 1, 100);
+	info->a_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 0, 255);
 
 	ft_set_slider_value(info->r_slider, 127);
 	ft_set_slider_value(info->g_slider, 127);
 	ft_set_slider_value(info->b_slider, 127);
-	ft_set_slider_value(info->a_slider, 0);
+	ft_set_slider_value(info->a_slider, 255);
 	ft_set_slider_value(info->size_slider, 49);
 }
 
@@ -377,6 +388,7 @@ void	update_brush(t_info *info)
 		ft_set_slider_value(info->r_slider, color.r);
 		ft_set_slider_value(info->g_slider, color.g);
 		ft_set_slider_value(info->b_slider, color.b);
+		ft_set_slider_value(info->a_slider, color.a);
 	}
 	else
 	{
@@ -503,6 +515,27 @@ void	update_layers(t_info *info)
 	}
 }
 
+void	update_hidden_surface(t_info *info, t_libui *libui)
+{
+	int x = libui->event.button.x;
+	int y = libui->event.button.y;
+	t_shapes l;
+
+	l.x2 = x;
+	l.y2 = y;
+	l.size = info->brush.size;
+
+	SDL_FreeSurface(info->hidden_surface->surface);// need to free here cause its made in the layer_init()
+	info->hidden_surface->surface = SDL_CreateRGBSurface(0, info->main->window->surface->w, info->main->window->surface->h,
+												32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	ft_update_background(info->hidden_surface->surface, 0x00000000);
+	
+	if (info->brush.type == 1)
+	{
+		ft_create_circle(info->hidden_surface->surface, info->brush.color, l, 1);
+	}
+}
+
 int		main(void)
 {
 	t_libui *libui;
@@ -533,7 +566,7 @@ int		main(void)
 	t_element *menu = prefab_tools_init(info->toolbox->window, 50, 1075);
 
 	// remove these
-	ft_update_background(info->drawing_surface[0]->surface, 0xff0000);
+	ft_update_background(info->drawing_surface[0]->surface, 0xffffffff);
 	// end remove these
 	
 	while (info->run)
@@ -542,6 +575,7 @@ int		main(void)
 		drag_drop_thing(info, libui);
 		update_brush(info);
 		update_layers(info);
+		update_hidden_surface(info, libui);
 		ui_render(info->toolbox->window);
 		ui_render(info->main->window);
 		ui_render(info->layers->window);

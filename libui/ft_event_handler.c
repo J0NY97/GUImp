@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:35:47 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/09 18:13:00 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/10 12:37:15 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int		ft_event_handler(SDL_Event e, t_element *elem)
 	{
 		if (elem->f)
 			elem->f(e, elem);
-		return (1);
 	}
 	elem->state = elem->default_state;
 	return (0);
