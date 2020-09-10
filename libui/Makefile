@@ -43,6 +43,7 @@ SRCS = ft_test_libui.c\
 	   ft_button_handler.c\
 	   ft_scaled_surface.c\
 	   ft_clamp.c\
+	   ft_update_elem_background.c\
 	   free.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h

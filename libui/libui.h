@@ -52,6 +52,7 @@ typedef struct	s_libui
 	t_list		*windows;
 	t_list		*hotkeys;
 	char		*drag_file;
+	int			run;
 }				t_libui;
 
 struct			s_hotkey
@@ -224,6 +225,7 @@ char			*drag_and_drop(SDL_Event e);
 SDL_Surface		*load_image(char *file);
 int				save_image(SDL_Surface *img, char *file);
 int				ft_clamp(int val, int min, int max);
+void			ft_update_elem_background(t_element *elem, Uint32 color);
 
 /* TESTS */
 t_element		*ft_create_element(t_element_info info);

@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_libui_init.c                                    :+:      :+:    :+:   */
+/*   ft_update_elem_background.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/30 14:49:35 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/10 13:48:48 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/09/10 13:29:18 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/09/10 13:32:00 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ui_libui_init(t_libui *libui)
+void	ft_update_elem_background(t_element *elem, Uint32 color)
 {
-	SDL_Init(SDL_INIT_VIDEO);
-	TTF_Init();
-	IMG_Init(0);
-	libui->windows = NULL;
-	libui->hotkeys = NULL;
-	libui->run = 1;
+	elem->bg_color = color;
+	ft_update_background(elem->surface, color);
+	ft_update_background(elem->states[0], color);
 }
