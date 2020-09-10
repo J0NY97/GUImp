@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 14:39:16 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/10 14:54:00 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/10 15:49:21 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	zoom_and_move(t_element *elem, SDL_Event event)
 		b = event.wheel.y > 0 ? -b : b;
 		surf = SDL_CreateRGBSurface(0, E_SURF_W - a, E_SURF_H - b, 32, 0, 0, 0, 0);
 		SDL_FreeSurface(elem->states[0]);
+		elem->rel_coord.w = surf->w;
+		elem->rel_coord.h = surf->h;
 		elem->states[0] = surf;
 	}
 	else
