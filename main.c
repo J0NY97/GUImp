@@ -167,7 +167,7 @@ void	layer_init(t_info *info)
 	SDL_FreeSurface(info->screen_surface->surface);
 	info->screen_surface->surface = SDL_CreateRGBSurface(0, coord.w, coord.h, 32, 0xff0000, 0x00ff00, 0x0000ff, 0xff000000);
 	ft_update_elem_background(info->screen_surface, 0xff000000);
-	info->screen_surface->statique = 1;
+//	info->screen_surface->statique = 1; // shouldnt be static because it should update every frame
 	info->screen_surface->f = &draw;
 	info->screen_surface->extra_info = &info->brush;
 	((t_surface *)info->screen_surface->info)->extra = info->drawing_surface;
@@ -199,15 +199,15 @@ void	slider_init(t_info *info)
 
 	coord = ui_init_coords(25, 50, 225, 20);
 	info->r_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 0, 255);
-	((t_slider *)info->r_slider->info)->bar_color = 0xff0000;
+	((t_slider *)info->r_slider->info)->bar_color = 0xffff0000;
 
 	coord = ui_init_coords(25, 76, 225, 20);
 	info->g_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 0, 255);
-	((t_slider *)info->g_slider->info)->bar_color = 0x00ff00;
+	((t_slider *)info->g_slider->info)->bar_color = 0xff00ff00;
 
 	coord = ui_init_coords(25, 102, 225, 20);
 	info->b_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 0, 255);
-	((t_slider *)info->b_slider->info)->bar_color = 0x0000ff;
+	((t_slider *)info->b_slider->info)->bar_color = 0xff0000ff;
 
 	coord = ui_init_coords(25, 128, 225, 20);
 	info->size_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 1, 100);
@@ -235,17 +235,17 @@ void	window_init(t_libui *libui, t_info *info)
 
 	new_win.coord = ui_init_coords(0, 0, 500, 1250);
 	new_win.title = ft_strdup("Toolbox");
-	new_win.bg_color = 0xd3d3d3;
+	new_win.bg_color = 0x00d3d3d3;
 	info->toolbox->window = ft_create_window(libui, new_win);
 	
 	new_win.coord = ui_init_coords(501, 0, 1000, 1250);
 	new_win.title = ft_strdup("Canvas");
-	new_win.bg_color = 0xd3d3d3;
+	new_win.bg_color = 0xffd3d3d3;
 	info->main->window = ft_create_window(libui, new_win);
 
 	new_win.coord = ui_init_coords(1502, 0, 500, 1250);
 	new_win.title = ft_strdup("Layers");
-	new_win.bg_color = 0xd3d3d3;
+	new_win.bg_color = 0xffd3d3d3;
 	info->layers->window = ft_create_window(libui, new_win);
 }
 
@@ -258,7 +258,7 @@ void	guimp_init(t_info *info)
 		info->brush.draw = 0;
 		info->brush.type = 1;
 		info->brush.size = 20;
-		info->brush.color = 0xd3d3d3;
+		info->brush.color = 0xffd3d3d3;
 		info->brush.old_x = -1;
 		info->brush.old_y = -1;
 		info->brush.str = NULL;
@@ -462,7 +462,7 @@ void	menu_init(t_info *info)
 	TTF_CloseFont(info->brush_menu->text.font);
 	info->brush_menu->text.font = TTF_OpenFont("font.ttf", 20);
 	info->brush_menu->old_state = 500;
-	ft_update_elem_background(info->brush_menu, 0xa9a9a9);
+	ft_update_elem_background(info->brush_menu, 0xffa9a9a9);
 	ft_update_element(info->brush_menu);
 
 	coord = ui_init_coords(40, 305, 400, 380);
@@ -474,7 +474,7 @@ void	menu_init(t_info *info)
 	TTF_CloseFont(info->col_menu->text.font);
 	info->col_menu->text.font = TTF_OpenFont("font.ttf", 20);
 	info->col_menu->old_state = 500;
-	ft_update_elem_background(info->col_menu, 0xa9a9a9);
+	ft_update_elem_background(info->col_menu, 0xffa9a9a9);
 	ft_update_element(info->col_menu);
 
 	coord = ui_init_coords(40, 710, 400, 175);
@@ -482,9 +482,9 @@ void	menu_init(t_info *info)
 	info->shape_menu->set_text = 1;
 	info->shape_menu->f = NULL;
 	info->shape_menu->text = ft_default_text("Shapes modifier");
-	info->shape_menu->bg_color = 0xa9a9a9;
+	info->shape_menu->bg_color = 0xffa9a9a9;
 	info->shape_menu->text.x = 5;
-	ft_update_background(info->shape_menu->states[0], 0xa9a9a9);
+	ft_update_background(info->shape_menu->states[0], 0xffa9a9a9);
 	TTF_CloseFont(info->shape_menu->text.font);
 	info->shape_menu->text.font = TTF_OpenFont("font.ttf", 20);
 	info->shape_menu->old_state = 500;
@@ -499,7 +499,7 @@ void	menu_init(t_info *info)
 	TTF_CloseFont(info->layer_menu->text.font);
 	info->layer_menu->text.font = TTF_OpenFont("font.ttf", 20);
 	info->layer_menu->old_state = 500;
-	ft_update_elem_background(info->layer_menu, 0xa9a9a9);
+	ft_update_elem_background(info->layer_menu, 0xffa9a9a9);
 	ft_update_element(info->layer_menu);
 }
 
@@ -533,12 +533,12 @@ void	parent_elem_test(t_info *info)
 	coord = ui_init_coords(50, 800, 100, 100);
 	menu = ui_create_surface(info->toolbox->window, coord, NULL);
 	menu->old_state = 500;
-	ft_update_elem_background(menu, 0xa9a9a9);
+	ft_update_elem_background(menu, 0xffa9a9a9);
 
 	coord = ui_init_coords(10, 10, 10, 10);
 	butt = ui_create_button(info->toolbox->window, coord, menu);
 	butt->old_state = 500;
-	ft_update_elem_background(butt, 0x3dffff);
+	ft_update_elem_background(butt, 0xff3dffff);
 }
 
 void	update_layers(t_info *info)
@@ -571,11 +571,13 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 	info->hidden_surface->surface = SDL_CreateRGBSurface(0, info->main->window->surface->w, info->main->window->surface->h,
 												32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 	ft_update_background(info->hidden_surface->surface, 0x00000000);
-	
-	if (info->brush.type == 1)
-	{
-		l.fill = 1;
-		ft_create_circle(info->hidden_surface->surface, info->brush.color, l);
+	if (libui->event.window.windowID == info->main->window->id)
+	{	
+		if (info->brush.type == 1)
+		{
+			l.fill = 1;
+			ft_create_circle(info->hidden_surface->surface, info->brush.color, l);
+		}
 	}
 }
 
@@ -619,8 +621,7 @@ int		main(void)
 		drag_drop_thing(info, libui);
 		update_brush(info);
 		update_layers(info);
-		if (libui->event.window.windowID == info->main->window->id)
-			update_hidden_surface(info, libui);
+		update_hidden_surface(info, libui);
 		ui_render(info->toolbox->window);
 		ui_render(info->main->window);
 		ui_render(info->layers->window);

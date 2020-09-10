@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 11:38:42 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/09 10:46:51 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/10 14:29:42 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_element	*prefab_tools_init(t_window *win, int x, int y)
 	menu = ui_create_surface(win, coords, NULL);
 	menu->set_text = 1;
 	menu->text = ft_default_text("Tools menu");
-	menu->bg_color = 0xa9a9a9;
+	menu->bg_color = 0xffa9a9a9;
 	ft_update_background(menu->states[0], menu->bg_color);
 	TTF_CloseFont(menu->text.font);
 	menu->text.font = TTF_OpenFont("font.ttf", 20);

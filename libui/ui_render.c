@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/10 12:27:33 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/10 14:26:40 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ui_clean(t_window *win, t_element *elem)
 	temp.y = elem->coord.y;
 	temp.w = elem->surface->w;
 	temp.h = elem->surface->h;
-	black = SDL_CreateRGBSurface(0, temp.w, temp.h, 32, 0, 0, 0, 0);
+	black = SDL_CreateRGBSurface(0, temp.w, temp.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 	if (elem->parent_elem != NULL)
 	{
 /*		temp.x = elem->rel_coord.x;
@@ -48,7 +48,7 @@ void	ui_clean_elem(t_element *parent, t_element *elem)
 	temp.y = elem->coord.y;
 	temp.w = elem->surface->w;
 	temp.h = elem->surface->h;
-	black = SDL_CreateRGBSurface(0, temp.w, temp.h, 32, 0, 0, 0, 0);
+	black = SDL_CreateRGBSurface(0, temp.w, temp.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 	if (parent != NULL)
 	{
 		temp.x = elem->rel_coord.x;
@@ -132,33 +132,22 @@ void	ui_recalc_elem(t_element *elem)
 	}
 }
 
-void	ui_clear_win(t_window *win)
-{
-	SDL_Surface *temp;
-
-	temp = SDL_CreateRGBSurface(0, win->surface->w, win->surface->h, 32, 0, 0, 0, 0);
-	ft_update_background(temp, win->bg_color);
-	SDL_BlitSurface(temp, NULL, win->surface, NULL);
-	SDL_FreeSurface(temp);
-}
-
 void	ui_render(t_window *win)
 {
 	t_list *curr;
 	
-	ui_clear_win(win);
 	curr = win->elements;
 	while (curr != NULL)
 	{
-//		ui_recalc_elem((t_element *)curr->content);
+		ui_recalc_elem((t_element *)curr->content);
 		ui_render_element(win->surface, (t_element *)curr->content);
 		curr = curr->next;
 	}
 	SDL_UpdateWindowSurface(win->win);
-//	curr = win->elements;
-//	while (curr != NULL)
-//	{
-//		ui_clean(win, curr->content);
-//		curr = curr->next;
-//	}
+	curr = win->elements;
+	while (curr != NULL)
+	{	
+		ui_clean(win, curr->content);
+		curr = curr->next;
+	}
 }

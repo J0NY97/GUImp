@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 10:57:10 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/10 12:25:10 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/10 14:28:50 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_element_info		ft_default_elem_info(t_window *win, t_xywh rel_coord, t_element 
 		info.parent = win->surface;
 	info.f = &default_click;
 	info.event_handler = &ft_event_handler;
-	info.bg_color = 0xf5f5f5;
+	info.bg_color = 0xfff5f5f5;
 	info.extra_info = NULL;
 	info.info = NULL;
 	info.set_text = 0;
