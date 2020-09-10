@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/09 17:32:46 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/10 12:27:33 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,29 +83,35 @@ void	ui_render_element(SDL_Surface *win, t_element *elem)
 		temp.h = elem->rel_coord.h;
 		ft_update_element(elem);
 		// shadow
-		s_temp.x = temp.x + 5;//+ (elem->state != 1 ? 5 : 0);
-		s_temp.y = temp.y + 5;//+ (elem->state != 1 ? 5 : 0);
-		s_temp.w = temp.w;
-		s_temp.h = temp.h;
-		shadow = SDL_CreateRGBSurface(0, temp.w, temp.h, 32, 0, 0, 0, 0);
-		ft_update_background(shadow, 0x9a9a9a);
-		SDL_BlitSurface(shadow, NULL, elem->parent_elem->surface, &s_temp);
-		SDL_FreeSurface(shadow);
-		// end shadow
+		if (elem->shadow)
+		{
+			s_temp.x = temp.x + 5;//+ (elem->state != 1 ? 5 : 0);
+			s_temp.y = temp.y + 5;//+ (elem->state != 1 ? 5 : 0);
+			s_temp.w = temp.w;
+			s_temp.h = temp.h;
+			shadow = SDL_CreateRGBSurface(0, temp.w, temp.h, 32, 0, 0, 0, 0);
+			ft_update_background(shadow, 0x9a9a9a);
+			SDL_BlitSurface(shadow, NULL, elem->parent_elem->surface, &s_temp);
+			SDL_FreeSurface(shadow);
+			// end shadow
+		}
 		SDL_BlitSurface(elem->surface, NULL, elem->parent_elem->surface, &temp);
 	}
 	else
 	{
 		ft_update_element(elem);
 		// shadow
-		s_temp.x = temp.x + 5;
-		s_temp.y = temp.y + 5;
-		s_temp.w = temp.w;
-		s_temp.h = temp.h;
-		shadow = SDL_CreateRGBSurface(0, temp.w, temp.h, 32, 0, 0, 0, 0);
-		ft_update_background(shadow, 0x9a9a9a);
-		SDL_BlitSurface(shadow, NULL, win, &s_temp);
-		SDL_FreeSurface(shadow);
+		if (elem->shadow)
+		{
+			s_temp.x = temp.x + 5;
+			s_temp.y = temp.y + 5;
+			s_temp.w = temp.w;
+			s_temp.h = temp.h;
+			shadow = SDL_CreateRGBSurface(0, temp.w, temp.h, 32, 0, 0, 0, 0);
+			ft_update_background(shadow, 0x9a9a9a);
+			SDL_BlitSurface(shadow, NULL, win, &s_temp);
+			SDL_FreeSurface(shadow);
+		}
 		// end shadow
 		SDL_BlitSurface(elem->surface, NULL, win, &temp);
 	}
@@ -126,23 +132,33 @@ void	ui_recalc_elem(t_element *elem)
 	}
 }
 
+void	ui_clear_win(t_window *win)
+{
+	SDL_Surface *temp;
+
+	temp = SDL_CreateRGBSurface(0, win->surface->w, win->surface->h, 32, 0, 0, 0, 0);
+	ft_update_background(temp, win->bg_color);
+	SDL_BlitSurface(temp, NULL, win->surface, NULL);
+	SDL_FreeSurface(temp);
+}
+
 void	ui_render(t_window *win)
 {
 	t_list *curr;
-
+	
+	ui_clear_win(win);
 	curr = win->elements;
 	while (curr != NULL)
 	{
-		ui_recalc_elem((t_element *)curr->content);
+//		ui_recalc_elem((t_element *)curr->content);
 		ui_render_element(win->surface, (t_element *)curr->content);
 		curr = curr->next;
 	}
 	SDL_UpdateWindowSurface(win->win);
-	curr = win->elements;
-	while (curr != NULL)
-	{
-		ui_clean(win, curr->content);
-		curr = curr->next;
-	}
-
+//	curr = win->elements;
+//	while (curr != NULL)
+//	{
+//		ui_clean(win, curr->content);
+//		curr = curr->next;
+//	}
 }

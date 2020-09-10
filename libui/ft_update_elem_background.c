@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hex_to_rgba.c                                      :+:      :+:    :+:   */
+/*   ft_update_elem_background.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/15 13:51:34 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/10 12:17:56 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/09/10 13:29:18 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/09/10 13:32:00 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-SDL_Color	hex_to_rgba(int rgba)
+void	ft_update_elem_background(t_element *elem, Uint32 color)
 {
-	SDL_Color color;
-	
-	color.a = (rgba >> 24) & 0xFF;
-	color.r = (rgba >> 16) & 0xFF;
-	color.g = (rgba >> 8) & 0xFF;
-	color.b = (rgba) & 0xFF;
-	return (color);
+	elem->bg_color = color;
+	ft_update_background(elem->surface, color);
+	ft_update_background(elem->states[0], color);
 }

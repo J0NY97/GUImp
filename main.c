@@ -133,6 +133,17 @@ void	layer_init(t_info *info)
 {
 	t_xywh	coord;
 
+	// the hidden surface, that shows the small image of the selected brush
+	coord = ui_init_coords(0, 0, info->main->window->surface->w, info->main->window->surface->h);
+	info->hidden_surface = ui_create_surface(info->main->window, coord, NULL);
+	info->hidden_surface->shadow = 0;
+	info->hidden_surface->event_handler = NULL;
+	SDL_FreeSurface(info->hidden_surface->surface);
+	info->hidden_surface->surface = SDL_CreateRGBSurface(0, info->main->window->surface->w, info->main->window->surface->w, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	ft_update_background(info->hidden_surface->surface, 0x00000000);
+
+
+
 	coord = ui_init_coords(50, 50,
 			info->main->window->surface->w - (100),
 			info->main->window->surface->h - (100));
@@ -146,8 +157,7 @@ void	layer_init(t_info *info)
 		info->drawing_surface[i] = ui_create_surface(NULL, coord, NULL);
 		SDL_FreeSurface(info->drawing_surface[i]->surface);
 		info->drawing_surface[i]->surface = SDL_CreateRGBSurface(0, coord.w, coord.h, 32, 0xff0000, 0x00ff00, 0x0000ff, 0xff000000);
-//		info->drawing_surface[i]->bg_color = 0xff000000;
-		ft_update_background(info->drawing_surface[i]->surface, 0x00000000);
+		ft_update_elem_background(info->drawing_surface[i], 0x00000000);
 		info->drawing_surface[i]->old_state = 500;
 		info->drawing_surface[i]->statique = 1;
 	}
@@ -156,7 +166,7 @@ void	layer_init(t_info *info)
 	info->screen_surface = ui_create_surface(info->main->window, coord, NULL);
 	SDL_FreeSurface(info->screen_surface->surface);
 	info->screen_surface->surface = SDL_CreateRGBSurface(0, coord.w, coord.h, 32, 0xff0000, 0x00ff00, 0x0000ff, 0xff000000);
-	ft_update_background(info->screen_surface->surface, 0xff000000);
+	ft_update_elem_background(info->screen_surface, 0xff000000);
 	info->screen_surface->statique = 1;
 	info->screen_surface->f = &draw;
 	info->screen_surface->extra_info = &info->brush;
@@ -203,12 +213,12 @@ void	slider_init(t_info *info)
 	info->size_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 1, 100);
 
 	coord = ui_init_coords(25, 154, 225, 20);
-	info->a_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 1, 100);
+	info->a_slider = ui_create_slider(info->toolbox->window, coord, info->col_menu, 0, 255);
 
 	ft_set_slider_value(info->r_slider, 127);
 	ft_set_slider_value(info->g_slider, 127);
 	ft_set_slider_value(info->b_slider, 127);
-	ft_set_slider_value(info->a_slider, 0);
+	ft_set_slider_value(info->a_slider, 255);
 	ft_set_slider_value(info->size_slider, 49);
 }
 
@@ -412,6 +422,7 @@ void	update_brush(t_info *info)
 		ft_set_slider_value(info->r_slider, color.r);
 		ft_set_slider_value(info->g_slider, color.g);
 		ft_set_slider_value(info->b_slider, color.b);
+		ft_set_slider_value(info->a_slider, color.a);
 	}
 	else
 	{
@@ -447,12 +458,11 @@ void	menu_init(t_info *info)
 	info->brush_menu->set_text = 1;
 	info->brush_menu->f = NULL;
 	info->brush_menu->text = ft_default_text("Brush buttons");
-	info->brush_menu->bg_color = 0xa9a9a9;
 	info->brush_menu->text.x = 5;
-	ft_update_background(info->brush_menu->states[0], 0xa9a9a9);
 	TTF_CloseFont(info->brush_menu->text.font);
 	info->brush_menu->text.font = TTF_OpenFont("font.ttf", 20);
 	info->brush_menu->old_state = 500;
+	ft_update_elem_background(info->brush_menu, 0xa9a9a9);
 	ft_update_element(info->brush_menu);
 
 	coord = ui_init_coords(40, 305, 400, 380);
@@ -460,12 +470,11 @@ void	menu_init(t_info *info)
 	info->col_menu->set_text = 1;
 	info->col_menu->f = NULL;
 	info->col_menu->text = ft_default_text("Brush modifier");
-	info->col_menu->bg_color = 0xa9a9a9;
 	info->col_menu->text.x = 5;
-	ft_update_background(info->col_menu->states[0], 0xa9a9a9);
 	TTF_CloseFont(info->col_menu->text.font);
 	info->col_menu->text.font = TTF_OpenFont("font.ttf", 20);
 	info->col_menu->old_state = 500;
+	ft_update_elem_background(info->col_menu, 0xa9a9a9);
 	ft_update_element(info->col_menu);
 
 	coord = ui_init_coords(40, 710, 400, 175);
@@ -486,12 +495,11 @@ void	menu_init(t_info *info)
 	info->layer_menu->set_text = 1;
 	info->layer_menu->f = NULL;
 	info->layer_menu->text = ft_default_text("Layers");
-	info->layer_menu->bg_color = 0xa9a9a9;
 	info->layer_menu->text.x = 5;
-	ft_update_background(info->layer_menu->states[0], 0xa9a9a9);
 	TTF_CloseFont(info->layer_menu->text.font);
 	info->layer_menu->text.font = TTF_OpenFont("font.ttf", 20);
 	info->layer_menu->old_state = 500;
+	ft_update_elem_background(info->layer_menu, 0xa9a9a9);
 	ft_update_element(info->layer_menu);
 }
 
@@ -524,15 +532,13 @@ void	parent_elem_test(t_info *info)
 
 	coord = ui_init_coords(50, 800, 100, 100);
 	menu = ui_create_surface(info->toolbox->window, coord, NULL);
-	menu->bg_color = 0xa9a9a9;
 	menu->old_state = 500;
-	ft_update_background(menu->states[0], menu->bg_color);
+	ft_update_elem_background(menu, 0xa9a9a9);
 
 	coord = ui_init_coords(10, 10, 10, 10);
 	butt = ui_create_button(info->toolbox->window, coord, menu);
-	butt->bg_color = 0x3dffff;
-	ft_update_background(butt->states[0], butt->bg_color);
 	butt->old_state = 500;
+	ft_update_elem_background(butt, 0x3dffff);
 }
 
 void	update_layers(t_info *info)
@@ -548,6 +554,28 @@ void	update_layers(t_info *info)
 	for (int i = 0; i < info->layer_amount; i++)
 	{
 		SDL_BlitScaled(info->drawing_surface[i]->surface, NULL, info->screen_surface->surface, NULL);
+	}
+}
+
+void	update_hidden_surface(t_info *info, t_libui *libui)
+{
+	int x = libui->event.button.x;
+	int y = libui->event.button.y;
+	t_shapes l;
+
+	l.x1 = x;
+	l.y1 = y;
+	l.size = info->brush.size;
+
+	SDL_FreeSurface(info->hidden_surface->surface);// need to free here cause its made in the layer_init()
+	info->hidden_surface->surface = SDL_CreateRGBSurface(0, info->main->window->surface->w, info->main->window->surface->h,
+												32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	ft_update_background(info->hidden_surface->surface, 0x00000000);
+	
+	if (info->brush.type == 1)
+	{
+		l.fill = 1;
+		ft_create_circle(info->hidden_surface->surface, info->brush.color, l);
 	}
 }
 
@@ -582,7 +610,7 @@ int		main(void)
 	t_element *menu = prefab_tools_init(info->toolbox->window, 50, 1075);
 
 	// remove these
-	ft_update_background(info->drawing_surface[0]->surface, 0xff0000);
+	ft_update_elem_background(info->drawing_surface[0], 0xffffffff);
 	// end remove these
 	
 	while (info->run)
@@ -591,6 +619,8 @@ int		main(void)
 		drag_drop_thing(info, libui);
 		update_brush(info);
 		update_layers(info);
+		if (libui->event.window.windowID == info->main->window->id)
+			update_hidden_surface(info, libui);
 		ui_render(info->toolbox->window);
 		ui_render(info->main->window);
 		ui_render(info->layers->window);

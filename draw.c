@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/10 13:46:11 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/10 14:09:33 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	draw(SDL_Event event, t_element *elem)
 			text_to_screen(elem, l, brush);
 		else if (brush->type == 3)
 		{
-			brush->color = elem->bg_color;
+			brush->color = drawing_surfaces[brush->selected_layer]->bg_color;
 			pencil(surface, brush, l);
 		}
 		else if (brush->type == 4) // flood
