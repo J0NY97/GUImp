@@ -44,7 +44,7 @@ void	change_selected_layer(SDL_Event e, t_element *elem)
 }
 
 
-void	button_init(t_info *info)
+void	tool_buttons_init(t_info *info)
 {
 	t_xywh coord;
 
@@ -71,11 +71,11 @@ void	button_init(t_info *info)
 
 	coord = ui_init_coords(275, 100, 100, 50);
 	info->buttons[5] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-	info->buttons[5]->text.text = ft_strdup("Magnify");
+	info->buttons[5]->text.text = ft_strdup("Zoom&Move");
 
 	coord = ui_init_coords(25, 175, 100, 50);
 	info->buttons[6] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-	info->buttons[6]->text.text = ft_strdup("Move");
+	info->buttons[6]->text.text = ft_strdup("Line");
 
 	coord = ui_init_coords(150, 175, 100, 50);
 	info->buttons[7] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
@@ -91,6 +91,41 @@ void	button_init(t_info *info)
 		info->buttons[i]->old_state = 500;
 		info->buttons[i]->text.centered = 1;
 		ft_update_element(info->buttons[i]);
+	}
+}
+
+void	shape_buttons_init(t_info *info)
+{
+	int i;
+	t_xywh coord;
+
+	i = -1;
+	coord = ui_init_coords(25, 25, 100, 50);
+	info->shapes[0] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
+	info->shapes[0]->text.text = ft_strdup("Line");
+	info->shapes[0]->default_state = 1;
+
+	coord = ui_init_coords(150, 25, 100, 50);
+	info->shapes[1] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
+	info->shapes[1]->text.text = ft_strdup("Rect.");
+
+	coord = ui_init_coords(275, 25, 100, 50);
+	info->shapes[2] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
+	info->shapes[2]->text.text = ft_strdup("Square");
+
+	coord = ui_init_coords(25, 100, 100, 50);
+	info->shapes[3] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
+	info->shapes[3]->text.text = ft_strdup("Circle");
+
+	info->shapes_nbr = 4;
+	while (++i < info->shapes_nbr)
+	{
+		info->shapes[i]->f = &draw_buttons;
+		info->shapes[i]->extra_info = info->shapes;
+		((t_button *)info->shapes[i]->info)->extra = &info->shapes_nbr;
+		info->shapes[i]->old_state = 500;
+		info->shapes[i]->text.centered = 1;
+		ft_update_element(info->shapes[i]);
 	}
 }
 
@@ -407,7 +442,7 @@ void	menu_init(t_info *info)
 {
 	t_xywh coord;
 
-	coord = ui_init_coords(40, 20, 400, 250);
+	coord = ui_init_coords(40, 25, 400, 255);
 	info->brush_menu = ui_create_surface(info->toolbox->window, coord, NULL);
 	info->brush_menu->set_text = 1;
 	info->brush_menu->f = NULL;
@@ -420,7 +455,7 @@ void	menu_init(t_info *info)
 	info->brush_menu->old_state = 500;
 	ft_update_element(info->brush_menu);
 
-	coord = ui_init_coords(40, 325, 400, 400);
+	coord = ui_init_coords(40, 305, 400, 380);
 	info->col_menu = ui_create_surface(info->toolbox->window, coord, NULL);
 	info->col_menu->set_text = 1;
 	info->col_menu->f = NULL;
@@ -432,6 +467,19 @@ void	menu_init(t_info *info)
 	info->col_menu->text.font = TTF_OpenFont("font.ttf", 20);
 	info->col_menu->old_state = 500;
 	ft_update_element(info->col_menu);
+
+	coord = ui_init_coords(40, 710, 400, 175);
+	info->shape_menu = ui_create_surface(info->toolbox->window, coord, NULL);
+	info->shape_menu->set_text = 1;
+	info->shape_menu->f = NULL;
+	info->shape_menu->text = ft_default_text("Shapes modifier");
+	info->shape_menu->bg_color = 0xa9a9a9;
+	info->shape_menu->text.x = 5;
+	ft_update_background(info->shape_menu->states[0], 0xa9a9a9);
+	TTF_CloseFont(info->shape_menu->text.font);
+	info->shape_menu->text.font = TTF_OpenFont("font.ttf", 20);
+	info->shape_menu->old_state = 500;
+	ft_update_element(info->shape_menu);
 
 	coord = ui_init_coords(50, 50, 400, 1150);
 	info->layer_menu = ui_create_surface(info->layers->window, coord, NULL);
@@ -517,7 +565,8 @@ int		main(void)
 
 	window_init(libui, info);
 	menu_init(info);
-	button_init(info);
+	tool_buttons_init(info);
+	shape_buttons_init(info);
 	slider_init(info);
 	drop_down_init(info);
 	layer_init(info); // slider_init needs to be called before this.
@@ -527,7 +576,7 @@ int		main(void)
 	// z_buffer_sort(); // this has to happen after ALL elem inits and BEFORE the main loop
 	ft_set_icon(info->main->window->win, "resources/icon/gimp-icon.png");
 
-	parent_elem_test(info);
+	//parent_elem_test(info);
 	
 	// libui prefab test
 	t_element *menu = prefab_tools_init(info->toolbox->window, 50, 1075);

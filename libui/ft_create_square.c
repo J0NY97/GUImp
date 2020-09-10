@@ -17,11 +17,11 @@ void	ft_create_square(SDL_Surface *surface, Uint32 color, t_shapes l)
 	int sx;
 	int sy;
 
-	sx = l.x2 - l.size;
-	while (sx < l.x2 + l.size)
+	sx = l.x1 - l.size;
+	while (sx < l.x1 + l.size)
 	{
-		sy = l.y2 - l.size;
-		while (sy < l.y2 + l.size)
+		sy = l.y1 - l.size;
+		while (sy < l.y1 + l.size)
 		{
 			if (sx >= 0 && sy >= 0 && sx <= surface->w && sy <= surface->h)
 				set_pixel(surface, sx, sy, color);

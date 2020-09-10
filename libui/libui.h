@@ -186,17 +186,13 @@ struct s_window
 
 typedef struct	s_shapes
 {
-	int			size;
-	int			x;
-	int			y;
 	int			x1;
 	int			y1;
 	int			x2;
 	int			y2;
-	int			cath_x;
-	int 		cath_y;
-	int			overflow_x;
-	int			overflow_y;
+	int			fill;
+	int			size;
+	int			color;
 }				t_shapes;
 
 typedef	struct	s_coords
@@ -209,7 +205,7 @@ void			ft_test_libui(void);
 t_window		*ft_create_window(t_libui *libui, t_window_info info);
 /* EXTRA */
 void			ft_create_line(SDL_Surface *surf, Uint32 color, t_shapes l);
-void			ft_create_circle(SDL_Surface *surface, Uint32 color, t_shapes c, int i);
+void			ft_create_circle(SDL_Surface *surface, Uint32 color, t_shapes c);
 void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
 SDL_Color		hex_to_rgba(int color);
 int				rgb_to_hex(int r, int g, int b, int a);
