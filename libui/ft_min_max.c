@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_create_square.c                                 :+:      :+:    :+:   */
+/*   ft_min.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/23 14:54:43 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/12 14:03:26 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/09/12 14:00:26 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/09/12 14:04:46 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ft_create_square(SDL_Surface *surface, Uint32 color, t_shapes l)
+int		ft_min(int a, int b)
 {
-	int sx;
-	int sy;
-	int ex;
-	int ey;
+	if (a < b)
+		return (a);
+	return (b);
+}
 
-	sx = ft_min(l.x1, l.x2);
-	ex = ft_max(l.x1, l.x2);
-	while (sx < ex)
-	{
-		sy = ft_min(l.y1, l.y2);
-		ey = ft_max(l.y1, l.y2);
-		while (sy < ey)
-		{
-			set_pixel(surface, ft_clamp(sx, 0, surface->w - 1), ft_clamp(sy, 0, surface->h - 1), color);
-			sy++;
-		}
-		sx++;
-	}
+int		ft_max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
 }

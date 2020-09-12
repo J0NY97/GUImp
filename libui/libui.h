@@ -223,6 +223,12 @@ int				save_image(SDL_Surface *img, char *file);
 int				ft_clamp(int val, int min, int max);
 void			ft_update_elem_background(t_element *elem, Uint32 color);
 
+/*
+	** Move someehere else
+*/
+int				ft_min(int a, int b);
+int				ft_max(int a, int b);
+
 /* TESTS */
 t_element		*ft_create_element(t_element_info info);
 void			ft_update_element(t_element *elem);
