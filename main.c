@@ -49,10 +49,9 @@ void	tool_buttons_init(t_info *info)
 	SDL_Rect	temp;
 	t_xywh coord;
 
+	// pencil
 	coord = ui_init_coords(25, 25, 100, 50);
 	info->buttons[0] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-//	info->buttons[0]->text.text = ft_strdup("Circle");
-	info->buttons[0]->set_text = 0;
 	ft_set_element_image(info->buttons[0], info->tooltips.circle);
 	info->buttons[0]->default_state = 1;
 
@@ -60,40 +59,34 @@ void	tool_buttons_init(t_info *info)
 	info->buttons[1] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	info->buttons[1]->text.text = ft_strdup("Text");
 
+	// deletion
 	coord = ui_init_coords(275, 25, 100, 50);
 	info->buttons[2] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-//	info->buttons[2]->text.text = ft_strdup("Delete");
-	info->buttons[2]->set_text = 0;
 	ft_set_element_image(info->buttons[2], info->tooltips.deletion);
 
+	// flood
 	coord = ui_init_coords(25, 100, 100, 50);
 	info->buttons[3] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-//	info->buttons[3]->text.text = ft_strdup("Flood");
-	info->buttons[3]->set_text = 0;
 	ft_set_element_image(info->buttons[3], info->tooltips.flood);
 
+	// sticker
 	coord = ui_init_coords(150, 100, 100, 50);
 	info->buttons[4] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-//	info->buttons[4]->text.text = ft_strdup("Sticker");
-	info->buttons[4]->set_text = 0;
 	ft_set_element_image(info->buttons[4], info->tooltips.sticker);
 
+	// zoom and move
 	coord = ui_init_coords(275, 100, 100, 50);
 	info->buttons[5] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-//	info->buttons[5]->text.text = ft_strdup("Zoom&Move");
-	info->buttons[5]->set_text = 0;
 	ft_set_element_image(info->buttons[5], info->tooltips.move);
 
+	// shapes
 	coord = ui_init_coords(25, 175, 100, 50);
 	info->buttons[6] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-//	info->buttons[6]->text.text = ft_strdup("Line");
-	info->buttons[6]->set_text = 0;
 	ft_set_element_image(info->buttons[6], info->tooltips.shapes);
 
+	// pipette
 	coord = ui_init_coords(150, 175, 100, 50);
 	info->buttons[7] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-//	info->buttons[7]->text.text = ft_strdup("Pipette");
-	info->buttons[7]->set_text = 0;
 	ft_set_element_image(info->buttons[7], info->tooltips.pipette);
 
 	info->brush_button_amount = 8;
