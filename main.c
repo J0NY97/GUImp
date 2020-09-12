@@ -46,11 +46,14 @@ void	change_selected_layer(SDL_Event e, t_element *elem)
 
 void	tool_buttons_init(t_info *info)
 {
+	SDL_Rect	temp;
 	t_xywh coord;
 
 	coord = ui_init_coords(25, 25, 100, 50);
 	info->buttons[0] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-	info->buttons[0]->text.text = ft_strdup("Circle");
+//	info->buttons[0]->text.text = ft_strdup("Circle");
+	info->buttons[0]->set_text = 0;
+	ft_set_element_image(info->buttons[0], info->tooltips.circle);
 	info->buttons[0]->default_state = 1;
 
 	coord = ui_init_coords(150, 25, 100, 50);
@@ -59,27 +62,39 @@ void	tool_buttons_init(t_info *info)
 
 	coord = ui_init_coords(275, 25, 100, 50);
 	info->buttons[2] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-	info->buttons[2]->text.text = ft_strdup("Delete");
+//	info->buttons[2]->text.text = ft_strdup("Delete");
+	info->buttons[2]->set_text = 0;
+	ft_set_element_image(info->buttons[2], info->tooltips.deletion);
 
 	coord = ui_init_coords(25, 100, 100, 50);
 	info->buttons[3] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-	info->buttons[3]->text.text = ft_strdup("Flood");
+//	info->buttons[3]->text.text = ft_strdup("Flood");
+	info->buttons[3]->set_text = 0;
+	ft_set_element_image(info->buttons[3], info->tooltips.flood);
 
 	coord = ui_init_coords(150, 100, 100, 50);
 	info->buttons[4] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-	info->buttons[4]->text.text = ft_strdup("Sticker");
+//	info->buttons[4]->text.text = ft_strdup("Sticker");
+	info->buttons[4]->set_text = 0;
+	ft_set_element_image(info->buttons[4], info->tooltips.sticker);
 
 	coord = ui_init_coords(275, 100, 100, 50);
 	info->buttons[5] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-	info->buttons[5]->text.text = ft_strdup("Zoom&Move");
+//	info->buttons[5]->text.text = ft_strdup("Zoom&Move");
+	info->buttons[5]->set_text = 0;
+	ft_set_element_image(info->buttons[5], info->tooltips.move);
 
 	coord = ui_init_coords(25, 175, 100, 50);
 	info->buttons[6] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-	info->buttons[6]->text.text = ft_strdup("Line");
+//	info->buttons[6]->text.text = ft_strdup("Line");
+	info->buttons[6]->set_text = 0;
+	ft_set_element_image(info->buttons[6], info->tooltips.shapes);
 
 	coord = ui_init_coords(150, 175, 100, 50);
 	info->buttons[7] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-	info->buttons[7]->text.text = ft_strdup("Pipette");
+//	info->buttons[7]->text.text = ft_strdup("Pipette");
+	info->buttons[7]->set_text = 0;
+	ft_set_element_image(info->buttons[7], info->tooltips.pipette);
 
 	info->brush_button_amount = 8;
 	// for now you have to manually update the buttons after change, pl0x fix
@@ -562,6 +577,7 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 	int x = libui->event.button.x;
 	int y = libui->event.button.y;
 	t_shapes l;
+	SDL_Rect	temp;
 
 	l.x1 = x;
 	l.y1 = y;
@@ -575,10 +591,68 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 	{	
 		if (info->brush.type == 1)
 		{
-			l.fill = 1;
+			l.fill = 0;
 			ft_create_circle(info->hidden_surface->surface, info->brush.color, l);
 		}
+		else if (info->brush.type == 2)
+		{
+//			text_to_screen(info->hidden_surfae, l, brush);	// enable this when it doesnt take in elem and brush
+		}
+		else if (info->brush.type == 3)
+		{
+			l.fill = 1;
+			// @Improvement: ? maybe dont use "info->drawing_surface[info->brush.selected_layer]->bg_color"...
+			ft_create_circle(info->hidden_surface->surface, info->drawing_surface[info->brush.selected_layer]->bg_color, l);
+		}
+		else if (info->brush.type == 4)
+		{
+			temp.w = info->tooltips.flood->w;
+			temp.h = info->tooltips.flood->h;
+			temp.x = l.x1;
+			temp.y = l.y1 - temp.h;
+			SDL_BlitSurface(info->tooltips.flood, NULL, info->hidden_surface->surface, &temp);
+		}
+		else if (info->brush.type == 5)
+		{
+			temp.w = info->brush.stickers[info->brush.selected_sticker]->w;
+			temp.h = info->brush.stickers[info->brush.selected_sticker]->h;
+			temp.x = l.x1 - temp.w / 2;
+			temp.y = l.y1 - temp.h / 2;
+			SDL_BlitSurface(info->brush.stickers[info->brush.selected_sticker], NULL, info->hidden_surface->surface, &temp);
+		}
+		else if (info->brush.type == 6)
+		{
+			temp.w = info->tooltips.move->w;
+			temp.h = info->tooltips.move->h;;
+			temp.x = l.x1 - temp.w / 2;
+			temp.y = l.y1 - temp.h / 2;
+			SDL_BlitSurface(info->tooltips.move, NULL, info->hidden_surface->surface, &temp);
+
+		}
+		else if (info->brush.type == 7)
+		{
+			// something taht represents the "line" you have selected
+		}
+		else if (info->brush.type == 8)
+		{
+			temp.w = info->tooltips.pipette->w;
+			temp.h = info->tooltips.pipette->h;;
+			temp.x = l.x1;
+			temp.y = l.y1 - temp.h;
+			SDL_BlitSurface(info->tooltips.pipette, NULL, info->hidden_surface->surface, &temp);
+		}
 	}
+}
+
+void	tooltips_load(t_info *info)
+{
+	info->tooltips.pipette = load_image("resources/tooltips/pipette.bmp");
+	info->tooltips.move = load_image("resources/tooltips/move.bmp");
+	info->tooltips.sticker = load_image("resources/tooltips/sticker.bmp");
+	info->tooltips.circle = load_image("resources/tooltips/circle.bmp");
+	info->tooltips.deletion = load_image("resources/tooltips/delete.bmp");
+	info->tooltips.flood = load_image("resources/tooltips/flood.bmp");
+	info->tooltips.shapes = load_image("resources/tooltips/shapes.bmp");
 }
 
 int		main(void)
@@ -593,6 +667,7 @@ int		main(void)
 		exit (0);
 	guimp_init(info);
 
+	tooltips_load(info);
 	window_init(libui, info);
 	menu_init(info);
 	tool_buttons_init(info);

@@ -50,6 +50,17 @@ typedef	struct	s_win
 	t_list		*elements;
 }				t_win;
 
+typedef	struct	s_tooltips
+{
+	SDL_Surface	*pipette;
+	SDL_Surface	*move;
+	SDL_Surface	*flood;
+	SDL_Surface	*sticker;
+	SDL_Surface *shapes;
+	SDL_Surface *circle;
+	SDL_Surface *deletion;
+}				t_tooltips;
+
 struct			s_info
 {
 	int			run;
@@ -60,6 +71,8 @@ struct			s_info
 	t_win		*toolbox;
 	t_win		*main;
 	t_win		*layers;
+
+	t_tooltips	tooltips;
 
 	t_element	*r_slider;
 	t_element	*g_slider;
