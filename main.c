@@ -374,11 +374,11 @@ void	drop_down_init(t_info *info)
 
 	temp.w = 32;
 	temp.h = 32;
-	temp.x = 200 - temp.w;
+	temp.x = 175 - temp.w;
 	temp.y = 0;
 
 	// STICKER SELECTION DROP DOWN
-	coord = ui_init_coords(25, 200, 225, 32);
+	coord = ui_init_coords(25, 200, 175, 32);
 	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
 	info->drop_down->text.text = ft_strdup("Sticker select");
 	info->drop_down->text.x = 10;
@@ -392,15 +392,19 @@ void	drop_down_init(t_info *info)
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[1], &temp);
 	SDL_FreeSurface(icon);
 	// item2
-	ft_drop_down_add_item(info->drop_down, "Gimp-icon");
+	ft_drop_down_add_item(info->drop_down, "Guimp-icon");
 	icon = load_image("resources/stickers/icon-gimp-icon.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[1], &temp);
 	SDL_FreeSurface(icon);
 
+	// this have to be called after all the items have been added other wise if you edite the items they wont be updated
+	//  on the drop down menu after they have been edited in here
+	ft_update_drop(info->drop_down);
+
 	// FONT SELECTION DROP DOWN
-	coord = ui_init_coords(25, 250, 225, 32);
+	coord = ui_init_coords(225, 200, 150, 32);
 	info->font_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
 	info->font_down->text.text = ft_strdup("Font select");
 	info->font_down->text.x = 10;
@@ -412,7 +416,8 @@ void	drop_down_init(t_info *info)
 	ft_drop_down_add_item(info->font_down, "OpenSans.ttf");
 	ft_drop_down_add_item(info->font_down, "Pacifico.ttf");
 	ft_drop_down_add_item(info->font_down, "SeaSideResort.ttf");
-//	ft_drop_down_add_item(info->font_down, &change_font, "Tusj.ttf");
+//	ft_drop_down_add_item(info->font_down, "Tusj.ttf");
+	ft_update_drop(info->font_down);
 }
 
 void	update_brush(t_info *info)
