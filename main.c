@@ -456,6 +456,9 @@ void	update_brush(t_info *info)
 	for (int i = 0; i < ((t_drop_down *)info->font_down->info)->item_amount; i++)
 		if (((t_drop_down *)info->font_down->info)->items[i]->state == 1)
 			info->brush.font_dir = ft_strjoiner("libui/TTF/", ((t_drop_down *)info->font_down->info)->items[i]->text.text, NULL);
+	for (int i = 0; i < info->shapes_nbr; i++)
+			if (info->shapes[i]->state == 1)
+				info->brush.shape_type = i + 1;
 	free(info->brush.str);
 	info->brush.str = ft_strdup(info->text_area->text.text);
 	ft_update_background(info->brush_color->surface, info->brush.color);

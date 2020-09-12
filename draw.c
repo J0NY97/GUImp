@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/12 14:30:52 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/12 14:55:54 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	select_shape(SDL_Surface *surf, t_brush *brush)
 	t_shapes l;
 
 	l = brush->shape;
+	l.fill = 1;
 	if (l.x2 != -1 && l.y2 != -1)
 	{
 		if (brush->shape_type == 1)
@@ -108,7 +109,7 @@ void	draw(SDL_Event event, t_element *elem)
 		}
 		else if (brush->type == 7)
 		{
-			//select_shape(surface, brush);
+			select_shape(surface, brush);
 		}
 		else if (brush->type == 8) // pipette
 		{
