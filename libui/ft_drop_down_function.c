@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:54:31 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/06 17:28:19 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/12 15:11:16 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	ft_update_drop(t_element *elem)
 	dd = elem->info;
 	SDL_FreeSurface(elem->states[1]);
 	dd->drop_height = (dd->item_amount + 1) * dd->height;
-	elem->states[1] = SDL_CreateRGBSurface(0, elem->coord.w, dd->drop_height, 32, 0, 0, 0, 0);
-	ft_update_background(elem->states[1], 0x00ff00);
+	elem->states[1] = SDL_CreateRGBSurface(0, elem->coord.w, dd->drop_height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	ft_update_background(elem->states[1], 0xff00ff00);
 	printf("drop height %d item_amount %d elem->coord.h %d elem->rel_coord.h %d\n", dd->drop_height, dd->item_amount, elem->coord.h, elem->rel_coord.h);
 	for (int i = 0; i < dd->item_amount; i++)
 	{

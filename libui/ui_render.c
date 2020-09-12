@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/10 15:48:08 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/12 15:09:29 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ui_create_shadow(t_element *elem)
 	l.y1 = temp.y + 5;
 	l.x2 = l.x1 + 5;
 	l.y2 = l.y1 + temp.h;
+	l.fill = 1;
 	l.color = 0xff9a9a9a;
 	if (elem->parent_elem)
 		ft_create_square(elem->parent_elem->surface, 0xff9a9a9a, l);
