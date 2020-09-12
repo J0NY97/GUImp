@@ -10,3 +10,4 @@ guimp
 */*.a
 old_main.c
 images/
+*.xcf
