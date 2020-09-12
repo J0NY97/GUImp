@@ -29,12 +29,12 @@ typedef	struct	s_more_info
 
 typedef struct	s_brush
 {
+	int			shape_type;
+	t_shapes 	shape;
 	int			draw;
 	int			type;
 	int			size;
 	int			color;
-	int			old_x;
-	int			old_y;
 	char		*font_dir;
 	TTF_Font	*font;
 	char		*str;
@@ -85,7 +85,7 @@ struct			s_info
 	t_element	*buttons[8];
 
 	int			shapes_nbr;	
-	t_element	*shapes[4];
+	t_element	*shapes[5];
 
 	t_element	*text_area;
 	t_element	*save_button;

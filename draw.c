@@ -6,22 +6,25 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/12 11:00:09 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/12 14:00:51 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "guimp.h"
+#define POS(n) ((n) < 0 ? 0 - (n) : (n))
 
-void	pencil(SDL_Surface *surf, t_brush *brush, t_shapes l)
+void	pencil(SDL_Surface *surf, t_brush *brush, Uint32 color)
 {
+	t_shapes l;
 
-	if (brush->old_x == -1 && brush->old_y == -1)
+	l = brush->shape;
+	if (l.x2 == -1 &&  l.y2 == -1)
 	{
 		l.fill = 1;
-		ft_create_circle(surf, brush->color, l);
+		ft_create_circle(surf, color, l);
 	}
-	if (brush->old_x != -1 && brush->old_y != -1)
-		ft_create_line(surf, brush->color, l);
+	if (l.x2 != -1 &&  l.y2 != -1)
+		ft_create_line(surf, color, l);
 }
 
 void	set_sticker(SDL_Surface *surf, t_brush *brush, int x, int y)
@@ -35,53 +38,69 @@ void	set_sticker(SDL_Surface *surf, t_brush *brush, int x, int y)
 	SDL_BlitSurface(brush->stickers[brush->selected_sticker], NULL, surf, &temp);
 }
 
-void	a_to_b_line(SDL_Surface *surf, t_brush *brush, t_shapes l)
+void	select_shape(SDL_Surface *surf, t_brush *brush)
 {
-	if (l.y2 != -1 && l.x2 != -1)
+	t_shapes l;
+
+	l = brush->shape;
+	if (l.x2 != -1 && l.y2 != -1)
 	{
-		ft_create_line(surf, brush->color, l);
+		if (brush->shape_type == 1)
+		{
+			l.fill = 0;
+			l.size = POS(l.y1 - l.y2) + POS(l.x1 - l.x2); 
+			ft_create_circle(surf, brush->color, l);
+		}
+		else if (brush->shape_type == 2)
+		{
+			l.fill = 0;
+			ft_create_square(surf, brush->color, l);
+		}
+		else if (brush->shape_type == 3)
+			ft_create_line(surf, brush->color, l);	
+		else if (brush->shape_type == 4)
+		{
+			l.size = POS(l.y1 - l.y2) + POS(l.x1 - l.x2); 
+			ft_create_circle(surf, brush->color, l);
+		}
+		else if (brush->shape_type == 5)
+			ft_create_square(surf, brush->color, l);
 	}
 }
 
 void	draw(SDL_Event event, t_element *elem)
 {
-	t_shapes l;
-	t_brush *brush;
-	t_element **drawing_surfaces;
-	SDL_Surface *surface;
+	t_brush		*brush;
+	SDL_Surface	*surface;
+	t_element	**drawing_surfaces;
 
-	l.fill = 1;
-	brush = (t_brush *)elem->extra_info;
 	drawing_surfaces = ((t_surface *)elem->info)->extra;
+	brush = (t_brush *)elem->extra_info;
+	brush->shape.fill = 1;
+	brush->shape.x1 = event.button.x - elem->coord.x;
+	brush->shape.y1 = event.button.y - elem->coord.y;
+	brush->shape.size = brush->size;
 	surface = drawing_surfaces[brush->selected_layer]->surface;
-	l.x1 = event.button.x - elem->coord.x;
-	l.y1 = event.button.y - elem->coord.y;
-	l.size = brush->size;
 	if (event.type == SDL_MOUSEBUTTONUP)
 		brush->draw = 0;
 	else if (event.type == SDL_MOUSEBUTTONDOWN)
 		brush->draw = 1;
 	if (brush->draw == 1)
 	{
-		l.x2 = brush->old_x;
-		l.y2 = brush->old_y;
 		if (brush->type == 1)
-			pencil(surface, brush, l);
+			pencil(surface, brush, brush->color);
 		else if (brush->type == 2)
-			text_to_screen(surface, l, brush);
+			text_to_screen(surface, brush->shape, brush);
 		else if (brush->type == 3)
-		{
-			brush->color = drawing_surfaces[brush->selected_layer]->bg_color;
-			pencil(surface, brush, l);
-		}
+			pencil(surface, brush, drawing_surfaces[brush->selected_layer]->bg_color);
 		else if (brush->type == 4) // flood
 		{
-			Uint32 targetColor = get_color(surface, l.x1, l.y1);
-			flood_fill(surface, targetColor, brush->color, l.x1, l.y1);
+			flood_fill(surface, get_color(surface, brush->shape.x1, brush->shape.y1),
+						brush->color, brush->shape.x1, brush->shape.y1);
 		}
 		else if (brush->type == 5)
 		{
-			set_sticker(surface, brush, l.x1, l.y1);
+			set_sticker(surface, brush, brush->shape.x1, brush->shape.y1);
 		}
 		else if (brush->type == 6)
 		{
@@ -89,18 +108,18 @@ void	draw(SDL_Event event, t_element *elem)
 		}
 		else if (brush->type == 7)
 		{
-			a_to_b_line(surface, brush, l);
+			select_shape(surface, brush);
 		}
 		else if (brush->type == 8) // pipette
 		{
-			brush->color = get_color(surface, l.x1, l.y1);
+			brush->color = get_color(surface, brush->shape.x1, brush->shape.y1);
 		}
-		brush->old_x = l.x1;
-		brush->old_y = l.y1;
+		brush->shape.x2 = brush->shape.x1;
+		brush->shape.y2 = brush->shape.y1;
 	}
-	else
+	else if (brush->draw == 0)
 	{
-		brush->old_x = -1;
-		brush->old_y = -1; //should be moved where brush type changes/button changes;
+		brush->shape.x2 = -1;
+		brush->shape.y2 = -1;
 	}
 }

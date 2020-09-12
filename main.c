@@ -110,7 +110,7 @@ void	shape_buttons_init(t_info *info)
 	i = -1;
 	coord = ui_init_coords(25, 25, 100, 50);
 	info->shapes[0] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[0]->text.text = ft_strdup("Line");
+	info->shapes[0]->text.text = ft_strdup("Circle");
 	info->shapes[0]->default_state = 1;
 
 	coord = ui_init_coords(150, 25, 100, 50);
@@ -119,13 +119,17 @@ void	shape_buttons_init(t_info *info)
 
 	coord = ui_init_coords(275, 25, 100, 50);
 	info->shapes[2] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[2]->text.text = ft_strdup("Square");
+	info->shapes[2]->text.text = ft_strdup("Line");
 
 	coord = ui_init_coords(25, 100, 100, 50);
 	info->shapes[3] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[3]->text.text = ft_strdup("Circle");
+	info->shapes[3]->text.text = ft_strdup("Full Circ.");
 
-	info->shapes_nbr = 4;
+	coord = ui_init_coords(150, 100, 100, 50);
+	info->shapes[4] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
+	info->shapes[4]->text.text = ft_strdup("Full Rect.");
+
+	info->shapes_nbr = 5;
 	while (++i < info->shapes_nbr)
 	{
 		info->shapes[i]->f = &draw_buttons;
@@ -267,8 +271,8 @@ void	guimp_init(t_info *info)
 		info->brush.type = 1;
 		info->brush.size = 20;
 		info->brush.color = 0xffd3d3d3;
-		info->brush.old_x = -1;
-		info->brush.old_y = -1;
+		info->brush.shape.x2 = -1;
+		info->brush.shape.y2 = -1;
 		info->brush.str = NULL;
 		info->brush.selected_sticker = 0;
 		info->brush.selected_layer = 0;
@@ -451,7 +455,10 @@ void	update_brush(t_info *info)
 			info->brush.selected_sticker = i;
 	for (int i = 0; i < ((t_drop_down *)info->font_down->info)->item_amount; i++)
 		if (((t_drop_down *)info->font_down->info)->items[i]->state == 1)
-			info->brush.font_dir = ft_strjoiner("libui/TTF/", ((t_drop_down *)info->font_down->info)->items[i]->text.text, NULL);
+			info->brush.font_dir = ft_strjoin("libui/TTF/", ((t_drop_down *)info->font_down->info)->items[i]->text.text);
+	for (int i = 0; i < info->shapes_nbr; i++)
+		if (info->shapes[i]->state == 1)
+			info->brush.shape_type = i + 1;
 	free(info->brush.str);
 	info->brush.str = ft_strdup(info->text_area->text.text);
 	ft_update_background(info->brush_color->surface, info->brush.color);
