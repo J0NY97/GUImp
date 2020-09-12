@@ -110,7 +110,7 @@ void	shape_buttons_init(t_info *info)
 	i = -1;
 	coord = ui_init_coords(25, 25, 100, 50);
 	info->shapes[0] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[0]->text.text = ft_strdup("Circle");
+	info->shapes[0]->text.text = ft_strdup("Line");
 	info->shapes[0]->default_state = 1;
 
 	coord = ui_init_coords(150, 25, 100, 50);
@@ -119,17 +119,13 @@ void	shape_buttons_init(t_info *info)
 
 	coord = ui_init_coords(275, 25, 100, 50);
 	info->shapes[2] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[2]->text.text = ft_strdup("Line");
+	info->shapes[2]->text.text = ft_strdup("Square");
 
 	coord = ui_init_coords(25, 100, 100, 50);
 	info->shapes[3] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[3]->text.text = ft_strdup("Full Circ.");
+	info->shapes[3]->text.text = ft_strdup("Circle");
 
-	coord = ui_init_coords(150, 100, 100, 50);
-	info->shapes[4] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[4]->text.text = ft_strdup("Full Rect.");
-
-	info->shapes_nbr = 5;
+	info->shapes_nbr = 4;
 	while (++i < info->shapes_nbr)
 	{
 		info->shapes[i]->f = &draw_buttons;
@@ -271,8 +267,8 @@ void	guimp_init(t_info *info)
 		info->brush.type = 1;
 		info->brush.size = 20;
 		info->brush.color = 0xffd3d3d3;
-		info->brush.shape.x2 = -1;
-		info->brush.shape.y2 = -1;
+		info->brush.old_x = -1;
+		info->brush.old_y = -1;
 		info->brush.str = NULL;
 		info->brush.selected_sticker = 0;
 		info->brush.selected_layer = 0;
@@ -455,10 +451,7 @@ void	update_brush(t_info *info)
 			info->brush.selected_sticker = i;
 	for (int i = 0; i < ((t_drop_down *)info->font_down->info)->item_amount; i++)
 		if (((t_drop_down *)info->font_down->info)->items[i]->state == 1)
-			info->brush.font_dir = ft_strjoin("libui/TTF/", ((t_drop_down *)info->font_down->info)->items[i]->text.text);
-	for (int i = 0; i < info->shapes_nbr; i++)
-		if (info->shapes[i]->state == 1)
-			info->brush.shape_type = i + 1;
+			info->brush.font_dir = ft_strjoiner("libui/TTF/", ((t_drop_down *)info->font_down->info)->items[i]->text.text, NULL);
 	free(info->brush.str);
 	info->brush.str = ft_strdup(info->text_area->text.text);
 	ft_update_background(info->brush_color->surface, info->brush.color);
@@ -612,7 +605,7 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 			temp.y = l.y1 - temp.h;
 			SDL_BlitSurface(info->tooltips.flood, NULL, info->hidden_surface->surface, &temp);
 		}
-		else if (info->brush.type == 5)
+		else if (info->brush.type == 5) // sticker
 		{
 			temp.w = info->brush.stickers[info->brush.selected_sticker]->w;
 			temp.h = info->brush.stickers[info->brush.selected_sticker]->h;
@@ -620,7 +613,7 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 			temp.y = l.y1 - temp.h / 2;
 			SDL_BlitSurface(info->brush.stickers[info->brush.selected_sticker], NULL, info->hidden_surface->surface, &temp);
 		}
-		else if (info->brush.type == 6)
+		else if (info->brush.type == 6) // move and zoom
 		{
 			temp.w = info->tooltips.move->w;
 			temp.h = info->tooltips.move->h;;
@@ -629,11 +622,17 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 			SDL_BlitSurface(info->tooltips.move, NULL, info->hidden_surface->surface, &temp);
 
 		}
-		else if (info->brush.type == 7)
+		else if (info->brush.type == 7) // shapes
 		{
-			// something taht represents the "line" you have selected
+			if (info->brush.draw)
+			{
+				if (info->brush.shape_type == 0)
+				{
+					ft_create_circle(info->brush.shapes.x1)
+				}
+			}
 		}
-		else if (info->brush.type == 8)
+		else if (info->brush.type == 8) // pipette
 		{
 			temp.w = info->tooltips.pipette->w;
 			temp.h = info->tooltips.pipette->h;;
