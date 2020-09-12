@@ -559,7 +559,7 @@ void	update_layers(t_info *info)
 	
 	for (int i = 0; i < info->layer_amount; i++)
 	{
-		new_surface = ft_scale_surface(info->drawing_surface[i]->surface, info->layer_layers[i]->surface->w, info->layer_layers[i]->surface->h);
+		new_surface = ft_scale_surface_aspect(info->drawing_surface[i]->surface, info->layer_layers[i]->surface->w, info->layer_layers[i]->surface->h);
 		SDL_BlitSurface(new_surface, NULL, info->layer_layers[i]->surface, NULL);
 		SDL_FreeSurface(new_surface);
 	}
