@@ -110,7 +110,7 @@ void	shape_buttons_init(t_info *info)
 	i = -1;
 	coord = ui_init_coords(25, 25, 100, 50);
 	info->shapes[0] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[0]->text.text = ft_strdup("Line");
+	info->shapes[0]->text.text = ft_strdup("Circ.");
 	info->shapes[0]->default_state = 1;
 
 	coord = ui_init_coords(150, 25, 100, 50);
@@ -119,13 +119,17 @@ void	shape_buttons_init(t_info *info)
 
 	coord = ui_init_coords(275, 25, 100, 50);
 	info->shapes[2] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[2]->text.text = ft_strdup("Square");
+	info->shapes[2]->text.text = ft_strdup("Line");
 
 	coord = ui_init_coords(25, 100, 100, 50);
 	info->shapes[3] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[3]->text.text = ft_strdup("Circle");
+	info->shapes[3]->text.text = ft_strdup("Full Circ.");
 
-	info->shapes_nbr = 4;
+	coord = ui_init_coords(150, 100, 100, 50);
+	info->shapes[4] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
+	info->shapes[4]->text.text = ft_strdup("Full Rect.");
+
+	info->shapes_nbr = 5;
 	while (++i < info->shapes_nbr)
 	{
 		info->shapes[i]->f = &draw_buttons;
@@ -267,8 +271,8 @@ void	guimp_init(t_info *info)
 		info->brush.type = 1;
 		info->brush.size = 20;
 		info->brush.color = 0xffd3d3d3;
-		info->brush.old_x = -1;
-		info->brush.old_y = -1;
+		info->brush.shape.x2 = -1;
+		info->brush.shape.y2 = -1;
 		info->brush.str = NULL;
 		info->brush.selected_sticker = 0;
 		info->brush.selected_layer = 0;
@@ -626,9 +630,9 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 		{
 			if (info->brush.draw)
 			{
-				if (info->brush.shape_type == 0)
+				if (info->brush.shape_type == 1)
 				{
-					ft_create_circle(info->brush.shapes.x1)
+					//ft_create_square(info->hiden_surface->surface, info->brush.color, info->brush.shape)
 				}
 			}
 		}

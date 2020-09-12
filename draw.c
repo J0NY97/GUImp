@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/12 14:00:51 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/12 14:30:52 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	draw(SDL_Event event, t_element *elem)
 		}
 		else if (brush->type == 7)
 		{
-			select_shape(surface, brush);
+			//select_shape(surface, brush);
 		}
 		else if (brush->type == 8) // pipette
 		{
