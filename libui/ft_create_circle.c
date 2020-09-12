@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:06:09 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/10 15:09:03 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/12 17:00:07 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static inline void	boundaries(t_shapes *l, int w, int h)
 {
 	if (l->x2 >= w || l->x2 < 0)
-		l->x2 = l->x2 < 0 ? 1 : w - 1;
+		l->x2 = l->x2 < 0 ? 0 : w - 1;
 	if (l->y2 >= h || l->y2 < 0)
-		l->y2 = l->y2 < 0 ? 1 : h - 1;
+		l->y2 = l->y2 < 0 ? 0 : h - 1;
 	if (l->x1 >= w || l->x1 < 0)
-		l->x1 = l->x1 < 0 ? 1 : w - 1;
+		l->x1 = l->x1 < 0 ? 0 : w - 1;
 	if (l->y1 >= h || l->y1 < 0)
-		l->y1 = l->y1 < 0 ? 1 : h - 1;
+		l->y1 = l->y1 < 0 ? 0 : h - 1;
 }
 
 static inline void full_or_empty(SDL_Surface *surf, Uint32 color, t_shapes l)
@@ -81,7 +81,7 @@ void	ft_create_circle(SDL_Surface *surf, Uint32 color, t_shapes c)
     while (y >= x)
     {
         x++;
-        if (dist > 0)
+        if (dist >= 0)
         {
             y--;
             dist = dist + 4 * (x - y) + 10;
