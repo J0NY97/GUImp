@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/12 14:55:54 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/12 16:10:48 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,21 @@ void	set_sticker(SDL_Surface *surf, t_brush *brush, int x, int y)
 
 void	select_shape(SDL_Surface *surf, t_brush *brush)
 {
-	t_shapes l;
+	t_shapes *l;
 
-	l = brush->shape;
-	l.fill = 1;
-	if (l.x2 != -1 && l.y2 != -1)
+	l = &brush->shape;
+	if (l->x2 != -1 && l->y2 != -1)
 	{
+		l->fill = 0;
 		if (brush->shape_type == 1)
-		{
-			l.fill = 0;
-			l.size = POS(l.y1 - l.y2) + POS(l.x1 - l.x2); 
-			ft_create_circle(surf, brush->color, l);
-		}
-		else if (brush->shape_type == 2)
-		{
-			l.fill = 0;
-			ft_create_square(surf, brush->color, l);
-		}
+			l->size = POS(l->y1 - l->y2) + POS(l->x1 - l->x2); 
 		else if (brush->shape_type == 3)
-			ft_create_line(surf, brush->color, l);	
-		else if (brush->shape_type == 4)
-		{
-			l.size = POS(l.y1 - l.y2) + POS(l.x1 - l.x2); 
-			ft_create_circle(surf, brush->color, l);
-		}
-		else if (brush->shape_type == 5)
-			ft_create_square(surf, brush->color, l);
+			l->fill = 1;
+	}
+	else
+	{
+		brush->shape.x2 = brush->shape.x1;
+		brush->shape.y2 = brush->shape.y1;
 	}
 }
 
@@ -95,31 +84,34 @@ void	draw(SDL_Event event, t_element *elem)
 		else if (brush->type == 3)
 			pencil(surface, brush, drawing_surfaces[brush->selected_layer]->bg_color);
 		else if (brush->type == 4) // flood
-		{
 			flood_fill(surface, get_color(surface, brush->shape.x1, brush->shape.y1),
 						brush->color, brush->shape.x1, brush->shape.y1);
-		}
 		else if (brush->type == 5)
-		{
 			set_sticker(surface, brush, brush->shape.x1, brush->shape.y1);
-		}
 		else if (brush->type == 6)
-		{
 			zoom_and_move(elem, event);
-		}
 		else if (brush->type == 7)
-		{
-			select_shape(surface, brush);
-		}
+			return (select_shape(surface, brush));
 		else if (brush->type == 8) // pipette
-		{
 			brush->color = get_color(surface, brush->shape.x1, brush->shape.y1);
-		}
 		brush->shape.x2 = brush->shape.x1;
 		brush->shape.y2 = brush->shape.y1;
 	}
 	else if (brush->draw == 0)
 	{
+		if (brush->type == 7 && brush->shape.x2 != -1 && brush->shape.y2 != -1)
+		{
+			if (brush->shape_type == 1)
+			{
+				brush->shape.size = POS(brush->shape.y1 - brush->shape.y2) +
+					POS(brush->shape.x1 - brush->shape.x2); 
+				ft_create_circle(surface, brush->color, brush->shape);
+			}
+			else if (brush->shape_type == 2)
+				ft_create_square(surface, brush->color, brush->shape);
+			else if (brush->shape_type == 3)
+				ft_create_line(surface, brush->color, brush->shape);
+		}
 		brush->shape.x2 = -1;
 		brush->shape.y2 = -1;
 	}

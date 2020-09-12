@@ -119,17 +119,9 @@ void	shape_buttons_init(t_info *info)
 
 	coord = ui_init_coords(275, 25, 100, 50);
 	info->shapes[2] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[2]->text.text = ft_strdup("Line");
+	info->shapes[2]->text.text = ft_strdup("Tube");
 
-	coord = ui_init_coords(25, 100, 100, 50);
-	info->shapes[3] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[3]->text.text = ft_strdup("Full Circ.");
-
-	coord = ui_init_coords(150, 100, 100, 50);
-	info->shapes[4] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[4]->text.text = ft_strdup("Full Rect.");
-
-	info->shapes_nbr = 5;
+	info->shapes_nbr = 3;
 	while (++i < info->shapes_nbr)
 	{
 		info->shapes[i]->f = &draw_buttons;
@@ -623,7 +615,7 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 		else if (info->brush.type == 6) // move and zoom
 		{
 			temp.w = info->tooltips.move->w;
-			temp.h = info->tooltips.move->h;;
+			temp.h = info->tooltips.move->h;
 			temp.x = l.x1 - temp.w / 2;
 			temp.y = l.y1 - temp.h / 2;
 			SDL_BlitSurface(info->tooltips.move, NULL, info->hidden_surface->surface, &temp);
@@ -631,12 +623,22 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 		}
 		else if (info->brush.type == 7) // shapes
 		{
-			if (info->brush.draw)
+			if (info->brush.draw && info->brush.shape.x2 != -1 && info->brush.shape.y2 != -1)
 			{
+				t_shapes l;
+
+				l = info->brush.shape;
+				l.x1= info->brush.shape.x1 + info->screen_surface->coord.x;
+				l.y1= info->brush.shape.y1 + info->screen_surface->coord.y;
+				l.x2= info->brush.shape.x2 + info->screen_surface->coord.x;
+				l.y2= info->brush.shape.y2 + info->screen_surface->coord.y;
 				if (info->brush.shape_type == 1)
-				{
-					//ft_create_square(info->hiden_surface->surface, info->brush.color, info->brush.shape)
-				}
+					ft_create_circle(info->hidden_surface->surface, info->brush.color, l);
+				else if (info->brush.shape_type == 2)
+					ft_create_square(info->hidden_surface->surface, info->brush.color, l);
+				else if (info->brush.shape_type == 3)
+					ft_create_line(info->hidden_surface->surface, info->brush.color, l);
+
 			}
 		}
 		else if (info->brush.type == 8) // pipette
