@@ -261,8 +261,6 @@ void	guimp_init(t_info *info)
 	// brush init
 	{
 		info->brush.zoom = 0;
-		info->brush.zoom_y = 0;
-		info->brush.zoom_x = 0;
 		info->brush.font_dir = ft_strdup("font.ttf");
 		info->brush.draw = 0;
 		info->brush.type = 1;
@@ -710,7 +708,7 @@ int		main(void)
 	// remove these
 	ft_update_elem_background(info->drawing_surface[0], 0xffffffff);
 	// end remove these
-	
+
 	while (info->run)
 	{
 		ft_event_poller(libui); // input
