@@ -14,21 +14,21 @@
 
 void	ft_read_text(t_element *elem, int size)
 {
-	int			t;
-	int			i;
+	int			key_state;
+	int			char_nbr;
 	char		*tmp;
 	SDL_Event	event;
 
-	t = 0;
-	i = 0;
+	key_state = 0;
+	char_nbr = 0;
 	SDL_PollEvent(&event);
-	while (i < size && event.key.keysym.sym != SDLK_RETURN)
+	while (char_nbr < size && event.key.keysym.sym != SDLK_RETURN)
 	{
-		if (event.type == SDL_TEXTINPUT && t == 1)
+		if (event.type == SDL_TEXTINPUT && key_state == 1)
 		{
-			if (i == 0 && (++i))
+			if (char_nbr == 0 && (++char_nbr))
 				elem->text.text = ft_strdup(event.text.text);
-			else if ((++i))
+			else if ((++char_nbr))
 			{
 				tmp = ft_strdup(elem->text.text);
 				ft_strdel(&elem->text.text);
@@ -37,20 +37,20 @@ void	ft_read_text(t_element *elem, int size)
 			}
 			elem->old_state = 500;
 			ui_render(elem->extra_info);
-			t = 0;
+			key_state = 0;
 		}
-		else if (event.key.keysym.sym == SDLK_BACKSPACE && i != 0 && t == 1)
+		else if (event.key.keysym.sym == SDLK_BACKSPACE && char_nbr != 0 && key_state == 1)
 		{
-			elem->text.text[i] = '\0';
-			i -= 1;
-			t = -1;
+			elem->text.text[char_nbr] = '\0';
+			char_nbr -= 1;
+			key_state = -1;
 			elem->old_state = 500;
 			ui_render(elem->extra_info);
 		}
 		SDL_PollEvent(&event);
-		if (event.type == SDL_KEYDOWN && t == 0)
-			t = 1;
-		if (event.type == SDL_KEYUP && t == -1)
-			t = 0;
+		if (event.type == SDL_KEYDOWN && key_state == 0)
+			key_state = 1;
+		if (event.type == SDL_KEYUP && key_state == -1)
+			key_state = 0;
 	}
 }

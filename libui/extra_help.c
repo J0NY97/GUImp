@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_update_surface.c                                :+:      :+:    :+:   */
+/*   extra_help.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/19 13:50:54 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/13 16:40:06 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/09/13 18:13:19 by nneronin          #+#    #+#             */
+/*   Updated: 2020/09/13 18:25:19 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ft_update_background(SDL_Surface *surface, Uint32 bg_color)
+SDL_Surface 	*ft_create_rgba_surface(int w, int h)
 {
-	int x;
-	int y;
-	y = -1;
-	while (++y < surface->h)
-	{
-		x = -1;
-		while (++x < surface->w)
-		{
-			set_pixel(surface, x, y, bg_color);
-		}
-	}
+	return (SDL_CreateRGBSurface(0, w, h, 32,
+				0xff0000, 0x00ff00, 0x0000ff, 0xff000000));
 }

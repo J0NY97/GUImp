@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:04:46 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/09 12:36:04 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/13 18:19:55 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void		default_click(SDL_Event e, t_element *elem)
 {
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 		ft_putstr("A button was clicked.\n");
+	if (e.type == SDL_MOUSEMOTION)
+		elem->state = 2;
 }
 
 t_element	*ui_create_button(t_window *win, t_xywh rel_coord, t_element *parent)
