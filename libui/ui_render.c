@@ -6,11 +6,12 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/13 13:23:02 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/13 18:20:38 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
+#include "time.h"
 
 void	ui_create_shadow(t_element *elem)
 {
@@ -18,19 +19,17 @@ void	ui_create_shadow(t_element *elem)
 	SDL_Surface	*shadow;
 	t_shapes l;
 	
+	temp.w = elem->surface->w;	
+	temp.h = elem->surface->h;
 	if (elem->parent_elem != NULL)
 	{
 		temp.x = elem->rel_coord.x;
 		temp.y = elem->rel_coord.y;
-		temp.w = elem->rel_coord.w;
-		temp.h = elem->rel_coord.h;
 	}
 	else
 	{
 		temp.x = elem->coord.x;
 		temp.y = elem->coord.y;
-		temp.w = elem->coord.w;
-		temp.h = elem->coord.h;
 	}
 	l.x1 = temp.x + temp.w;
 	l.y1 = temp.y + 5;
@@ -54,55 +53,20 @@ void	ui_create_shadow(t_element *elem)
 
 void	ui_clean(t_window *win, t_element *elem)
 {
-	SDL_Surface *black;
-	SDL_Rect	temp;
+	t_shapes	temp;
 
-	temp.x = elem->coord.x;
-	temp.y = elem->coord.y;
-	temp.w = elem->surface->w;
-	temp.h = elem->surface->h;
-	black = SDL_CreateRGBSurface(0, temp.w, temp.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-	if (elem->parent_elem != NULL)
-	{
-/*		temp.x = elem->rel_coord.x;
-		temp.y = elem->rel_coord.y;
-		ft_update_background(black, elem->parent_elem->bg_color);
-		SDL_BlitSurface(black, NULL, elem->parent_elem->surface, &temp);*/
-	}
-	else
-	{
-		elem->old_state = 500;
-		ft_update_element(elem);
-		ft_update_background(black, win->bg_color);
-		SDL_BlitSurface(black, NULL, win->surface, &temp);
-	}
-	SDL_FreeSurface(black);
-}
-
-void	ui_clean_elem(t_element *parent, t_element *elem)
-{
-	SDL_Surface *black;
-	SDL_Rect	temp;
-
-	temp.x = elem->coord.x;
-	temp.y = elem->coord.y;
-	temp.w = elem->surface->w;
-	temp.h = elem->surface->h;
-	black = SDL_CreateRGBSurface(0, temp.w, temp.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-	if (parent != NULL)
-	{
-		temp.x = elem->rel_coord.x;
-		temp.y = elem->rel_coord.y;
-		ft_update_background(black, elem->parent_elem->bg_color);
-		SDL_BlitSurface(black, NULL, elem->parent_elem->surface, &temp);
-	}
-	SDL_FreeSurface(black);
+	temp.x1 = elem->coord.x;
+	temp.y1 = elem->coord.y;
+	temp.x2 = temp.x1 + elem->surface->w;
+	temp.y2 = temp.y1 + elem->surface->h;
+	ft_create_square(win->surface, win->bg_color, temp);
+	elem->old_state = 365;
+	ft_update_element(elem);
 }
 
 void	ui_render_element(SDL_Surface *win, t_element *elem)
 {
 	SDL_Rect temp;
-	SDL_Rect s_temp;
 	SDL_Surface *shadow;
 
 	temp.x = elem->coord.x;
@@ -115,8 +79,6 @@ void	ui_render_element(SDL_Surface *win, t_element *elem)
 	{
 		temp.x = elem->rel_coord.x + elem->offset_x;
 		temp.y = elem->rel_coord.y + elem->offset_y;
-		temp.w = elem->rel_coord.w;
-		temp.h = elem->rel_coord.h;
 		ft_update_element(elem);
 		SDL_BlitSurface(elem->surface, NULL, elem->parent_elem->surface, &temp);
 	}
@@ -129,36 +91,35 @@ void	ui_render_element(SDL_Surface *win, t_element *elem)
 
 void	ui_recalc_elem(t_element *elem)
 {
+	elem->coord = elem->rel_coord;
+	elem->coord.w = elem->surface->w;
+	elem->coord.h = elem->surface->h;
+	elem->coord.x += elem->offset_x;
+	elem->coord.y += elem->offset_y;
 	if (elem->parent_elem != NULL)
 	{
-		elem->coord.x = elem->rel_coord.x + elem->parent_elem->coord.x + elem->offset_x;
-		elem->coord.y = elem->rel_coord.y + elem->parent_elem->coord.y + elem->offset_y;
-		elem->coord.w = elem->rel_coord.w; // should these be the surfece w and h?
-		elem->coord.h = elem->rel_coord.h;
-	}
-	else
-	{
-		elem->coord = elem->rel_coord;
-		elem->coord.x += elem->offset_x;
-		elem->coord.y += elem->offset_y;
+		elem->coord.x += elem->parent_elem->coord.x;
+		elem->coord.y += elem->parent_elem->coord.y;
 	}
 }
 
 void	ui_render(t_window *win)
 {
 	t_list *curr;
+	t_element *elem;
 	
 	curr = win->elements;
 	while (curr != NULL)
 	{
-		ui_recalc_elem((t_element *)curr->content);
-		ui_render_element(win->surface, (t_element *)curr->content);
+		elem = curr->content;
+		ui_recalc_elem(elem);
+		ui_render_element(win->surface, elem);
 		curr = curr->next;
 	}
 	SDL_UpdateWindowSurface(win->win);
 	curr = win->elements;
 	while (curr != NULL)
-	{	
+	{
 		ui_clean(win, curr->content);
 		curr = curr->next;
 	}

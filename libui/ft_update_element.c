@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 16:38:36 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/09 12:39:13 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/13 17:18:04 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void		ft_update_element(t_element *elem)
 		if (elem->state != elem->old_state)
 		{
 			SDL_FreeSurface(elem->surface);
-			elem->surface = SDL_CreateRGBSurface(0, elem->states[elem->state]->w, elem->states[elem->state]->h, 32, 0, 0, 0, 0);
+			elem->surface = SDL_CreateRGBSurface(0, elem->states[elem->state]->w,
+												elem->states[elem->state]->h, 32,
+												0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 			SDL_BlitSurface(elem->states[elem->state], NULL, elem->surface, NULL);
 			if (elem->set_text == 1)
 			{

@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/06 16:29:24 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/13 16:35:52 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void		init_button(t_window *win, t_element *buttons[2])
 	buttons[0]->f = &button;
 	((t_button *)buttons[0]->info)->type = 1;
 	buttons[0]->old_state = 500;
-	ft_update_background(buttons[0]->states[0], 0x0082c4);
+	ft_update_background(buttons[0]->states[0], 0xff0082c4);
 
 	coord = ui_init_coords(200, 200, 100, 50);
 	buttons[1] = ui_create_button(win, coord, NULL);
@@ -93,7 +93,7 @@ static void		init_button(t_window *win, t_element *buttons[2])
 	buttons[1]->f = &button;
 	((t_button *)buttons[1]->info)->type = 0;
 	buttons[1]->old_state = 500;
-	ft_update_background(buttons[1]->states[0], 0xEE7f1B);
+	ft_update_background(buttons[1]->states[0], 0xffEE7f1B);
 
 	coord = ui_init_coords(50, 100, 250, 50);
 	buttons[2] = ui_create_button(win, coord, NULL);
@@ -128,7 +128,7 @@ char		*input_popup(int x1, int y1)
 	test.coord = ui_init_coords(0, 0, 350, 300);
 	test.title = ft_strdup("~Pop~Up~");
 	win = ft_create_window(libui, test);
-	ft_update_background(win->surface, 0xECECEC);
+	ft_update_background(win->surface, 0xffECECEC);
 	init_button(win, buttons);
 	buttons[0]->extra_info = &result;
 	buttons[1]->extra_info = &result;

@@ -31,6 +31,7 @@ typedef struct	s_brush
 {
 	float		aspect_x;
 	float		aspect_y;
+	int			zoom;
 	int			shape_type;
 	t_shapes 	shape;
 	int			draw;
