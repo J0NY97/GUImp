@@ -258,6 +258,9 @@ void	guimp_init(t_info *info)
 	info->run = 1;
 	// brush init
 	{
+		info->brush.zoom = 0;
+		info->brush.zoom_y = 0;
+		info->brush.zoom_x = 0;
 		info->brush.font_dir = ft_strdup("font.ttf");
 		info->brush.draw = 0;
 		info->brush.type = 1;
@@ -341,7 +344,7 @@ void	utility_init(t_info *info)
 		ft_update_element(info->new_layer_button);
 	}
 
-	coord = ui_init_coords(50, 1000, 250, 50);
+	coord = ui_init_coords(40, 1000, 400, 50);
 	info->text_area = ui_create_button(info->toolbox->window, coord, NULL);
 	info->text_area->text.text = ft_strdup("Print Text");
 	info->text_area->f = &text_area;
@@ -378,7 +381,7 @@ void	drop_down_init(t_info *info)
 	temp.y = 0;
 
 	// STICKER SELECTION DROP DOWN
-	coord = ui_init_coords(25, 200, 175, 32);
+	coord = ui_init_coords(25, 200, 162, 32);
 	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
 	info->drop_down->text.text = ft_strdup("Sticker select");
 	info->drop_down->text.x = 10;
@@ -404,7 +407,7 @@ void	drop_down_init(t_info *info)
 	ft_update_drop(info->drop_down);
 
 	// FONT SELECTION DROP DOWN
-	coord = ui_init_coords(225, 200, 150, 32);
+	coord = ui_init_coords(212, 200, 162, 32);
 	info->font_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
 	info->font_down->text.text = ft_strdup("Font select");
 	info->font_down->text.x = 10;
@@ -489,7 +492,7 @@ void	menu_init(t_info *info)
 	ft_update_elem_background(info->col_menu, 0xffa9a9a9);
 	ft_update_element(info->col_menu);
 
-	coord = ui_init_coords(40, 710, 400, 175);
+	coord = ui_init_coords(40, 710, 400, 100);
 	info->shape_menu = ui_create_surface(info->toolbox->window, coord, NULL);
 	info->shape_menu->set_text = 1;
 	info->shape_menu->f = NULL;

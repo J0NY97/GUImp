@@ -29,6 +29,10 @@ typedef	struct	s_more_info
 
 typedef struct	s_brush
 {
+	float		aspect;
+	int			zoom;
+	int			zoom_x;
+	int			zoom_y;
 	int			shape_type;
 	t_shapes 	shape;
 	int			draw;
@@ -64,6 +68,7 @@ typedef	struct	s_tooltips
 struct			s_info
 {
 	int			run;
+	int			draw;
 	TTF_Font	*font;
 
 	SDL_Event	event;
@@ -108,7 +113,6 @@ struct			s_info
 	t_element	*layer_buttons[5];
 
 	t_brush		brush;
-	int			draw;
 };
 
 void			event_handler(t_info *info);
@@ -116,7 +120,7 @@ void			check_input(t_info *info);
 void			draw(SDL_Event event, t_element *elem);
 void			text_to_screen(SDL_Surface *surface, t_shapes l, t_brush *brush);
 int				load_font(char *file, TTF_Font *font);
-void			zoom_and_move(t_element *elem, SDL_Event event);
+void			zoom_and_move(t_element *elem, SDL_Event event, int org_w, int org_h);
 
 /*
 ** Boonus
