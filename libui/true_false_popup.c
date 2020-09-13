@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:01:12 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/05 18:05:26 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/13 18:49:56 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int			true_false_popup(int x1, int y1, char *msg)
 	test.coord = ui_init_coords(0, 0, 350, 300);
 	test.title = ft_strdup("Pop_up");
 	win = ft_create_window(libui, test);
-	ft_update_background(win->surface, 0xECECEC);
+	ft_update_background(win->surface, 0xffECECEC);
 	int result;
 	t_xywh coord;
 
@@ -46,7 +46,7 @@ int			true_false_popup(int x1, int y1, char *msg)
 	((t_button *)buttons[0]->info)->type = 1;
 	buttons[0]->extra_info = &result;
 	buttons[0]->old_state = 500;
-	ft_update_background(buttons[0]->states[0], 0x0082c4);
+	ft_update_background(buttons[0]->states[0], 0xff0082c4);
 
 	coord = ui_init_coords(200, 200, 100, 50);
 	buttons[1] = ui_create_button(win, coord, NULL);
@@ -56,7 +56,7 @@ int			true_false_popup(int x1, int y1, char *msg)
 	((t_button *)buttons[1]->info)->type = 0;
 	buttons[1]->extra_info = &result;
 	buttons[1]->old_state = 500;
-	ft_update_background(buttons[1]->states[0], 0xEE7f1B);
+	ft_update_background(buttons[1]->states[0], 0xffEE7f1B);
 
 	ft_update_element(buttons[0]);
 	ft_update_element(buttons[1]);

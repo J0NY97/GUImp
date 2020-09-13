@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/13 12:28:24 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/13 18:57:43 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ t_element		*ft_create_element(t_element_info info)
 	elem->offset_x = 0;
 	elem->offset_y = 0;
 	elem->parent = info.parent;
-	elem->surface = SDL_CreateRGBSurface(0, elem->coord.w, elem->coord.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-	elem->states[0] = SDL_CreateRGBSurface(0, elem->coord.w, elem->coord.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	elem->surface = ft_create_rgba_surface(elem->coord.w, elem->coord.h);
+	elem->states[0] = ft_create_rgba_surface(elem->coord.w, elem->coord.h);
 	ft_update_background(elem->states[0], elem->bg_color);
-	elem->states[1] = SDL_CreateRGBSurface(0, elem->coord.w, elem->coord.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	elem->states[1] = ft_create_rgba_surface(elem->coord.w, elem->coord.h);
 	ft_update_background(elem->states[1], 0xff0000ff);
-	elem->states[2] = SDL_CreateRGBSurface(0, elem->coord.w, elem->coord.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	elem->states[2] = ft_create_rgba_surface(elem->coord.w, elem->coord.h);
 	ft_update_background(elem->states[2], 0xff00ff00);
 	ft_update_element(elem);
 	return (elem);

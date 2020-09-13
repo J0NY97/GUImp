@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 10:55:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/13 13:19:50 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/13 18:47:20 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void		ft_update_scrollbar_bar(int click_x, int click_y, t_element *elem)
 	slider = (t_slider *)elem->info;
 	x = click_x - elem->coord.x;
 	y = click_y - elem->coord.y;
-	bar = SDL_CreateRGBSurface(0, elem->coord.w, 10, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	bar = ft_create_rgba_surface(elem->coord.w, 10);
 	ft_update_background(elem->states[0], elem->bg_color);
 	ft_update_background(elem->states[1], elem->bg_color);
 	ft_update_background(elem->states[2], elem->bg_color);

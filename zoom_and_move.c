@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 14:39:16 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/13 14:01:05 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/13 18:46:29 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ void	zoom_and_move(t_element *elem, SDL_Event event, int org_w, int org_h)
 		brush->zoom += event.wheel.y > 0 ? -10 : 10;
 		h = ((org_w - brush->zoom) / ((float)org_w / (float)org_h));
 		w = (h * ((float)org_w / (float)org_h));
-		surface = SDL_CreateRGBSurface(0, w, h, 32, 
-									0x00ff0000, 0x0000ff00,
-									0x000000ff, 0xff000000);
+		surface = ft_create_rgba_surface(w, h);
 		SDL_FreeSurface(elem->states[0]);
 		elem->rel_coord.w = surface->w;
 		elem->rel_coord.h = surface->h;

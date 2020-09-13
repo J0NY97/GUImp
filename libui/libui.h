@@ -293,5 +293,9 @@ void		ft_drop_item_function(SDL_Event e, t_element *elem);
 void		ft_button_handler(SDL_Event e, t_element *elem);
 
 
-SDL_Surface	*ft_create_rgba_surface(int w, int h);
+/*
+ ** Extra Help
+*/
+SDL_Surface			*ft_create_rgba_surface(int w, int h);
+
 #endif

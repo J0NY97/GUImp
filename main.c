@@ -120,7 +120,7 @@ void	layer_init(t_info *info)
 	{
 		info->drawing_surface[i] = ui_create_surface(NULL, coord, NULL);
 		SDL_FreeSurface(info->drawing_surface[i]->surface);
-		info->drawing_surface[i]->surface = SDL_CreateRGBSurface(0, coord.w, coord.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+		info->drawing_surface[i]->surface = ft_create_rgba_surface(coord.w, coord.h);
 		ft_update_elem_background(info->drawing_surface[i], 0x00ffffff);
 		info->drawing_surface[i]->old_state = 500;
 		info->drawing_surface[i]->statique = 1;
@@ -130,7 +130,7 @@ void	layer_init(t_info *info)
 	// the screen_surface element gets the same stats as the drawing_surfac[0]]
 	info->screen_surface = ui_create_surface(info->main->window, coord, NULL);
 	SDL_FreeSurface(info->screen_surface->surface);
-	info->screen_surface->surface = SDL_CreateRGBSurface(0, coord.w, coord.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	info->screen_surface->surface = ft_create_rgba_surface(coord.w, coord.h);
 	ft_update_elem_background(info->screen_surface, 0xff000000);
 	info->screen_surface->f = &draw;
 	info->screen_surface->extra_info = &info->brush;
