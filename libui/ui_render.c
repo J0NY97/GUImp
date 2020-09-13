@@ -6,12 +6,11 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/13 18:20:38 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/13 19:50:22 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
-#include "time.h"
 
 void	ui_create_shadow(t_element *elem)
 {
@@ -55,13 +54,26 @@ void	ui_clean(t_window *win, t_element *elem)
 {
 	t_shapes	temp;
 
-	temp.x1 = elem->coord.x;
-	temp.y1 = elem->coord.y;
-	temp.x2 = temp.x1 + elem->surface->w;
-	temp.y2 = temp.y1 + elem->surface->h;
-	ft_create_square(win->surface, win->bg_color, temp);
-	elem->old_state = 365;
-	ft_update_element(elem);
+	if (elem->parent_elem == NULL)
+	{
+		temp.x1 = elem->coord.x;
+		temp.y1 = elem->coord.y;
+		temp.x2 = ft_clamp(temp.x1 + elem->surface->w, 0, win->surface->w);
+		temp.y2 = ft_clamp(temp.y1 + elem->surface->h, 0, win->surface->h);
+		elem->old_state = 365;
+		ft_update_element(elem);
+		// this while loop is faster than the ft_create_square
+		while (temp.x1 < temp.x2)
+		{
+			temp.y1 = elem->coord.y;
+			while (temp.y1 < temp.y2)
+			{
+				set_pixel(win->surface, temp.x1, temp.y1,  win->bg_color);
+				temp.y1++;
+			}
+			temp.x1++;
+		}
+	}
 }
 
 void	ui_render_element(SDL_Surface *win, t_element *elem)

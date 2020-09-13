@@ -114,7 +114,7 @@ void	layer_init(t_info *info)
 	info->hidden_surface->shadow = 0;
 	info->hidden_surface->event_handler = NULL;
 	
-	coord = ui_init_coords(50, 50, info->main->window->surface->w - 100, info->main->window->surface->h - 100);
+	coord = ui_init_coords(51, 50, info->main->window->surface->w - 100, info->main->window->surface->h - 100);
 	// init all the drawing layers
 	for (int i = 0; i < 5; i++)
 	{
@@ -313,10 +313,6 @@ void	utility_init(t_info *info)
 	info->text_area->set_text = 1;
 	info->text_area->old_state = 500;
 	info->text_area->extra_info = info->toolbox->window;
-
-	// button on window for demonstration
-	coord = ui_init_coords(400, 800, 100, 50);
-	t_element *butbut = ui_create_button(info->toolbox->window, coord, NULL);
 }
 
 void	key_press(SDL_Event e, t_hotkey *hotkey)
