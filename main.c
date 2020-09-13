@@ -157,6 +157,7 @@ void	layer_init(t_info *info)
 	SDL_FreeSurface(info->drawing_surface[0]->surface);
 	info->drawing_surface[0]->surface = SDL_CreateRGBSurface(0, coord.w, coord.h, 32, 0xff0000, 0x00ff00, 0x0000ff, 0xff000000);
 	info->drawing_surface[0]->statique = 1;
+	ft_update_elem_background(info->drawing_surface[0], 0xffffffff);
 	// init all the drawing layers
 	for (int i = 1; i < 5; i++)
 	{
@@ -260,9 +261,8 @@ void	guimp_init(t_info *info)
 	info->run = 1;
 	// brush init
 	{
-		info->brush.zoom = 0;
-		info->brush.zoom_y = 0;
-		info->brush.zoom_x = 0;
+		info->brush.aspect_y = 1;
+		info->brush.aspect_x = 1;
 		info->brush.font_dir = ft_strdup("font.ttf");
 		info->brush.draw = 0;
 		info->brush.type = 1;
@@ -649,7 +649,6 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 					ft_create_square(info->hidden_surface->surface, info->brush.color, l);
 				else if (info->brush.shape_type == 3)
 					ft_create_line(info->hidden_surface->surface, info->brush.color, l);
-
 			}
 		}
 		else if (info->brush.type == 8) // pipette
@@ -685,7 +684,6 @@ int		main(void)
 	if (!(info = (t_info *)malloc(sizeof(t_info))))
 		exit (0);
 	guimp_init(info);
-
 	tooltips_load(info);
 	window_init(libui, info);
 	menu_init(info);
@@ -697,20 +695,11 @@ int		main(void)
 	hotkey_init(info, libui);
 	utility_init(info); // layer_init needs to be called before this.
 	sticker_init(info);
-	// z_buffer_sort(); // this has to happen after ALL elem inits and BEFORE the main loop
 	ft_set_icon(info->main->window->win, "resources/icon/gimp-icon.png");
-
-	//parent_elem_test(info);
-	
 	// libui prefab test
 	t_element *menu = prefab_tools_init(info->toolbox->window,
 										info->toolbox->window->surface->w - 175,
 										info->toolbox->window->surface->h - 125);
-
-	// remove these
-	ft_update_elem_background(info->drawing_surface[0], 0xffffffff);
-	// end remove these
-	
 	while (info->run)
 	{
 		ft_event_poller(libui); // input

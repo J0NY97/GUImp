@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/13 13:51:52 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/13 15:51:06 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,11 @@ void	draw(SDL_Event event, t_element *elem)
 	brush->shape.x1 = event.button.x - elem->coord.x;
 	brush->shape.y1 = event.button.y - elem->coord.y;
 	brush->shape.size = brush->size;
+	brush->aspect_x = ((float)surface->w / (float)elem->surface->w);
+	brush->aspect_y = ((float)surface->h / (float)elem->surface->h);
 	surface = drawing_surfaces[brush->selected_layer]->surface;
-	brush->shape.x1 *= ((float)surface->w / (float)elem->surface->w);
-	brush->shape.y1 *= ((float)surface->h / (float)elem->surface->h);
+	brush->shape.x1 *= brush->aspect_x;
+	brush->shape.y1 *= brush->aspect_y;
 	if (event.type == SDL_MOUSEBUTTONUP)
 		brush->draw = 0;
 	else if (event.type == SDL_MOUSEBUTTONDOWN)
