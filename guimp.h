@@ -29,10 +29,7 @@ typedef	struct	s_more_info
 
 typedef struct	s_brush
 {
-	float		aspect;
 	int			zoom;
-	int			zoom_x;
-	int			zoom_y;
 	int			shape_type;
 	t_shapes 	shape;
 	int			draw;
