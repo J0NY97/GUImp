@@ -584,9 +584,9 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 	t_shapes l;
 	SDL_Rect	temp;
 
-	l.x1 = x;
-	l.y1 = y;
-	l.size = info->brush.size;
+	l.x1 = x;// * ((float)info->drawing_surface[0]->surface->w / (float)info->screen_surface->surface->w);
+	l.y1 = y;// * ((float)info->drawing_surface[0]->surface->h / (float)info->screen_surface->surface->h);
+	l.size = info->brush.size / ((float)info->drawing_surface[0]->surface->w / (float)info->screen_surface->surface->w);
 
 	SDL_FreeSurface(info->hidden_surface->surface);// need to free here cause its made in the layer_init()
 	info->hidden_surface->surface = SDL_CreateRGBSurface(0, info->main->window->surface->w, info->main->window->surface->h,
@@ -638,13 +638,11 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 		{
 			if (info->brush.draw && info->brush.shape.x2 != -1 && info->brush.shape.y2 != -1)
 			{
-				t_shapes l;
-
 				l = info->brush.shape;
-				l.x1= info->brush.shape.x1 + info->screen_surface->coord.x;
-				l.y1= info->brush.shape.y1 + info->screen_surface->coord.y;
-				l.x2= info->brush.shape.x2 + info->screen_surface->coord.x;
-				l.y2= info->brush.shape.y2 + info->screen_surface->coord.y;
+				l.x1 = (info->brush.shape.x1 / ((float)info->drawing_surface[0]->surface->w / (float)info->screen_surface->surface->w)) + info->screen_surface->coord.x;
+				l.y1 = (info->brush.shape.y1 / ((float)info->drawing_surface[0]->surface->h / (float)info->screen_surface->surface->h)) + info->screen_surface->coord.y;
+				l.x2 = (info->brush.shape.x2 / ((float)info->drawing_surface[0]->surface->w / (float)info->screen_surface->surface->w)) + info->screen_surface->coord.x;
+				l.y2 = (info->brush.shape.y2 / ((float)info->drawing_surface[0]->surface->h / (float)info->screen_surface->surface->h)) + info->screen_surface->coord.y;
 				if (info->brush.shape_type == 1)
 					ft_create_circle(info->hidden_surface->surface, info->brush.color, l);
 				else if (info->brush.shape_type == 2)
@@ -705,7 +703,9 @@ int		main(void)
 	//parent_elem_test(info);
 	
 	// libui prefab test
-	t_element *menu = prefab_tools_init(info->toolbox->window, 50, 1075);
+	t_element *menu = prefab_tools_init(info->toolbox->window,
+										info->toolbox->window->surface->w - 175,
+										info->toolbox->window->surface->h - 125);
 
 	// remove these
 	ft_update_elem_background(info->drawing_surface[0], 0xffffffff);
