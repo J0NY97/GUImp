@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/13 13:32:15 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/13 13:51:52 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,10 @@ void	draw(SDL_Event event, t_element *elem)
 	brush->shape.fill = 1;
 	brush->shape.x1 = event.button.x - elem->coord.x;
 	brush->shape.y1 = event.button.y - elem->coord.y;
-	brrush->shape.size = brush.size;
-	surface = drawing_surfaces[brush->selected_layer]->surface;
-	if (brush->zoom != 0)
-	{
-		brush->shape.x1 *= ((surface->w - elem->surface->w) / 100);
-		brush->shape.y1 *= ((surface->h - elem->surface->h) / surface->h);
-	}
-	printf("%d %d\t", elem->coord.x, elem->coord.y);
-	printf("%d %d\t", elem->rel_coord.x, elem->rel_coord.y);
-	printf("%d %d\n", brush->shape.x1, brush->shape.y1);
 	brush->shape.size = brush->size;
+	surface = drawing_surfaces[brush->selected_layer]->surface;
+	brush->shape.x1 *= ((float)surface->w / (float)elem->surface->w);
+	brush->shape.y1 *= ((float)surface->h / (float)elem->surface->h);
 	if (event.type == SDL_MOUSEBUTTONUP)
 		brush->draw = 0;
 	else if (event.type == SDL_MOUSEBUTTONDOWN)
