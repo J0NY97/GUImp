@@ -6,7 +6,7 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/10 12:48:11 by jsalmi            #+#    #+#              #
-#    Updated: 2020/09/09 15:22:46 by nneronin         ###   ########.fr        #
+#    Updated: 2020/09/13 17:25:42 by nneronin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,10 @@ SRCS = ./main.c\
 		./draw.c\
 		./text_to_screen.c\
 		./zoom_and_move.c\
-		./load_font.c
+		./load_font.c\
+		./shapes.c\
+		./shape_button_init.c\
+		./load_icons.c
 OBJS = ./*.o
 INCLUDES = ./libft/libft.a\
 		   ./libui/libui.a
