@@ -46,6 +46,7 @@ SRCS = ft_test_libui.c\
 	   ft_update_elem_background.c\
 	   ft_set_element_image.c\
 	   ft_min_max.c\
+	   ui_create_scrollbar.c\
 	   free.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h

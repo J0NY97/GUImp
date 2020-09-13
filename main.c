@@ -54,7 +54,7 @@ void	tool_buttons_init(t_info *info)
 	info->buttons[0] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	ft_set_element_image(info->buttons[0], info->tooltips.circle);
 	info->buttons[0]->default_state = 1;
-
+	
 	coord = ui_init_coords(150, 25, 100, 50);
 	info->buttons[1] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	info->buttons[1]->text.text = ft_strdup("Text");
@@ -88,6 +88,8 @@ void	tool_buttons_init(t_info *info)
 	coord = ui_init_coords(150, 175, 100, 50);
 	info->buttons[7] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
 	ft_set_element_image(info->buttons[7], info->tooltips.pipette);
+
+	ui_create_scrollbar(info->toolbox->window, info->buttons[7]);
 
 	info->brush_button_amount = 8;
 	// for now you have to manually update the buttons after change, pl0x fix
@@ -513,6 +515,9 @@ void	menu_init(t_info *info)
 	info->layer_menu->old_state = 500;
 	ft_update_elem_background(info->layer_menu, 0xffa9a9a9);
 	ft_update_element(info->layer_menu);
+
+	// scrollbar
+	ui_create_scrollbar(info->layers->window, info->layer_menu);
 }
 
 void	drag_drop_thing(t_info *info, t_libui *libui)

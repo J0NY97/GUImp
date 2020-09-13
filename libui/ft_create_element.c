@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/10 14:24:31 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/13 12:28:24 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_element		*ft_create_element(t_element_info info)
 	elem->state = 0;
 	elem->old_state = 500;
 	elem->loop = 0;
+	elem->offset_x = 0;
+	elem->offset_y = 0;
 	elem->parent = info.parent;
 	elem->surface = SDL_CreateRGBSurface(0, elem->coord.w, elem->coord.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 	elem->states[0] = SDL_CreateRGBSurface(0, elem->coord.w, elem->coord.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);

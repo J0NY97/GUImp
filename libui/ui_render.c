@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/12 15:09:29 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/13 13:23:02 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ void	ui_render_element(SDL_Surface *win, t_element *elem)
 		ui_create_shadow(elem);
 	if (elem->parent_elem != NULL)
 	{
-		temp.x = elem->rel_coord.x;
-		temp.y = elem->rel_coord.y;
+		temp.x = elem->rel_coord.x + elem->offset_x;
+		temp.y = elem->rel_coord.y + elem->offset_y;
 		temp.w = elem->rel_coord.w;
 		temp.h = elem->rel_coord.h;
 		ft_update_element(elem);
@@ -131,14 +131,16 @@ void	ui_recalc_elem(t_element *elem)
 {
 	if (elem->parent_elem != NULL)
 	{
-		elem->coord.x = elem->rel_coord.x + elem->parent_elem->coord.x;
-		elem->coord.y = elem->rel_coord.y + elem->parent_elem->coord.y;
-		elem->coord.w = elem->rel_coord.w; // should these be the surface w and h?
+		elem->coord.x = elem->rel_coord.x + elem->parent_elem->coord.x + elem->offset_x;
+		elem->coord.y = elem->rel_coord.y + elem->parent_elem->coord.y + elem->offset_y;
+		elem->coord.w = elem->rel_coord.w; // should these be the surfece w and h?
 		elem->coord.h = elem->rel_coord.h;
 	}
 	else
 	{
 		elem->coord = elem->rel_coord;
+		elem->coord.x += elem->offset_x;
+		elem->coord.y += elem->offset_y;
 	}
 }
 

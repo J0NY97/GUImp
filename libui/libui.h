@@ -103,6 +103,8 @@ struct	s_element
 	int			default_state;
 	int			statique;
 	int			shadow;
+	int			offset_x;
+	int			offset_y;
 	t_xywh		coord;
 	t_xywh		rel_coord;
 	int			bg_color;
@@ -253,6 +255,7 @@ t_element		*ui_create_button(t_window *win, t_xywh coord, t_element *parent);
 t_element		*ui_create_surface(t_window *win, t_xywh coord, t_element *parent);
 t_element		*ui_create_slider(t_window *win, t_xywh coord, t_element *parent, int min, int max);
 t_element		*ui_create_drop(t_window *win, t_xywh coord, t_element *elem);
+t_element		*ui_create_scrollbar(t_window *win, t_element *elem);
 t_xywh			ui_init_coords(int x, int y, int w, int h);
 t_text			ft_default_text(char *txt);
 void			ui_render(t_window *win);
