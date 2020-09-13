@@ -8,6 +8,8 @@
 # include "./include/SDL2/SDL_ttf.h"
 # include "./include/SDL2/SDL_image.h"
 
+#define POS(n) ((n) < 0 ? 0 - (n) : (n))
+
 typedef struct	s_info	t_info;
 /*
 	**	type; 	0 = deletion
@@ -62,6 +64,13 @@ typedef	struct	s_tooltips
 	SDL_Surface *deletion;
 }				t_tooltips;
 
+typedef struct	s_shape_img
+{
+	SDL_Surface *orb;
+	SDL_Surface *square;
+	SDL_Surface *tube;
+}				t_shape_img;
+
 struct			s_info
 {
 	int			run;
@@ -75,6 +84,7 @@ struct			s_info
 	t_win		*layers;
 
 	t_tooltips	tooltips;
+	t_shape_img	shape_img;
 
 	t_element	*r_slider;
 	t_element	*g_slider;
@@ -118,6 +128,17 @@ void			draw(SDL_Event event, t_element *elem);
 void			text_to_screen(SDL_Surface *surface, t_shapes l, t_brush *brush);
 int				load_font(char *file, TTF_Font *font);
 void			zoom_and_move(t_element *elem, SDL_Event event, int org_w, int org_h);
+
+void			trace_shape(t_info *info);
+void			select_shape(SDL_Surface *surf, t_brush *brush);
+
+void			shape_buttons_init(t_info *info);
+
+void			draw_buttons(SDL_Event e, t_element *elem);
+
+void			shape_load(t_info *info);
+void			tooltips_load(t_info *info);
+void			sticker_load(t_info *info);
 
 /*
 ** Boonus

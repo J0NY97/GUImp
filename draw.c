@@ -6,12 +6,11 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 19:15:07 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/13 13:51:52 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/13 17:36:26 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "guimp.h"
-#define POS(n) ((n) < 0 ? 0 - (n) : (n))
 
 void	pencil(SDL_Surface *surf, t_brush *brush, Uint32 color)
 {
@@ -19,43 +18,20 @@ void	pencil(SDL_Surface *surf, t_brush *brush, Uint32 color)
 
 	l = brush->shape;
 	if (l.x2 == -1 &&  l.y2 == -1)
-	{
-		l.fill = 1;
 		ft_create_circle(surf, color, l);
-	}
 	if (l.x2 != -1 &&  l.y2 != -1)
 		ft_create_line(surf, color, l);
 }
 
-void	set_sticker(SDL_Surface *surf, t_brush *brush, int x, int y)
+void	set_sticker(SDL_Surface *surf, t_brush *brush)
 {
 	SDL_Rect temp;
 
 	temp.h = 0;
 	temp.w = 0;
-	temp.x = x - (brush->stickers[brush->selected_sticker]->w / 2);
-	temp.y = y - (brush->stickers[brush->selected_sticker]->h / 2);
+	temp.x = brush->shape.x1 - (brush->stickers[brush->selected_sticker]->w / 2);
+	temp.y = brush->shape.y1 - (brush->stickers[brush->selected_sticker]->h / 2);
 	SDL_BlitSurface(brush->stickers[brush->selected_sticker], NULL, surf, &temp);
-}
-
-void	select_shape(SDL_Surface *surf, t_brush *brush)
-{
-	t_shapes *l;
-
-	l = &brush->shape;
-	if (l->x2 != -1 && l->y2 != -1)
-	{
-		l->fill = 0;
-		if (brush->shape_type == 1)
-			l->size = POS(l->y1 - l->y2) + POS(l->x1 - l->x2); 
-		else if (brush->shape_type == 3)
-			l->fill = 1;
-	}
-	else
-	{
-		brush->shape.x2 = brush->shape.x1;
-		brush->shape.y2 = brush->shape.y1;
-	}
 }
 
 void	draw(SDL_Event event, t_element *elem)
@@ -85,16 +61,16 @@ void	draw(SDL_Event event, t_element *elem)
 			text_to_screen(surface, brush->shape, brush);
 		else if (brush->type == 3)
 			pencil(surface, brush, drawing_surfaces[brush->selected_layer]->bg_color);
-		else if (brush->type == 4) // flood
+		else if (brush->type == 4)
 			flood_fill(surface, get_color(surface, brush->shape.x1, brush->shape.y1),
 						brush->color, brush->shape.x1, brush->shape.y1);
 		else if (brush->type == 5)
-			set_sticker(surface, brush, brush->shape.x1, brush->shape.y1);
+			set_sticker(surface, brush);
 		else if (brush->type == 6)
 			zoom_and_move(elem, event, surface->w, surface->h);
 		else if (brush->type == 7)
 			return (select_shape(surface, brush));
-		else if (brush->type == 8) // pipette
+		else if (brush->type == 8)
 			brush->color = get_color(surface, brush->shape.x1, brush->shape.y1);
 		brush->shape.x2 = brush->shape.x1;
 		brush->shape.y2 = brush->shape.y1;
@@ -107,7 +83,7 @@ void	draw(SDL_Event event, t_element *elem)
 			if (brush->shape_type == 1)
 			{
 				brush->shape.size = POS(brush->shape.y1 - brush->shape.y2) +
-					POS(brush->shape.x1 - brush->shape.x2); 
+									POS(brush->shape.x1 - brush->shape.x2); 
 				ft_create_circle(surface, brush->color, brush->shape);
 			}
 			else if (brush->shape_type == 2)

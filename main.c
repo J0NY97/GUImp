@@ -104,37 +104,6 @@ void	tool_buttons_init(t_info *info)
 	}
 }
 
-void	shape_buttons_init(t_info *info)
-{
-	int i;
-	t_xywh coord;
-
-	i = -1;
-	coord = ui_init_coords(25, 25, 100, 50);
-	info->shapes[0] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[0]->text.text = ft_strdup("Circ.");
-	info->shapes[0]->default_state = 1;
-
-	coord = ui_init_coords(150, 25, 100, 50);
-	info->shapes[1] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[1]->text.text = ft_strdup("Rect.");
-
-	coord = ui_init_coords(275, 25, 100, 50);
-	info->shapes[2] = ui_create_button(info->toolbox->window, coord, info->shape_menu);
-	info->shapes[2]->text.text = ft_strdup("Tube");
-
-	info->shapes_nbr = 3;
-	while (++i < info->shapes_nbr)
-	{
-		info->shapes[i]->f = &draw_buttons;
-		info->shapes[i]->extra_info = info->shapes;
-		((t_button *)info->shapes[i]->info)->extra = &info->shapes_nbr;
-		info->shapes[i]->old_state = 500;
-		info->shapes[i]->text.centered = 1;
-		ft_update_element(info->shapes[i]);
-	}
-}
-
 void	layer_init(t_info *info)
 {
 	t_xywh	coord;
@@ -314,7 +283,7 @@ void	add_new_layer(SDL_Event e, t_element *elem)
 			return ;
 		}
 		*layer_amount += 1;
-		printf("layer_amount %d\n", *layer_amount);
+		printf("Layer_amount %d\n", *layer_amount);
 	}
 }
 
@@ -333,16 +302,14 @@ void	utility_init(t_info *info)
 	ft_update_element(info->save_button);
 
 	// new layer button
-	{
-		coord = ui_init_coords(200, info->toolbox->window->surface->h - 60, 100, 50);
-		info->new_layer_button = ui_create_button(info->toolbox->window, coord, NULL);
-		info->new_layer_button->text.text = ft_strdup("New layer");
-		info->new_layer_button->text.centered = 1;
-		info->new_layer_button->f = &add_new_layer;
-		info->new_layer_button->extra_info = &info->layer_amount;
-		info->new_layer_button->old_state = 500;
-		ft_update_element(info->new_layer_button);
-	}
+	coord = ui_init_coords(200, info->toolbox->window->surface->h - 60, 100, 50);
+	info->new_layer_button = ui_create_button(info->toolbox->window, coord, NULL);
+	info->new_layer_button->text.text = ft_strdup("New layer");
+	info->new_layer_button->text.centered = 1;
+	info->new_layer_button->f = &add_new_layer;
+	info->new_layer_button->extra_info = &info->layer_amount;
+	info->new_layer_button->old_state = 500;
+	ft_update_element(info->new_layer_button);
 
 	coord = ui_init_coords(40, 1000, 400, 50);
 	info->text_area = ui_create_button(info->toolbox->window, coord, NULL);
@@ -418,19 +385,18 @@ void	drop_down_init(t_info *info)
 	ft_drop_down_add_item(info->font_down, "Amatic.ttf");
 	ft_drop_down_add_item(info->font_down, "OpenSans.ttf");
 	ft_drop_down_add_item(info->font_down, "Pacifico.ttf");
-	ft_drop_down_add_item(info->font_down, "SeaSideResort.ttf");
-//	ft_drop_down_add_item(info->font_down, "Tusj.ttf");
+	ft_drop_down_add_item(info->font_down, "Tusj.ttf");
+	//ft_drop_down_add_item(info->font_down, "SeaSideResort.ttf");
 	ft_update_drop(info->font_down);
 }
 
 void	update_brush(t_info *info)
 {	
+	SDL_Color color;
+
 	if (info->brush.type == 8) // aka pipette
 	{
-		SDL_Color color;
-
 		color = hex_to_rgba(info->brush.color);
-
 		ft_set_slider_value(info->r_slider, color.r);
 		ft_set_slider_value(info->g_slider, color.g);
 		ft_set_slider_value(info->b_slider, color.b);
@@ -536,12 +502,6 @@ void	drag_drop_thing(t_info *info, t_libui *libui)
 	}
 }
 
-void	sticker_init(t_info *info)
-{
-	info->brush.stickers[0] = load_image("resources/stickers/minion.png");
-	info->brush.stickers[1] = load_image("resources/icon/gimp-icon.png");
-}
-
 void	parent_elem_test(t_info *info)
 {
 	t_xywh		coord;
@@ -565,7 +525,8 @@ void	update_layers(t_info *info)
 	
 	for (int i = 0; i < info->layer_amount; i++)
 	{
-		new_surface = ft_scale_surface_aspect(info->drawing_surface[i]->surface, info->layer_layers[i]->surface->w, info->layer_layers[i]->surface->h);
+		new_surface = ft_scale_surface_aspect(info->drawing_surface[i]->surface,
+				info->layer_layers[i]->surface->w, info->layer_layers[i]->surface->h);
 		SDL_BlitSurface(new_surface, NULL, info->layer_layers[i]->surface, NULL);
 		SDL_FreeSurface(new_surface);
 	}
@@ -633,23 +594,7 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 
 		}
 		else if (info->brush.type == 7) // shapes
-		{
-			if (info->brush.draw && info->brush.shape.x2 != -1 && info->brush.shape.y2 != -1)
-			{
-				l = info->brush.shape;
-				l.x1 = (info->brush.shape.x1 / ((float)info->drawing_surface[0]->surface->w / (float)info->screen_surface->surface->w)) + info->screen_surface->coord.x;
-				l.y1 = (info->brush.shape.y1 / ((float)info->drawing_surface[0]->surface->h / (float)info->screen_surface->surface->h)) + info->screen_surface->coord.y;
-				l.x2 = (info->brush.shape.x2 / ((float)info->drawing_surface[0]->surface->w / (float)info->screen_surface->surface->w)) + info->screen_surface->coord.x;
-				l.y2 = (info->brush.shape.y2 / ((float)info->drawing_surface[0]->surface->h / (float)info->screen_surface->surface->h)) + info->screen_surface->coord.y;
-				if (info->brush.shape_type == 1)
-					ft_create_circle(info->hidden_surface->surface, info->brush.color, l);
-				else if (info->brush.shape_type == 2)
-					ft_create_square(info->hidden_surface->surface, info->brush.color, l);
-				else if (info->brush.shape_type == 3)
-					ft_create_line(info->hidden_surface->surface, info->brush.color, l);
-
-			}
-		}
+			trace_shape(info);
 		else if (info->brush.type == 8) // pipette
 		{
 			temp.w = info->tooltips.pipette->w;
@@ -659,17 +604,6 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 			SDL_BlitSurface(info->tooltips.pipette, NULL, info->hidden_surface->surface, &temp);
 		}
 	}
-}
-
-void	tooltips_load(t_info *info)
-{
-	info->tooltips.pipette = load_image("resources/tooltips/pipette.bmp");
-	info->tooltips.move = load_image("resources/tooltips/move.bmp");
-	info->tooltips.sticker = load_image("resources/tooltips/sticker.bmp");
-	info->tooltips.circle = load_image("resources/tooltips/circle.bmp");
-	info->tooltips.deletion = load_image("resources/tooltips/delete.bmp");
-	info->tooltips.flood = load_image("resources/tooltips/flood.bmp");
-	info->tooltips.shapes = load_image("resources/tooltips/shapes.bmp");
 }
 
 int		main(void)
@@ -685,6 +619,7 @@ int		main(void)
 	guimp_init(info);
 
 	tooltips_load(info);
+	shape_load(info);
 	window_init(libui, info);
 	menu_init(info);
 	tool_buttons_init(info);
@@ -694,7 +629,7 @@ int		main(void)
 	layer_init(info); // slider_init needs to be called before this.
 	hotkey_init(info, libui);
 	utility_init(info); // layer_init needs to be called before this.
-	sticker_init(info);
+	sticker_load(info);
 	// z_buffer_sort(); // this has to happen after ALL elem inits and BEFORE the main loop
 	ft_set_icon(info->main->window->win, "resources/icon/gimp-icon.png");
 
