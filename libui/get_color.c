@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_icon.c                                          :+:      :+:    :+:   */
+/*   get_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/05 11:25:20 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/16 14:29:36 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/09/16 15:56:30 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/09/16 15:56:49 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ft_set_icon(SDL_Window *window, char *dir)
+Uint32  get_color(SDL_Surface *surface, int x, int y)
 {
-	SDL_Surface *icon;
+    Uint32 *pixels;
 
-	if ((icon = load_image(dir)) == NULL)
-		exit (0);
-	SDL_SetWindowIcon(window, icon);
-	SDL_FreeSurface(icon);
+	pixels = surface->pixels;
+	return (pixels[y * surface->w + x]);
 }

@@ -226,6 +226,7 @@ Uint32			get_color(SDL_Surface *surface, int x, int y);
 void			ft_create_square(SDL_Surface *surface, Uint32 color, t_shapes l);
 void			ft_create_line(SDL_Surface *surf, Uint32 color, t_shapes l);
 void			ft_create_circle(SDL_Surface *surface, Uint32 color, t_shapes c);
+Uint32			get_color(SDL_Surface *surface, int x, int y);
 /*
  ** Math
 */
@@ -257,7 +258,7 @@ void			ft_update_drop(t_element *elem);
 void			ft_drop_down_function(SDL_Event e, t_element *elem);
 void			ft_set_slider_value(t_element *elem, int new_value);
 void			ft_set_element_image(t_element *elem, SDL_Surface *img);
-void			ft_set_font(t_text text, char *font, unsigned short size);
+void			ft_set_font(t_text *text, char *font, int size);
 void			ft_update_elem_background(t_element *elem, Uint32 color);
 /*
  ** Render

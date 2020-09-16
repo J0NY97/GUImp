@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 11:30:41 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 15:33:44 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ void	ui_render(t_window *win)
 {
 	t_list *curr;
 	t_element *elem;
-	
 	curr = win->elements;
 	while (curr != NULL)
 	{

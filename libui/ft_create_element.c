@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 11:34:51 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 15:55:36 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ t_element		*ft_create_element(t_element_info info)
 	elem->parent_elem = info.parent_elem;
 	elem->rel_coord = info.rel_coord;
 	elem->coord = info.rel_coord;
-	if (elem->parent_elem != NULL)
-	{
-		elem->coord.x += elem->parent_elem->coord.x;
-		elem->coord.y += elem->parent_elem->coord.y;	
-	}
 	if (info.info_size > 0)
 	{
 		elem->info = malloc(info.info_size);
@@ -54,6 +49,5 @@ t_element		*ft_create_element(t_element_info info)
 	ft_update_background(elem->states[1], 0xff0000ff);
 	elem->states[2] = ft_create_rgba_surface(elem->coord.w, elem->coord.h);
 	ft_update_background(elem->states[2], 0xff00ff00);
-	ft_update_element(elem);
 	return (elem);
 }

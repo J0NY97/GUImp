@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 17:32:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 12:19:51 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 15:29:03 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,27 @@
 void	ft_create_text(t_text *text)
 {
 	SDL_Rect	temp;
+SDL_Surface *tsurf;
 
 	temp.x = text->x;
 	temp.y = text->y;
-	text->surface = TTF_RenderText_Blended_Wrapped(
+	if (!text->font)
+		printf("create_text font is null\n");
+	tsurf = TTF_RenderText_Blended_Wrapped(
 			text->font, text->text, hex_to_rgba(text->color),
 			(text->parent->w - text->margin));
-	temp.w = text->surface->w;
-	temp.h = text->surface->h;
+	if (tsurf == NULL)
+	{
+		printf("create_text : %s\n", TTF_GetError());
+		return ;
+	}
+	temp.w = tsurf->w;
+	temp.h = tsurf->h;
 	if (text->centered == 1)
 	{
-		temp.x = (text->parent->w / 2) - (text->surface->w / 2);
-		temp.y = (text->parent->h / 2) - (text->surface->h / 2);
+		temp.x = (text->parent->w / 2) - (tsurf->w / 2);
+		temp.y = (text->parent->h / 2) - (tsurf->h / 2);
 	}
-	SDL_BlitSurface(text->surface, NULL, text->parent, &temp);
-	SDL_FreeSurface(text->surface);
+	SDL_BlitSurface(tsurf, NULL, text->parent, &temp);
+	SDL_FreeSurface(tsurf);
 }

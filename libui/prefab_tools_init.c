@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 11:38:42 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 11:34:01 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 15:32:00 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_element	*prefab_tools_init(t_window *win, int x, int y)
 
 	coords = ui_init_coords(25, 25, 100, 50);
 	quit = ui_create_button(win, coords, menu);
-	quit->text.text = ft_strdup("Quit");
+	quit->text = ft_default_text("Quit");
 	quit->f = &ft_quit;
 	quit->text.centered = 1;
 	ft_update_element(quit);
