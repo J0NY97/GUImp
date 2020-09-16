@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 17:32:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 15:29:03 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 16:11:17 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 void	ft_create_text(t_text *text)
 {
 	SDL_Rect	temp;
-SDL_Surface *tsurf;
+	SDL_Surface	*tsurf;
 
 	temp.x = text->x;
 	temp.y = text->y;
 	if (!text->font)
 		printf("create_text font is null\n");
-	tsurf = TTF_RenderText_Blended_Wrapped(
-			text->font, text->text, hex_to_rgba(text->color),
-			(text->parent->w - text->margin));
+	tsurf = TTF_RenderText_Blended_Wrapped(text->font, text->text,
+											hex_to_rgba(text->color),
+											(text->parent->w - text->margin));
 	if (tsurf == NULL)
 	{
 		printf("create_text : %s\n", TTF_GetError());

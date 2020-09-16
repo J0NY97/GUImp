@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 14:09:34 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/13 18:42:13 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/16 16:48:49 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ SDL_Surface	*ft_scale_surface(SDL_Surface *surface, int w, int h)
 
 SDL_Surface	*ft_scale_surface_aspect(SDL_Surface *surface, int w, int h)
 {
+	float		aspect;
 	SDL_Surface *surf;
-	float aspect;
 	
 	if (surface->h > surface->w)
 	{

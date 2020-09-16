@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:35:47 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/10 12:37:15 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 16:47:45 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int		ft_event_handler(SDL_Event e, t_element *elem)
 	return (0);
 }
 
-// why cant this be an element also? this way you wouldnt need to make another function for hotkeys and elements....
-// 	and the hotkey could just be the element->info
 int		ft_keyboard_handler(t_libui *libui)
 {
 	t_list *lst;
@@ -45,7 +43,7 @@ int		ft_keyboard_handler(t_libui *libui)
 	SDL_Event e;
 
 	e = libui->event;
-	if (e.type == SDL_KEYDOWN)// || e.type == SDL_KEYUP)
+	if (e.type == SDL_KEYDOWN)
 	{
 		lst = libui->hotkeys;
 		while (lst != NULL)

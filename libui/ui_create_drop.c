@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:47:20 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 12:08:40 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 16:56:22 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_element *ui_create_drop(t_window *win, t_xywh rel_coord, t_element *parent)
 	info.text = ft_default_text("drip drawp");
 	elem = ft_create_element(info);
 	ft_add_element_to_window_elements(win, elem);
-	// drop_down specific
 	{
 		dd = elem->info;
 		//dd->items = NULL; // malloc here if you already know the max amount of items you want to add
