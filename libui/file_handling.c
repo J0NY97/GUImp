@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 15:55:38 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/06 16:12:42 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/16 12:18:21 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,21 @@ SDL_Surface		*load_image(char *file)
 int		save_image(SDL_Surface *img, char *file)
 {
 	char *real_file;
-	
-	real_file = ft_strjoiner("images/", file, ".bmp", NULL);
-	if (SDL_SaveBMP(img, real_file) != 0)
+
+	real_file = ft_strjoiner("images/", file, NULL);
+	if (ft_strstr(real_file, ".png") != 0)
+		IMG_SavePNG(img, real_file);
+	else if (ft_strstr(real_file, ".jpg") != 0)
+		IMG_SaveJPG(img, real_file, 32);
+	else if (ft_strstr(real_file, ".bmp") != 0)
+		SDL_SaveBMP(img, real_file);
+	else
 	{
-		printf("Save_Img(): %s\n", SDL_GetError());
 		free(real_file);
-		return (0);
+		real_file = ft_strjoiner("images/", file, ".bmp", NULL);
+		SDL_SaveBMP(img, real_file);
 	}
-	ft_putstr("File save to: ");
-	ft_putstr(real_file);
-	ft_putstr("\n");
+	printf("File saved as %s\n", real_file);
 	free(real_file);
 	return (1);
 }
