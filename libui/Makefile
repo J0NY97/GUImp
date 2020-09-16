@@ -49,6 +49,8 @@ SRCS = ft_test_libui.c\
 	   ui_create_scrollbar.c\
 	   ft_set_font.c\
 	   free.c\
+	   dir_open.c\
+	   dir_explorer.c\
 	   extra_help.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h

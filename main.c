@@ -578,6 +578,10 @@ int		main(void)
 	t_element *menu = prefab_tools_init(info->toolbox->window,
 										info->toolbox->window->surface->w - 175,
 										info->toolbox->window->surface->h - 125);
+
+	//#include <dirent.h>
+	//printf("%s\n", dir_open(0, 0, "./", DT_REG));
+
 	while (info->run)
 	{
 		ft_event_poller(libui); // input

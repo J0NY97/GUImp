@@ -300,4 +300,6 @@ void		ft_button_handler(SDL_Event e, t_element *elem);
 SDL_Surface			*ft_create_rgba_surface(int w, int h);
 SDL_Rect			ft_sdl_rect(int x, int y, int w, int h);
 
+t_list				*dir_explorer(char *folder_path, unsigned char type, int *size);
+char				*dir_open(int x1, int y1, char *folder_path, unsigned char type);
 #endif
