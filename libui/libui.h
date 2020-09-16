@@ -299,5 +299,6 @@ void		ft_button_handler(SDL_Event e, t_element *elem);
  ** Extra Help
 */
 SDL_Surface			*ft_create_rgba_surface(int w, int h);
+SDL_Rect			ft_sdl_rect(int x, int y, int w, int h);
 
 #endif
