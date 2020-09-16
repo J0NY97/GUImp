@@ -57,16 +57,18 @@ LIBS = libui.h
 all: $(NAME)
 
 $(NAME):
-	gcc -c $(SRCS) $(FLAGS)
-	ar rc $(NAME) $(OBJS) 
-	ranlib $(NAME)
-	/bin/rm -f $(OBJS)
+	@gcc -c $(SRCS) $(FLAGS)
+	@ar rc $(NAME) $(OBJS) 
+	@ranlib $(NAME)
+	@/bin/rm -f $(OBJS)
+	@echo "$(NAME) was successfully created."
 
 clean:
-	/bin/rm -f $(OBJS)
+	@/bin/rm -f $(OBJS)
+	@echo "libui was cleaned."
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@/bin/rm -f $(NAME)
 
 re: fclean all
 

@@ -213,6 +213,7 @@ void			ft_set_icon(SDL_Window *window, char *dir);
 SDL_Surface		*ft_scale_surface(SDL_Surface *surface, int w, int h);
 SDL_Surface		*ft_scale_surface_aspect(SDL_Surface *surface, int w, int h);
 SDL_Surface		*ft_create_rgba_surface(int w, int h);
+SDL_Rect		ft_sdl_rect(int x, int y, int w, int h);
 /*
  ** Draw
 */

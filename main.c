@@ -512,7 +512,8 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 		}
 		else if (info->brush.type == 2)
 		{
-			text_to_screen(info->hidden_surface->surface, l, &info->brush);
+			l.color = info->brush.color;
+			text_to_screen(info->hidden_surface->surface, l, info->brush.str, info->brush.font_dir);
 		}
 		else if (info->brush.type == 3)
 		{
@@ -521,10 +522,7 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 		}
 		else if (info->brush.type == 4)
 		{
-			temp.w = info->tooltips.flood->w;
-			temp.h = info->tooltips.flood->h;
-			temp.x = l.x1;
-			temp.y = l.y1 - temp.h;
+			temp = ft_sdl_rect(l.x1, l.y1 - info->tooltips.flood->h, info->tooltips.flood->w, info->tooltips.flood->h);
 			SDL_BlitSurface(info->tooltips.flood, NULL, info->hidden_surface->surface, &temp);
 		}
 		else if (info->brush.type == 5) // sticker
@@ -537,20 +535,17 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 		}
 		else if (info->brush.type == 6) // move and zoom
 		{
-			temp.w = info->tooltips.move->w;
-			temp.h = info->tooltips.move->h;
-			temp.x = l.x1 - temp.w / 2;
-			temp.y = l.y1 - temp.h / 2;
+			temp = ft_sdl_rect(l.x1 - (info->tooltips.move->w / 2),
+							l.y1 - (info->tooltips.move->h / 2),
+							info->tooltips.move->w,
+							info->tooltips.move->h);
 			SDL_BlitSurface(info->tooltips.move, NULL, info->hidden_surface->surface, &temp);
 		}
 		else if (info->brush.type == 7) // shapes
 			trace_shape(info);
 		else if (info->brush.type == 8) // pipette
 		{
-			temp.w = info->tooltips.pipette->w;
-			temp.h = info->tooltips.pipette->h;;
-			temp.x = l.x1;
-			temp.y = l.y1 - temp.h;
+			temp = ft_sdl_rect(l.x1, l.y1 - info->tooltips.pipette->h, info->tooltips.pipette->w, info->tooltips.pipette->h);
 			SDL_BlitSurface(info->tooltips.pipette, NULL, info->hidden_surface->surface, &temp);
 		}
 	}
