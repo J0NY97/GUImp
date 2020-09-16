@@ -29,17 +29,6 @@ typedef	struct	s_drop_down		t_drop_down;
 typedef	struct	s_scrollbar		t_scrollbar;
 typedef	struct	s_hotkey		t_hotkey;
 
-typedef	struct	s_emp
-{
-	int			x;
-	int			y;
-	int			i;
-	int			j;
-	int			a;
-	int			b;
-	int			k;
-}				t_emp;
-
 typedef struct	s_xywh
 {
 	int			x;
@@ -123,7 +112,6 @@ struct	s_element
 
 struct			s_button
 {
-	int			state; // remove this in new iteration
 	int			type;
 	void		*extra;
 	size_t		size;
@@ -131,13 +119,10 @@ struct			s_button
 
 struct			s_slider
 {
-	int			state; // redundant
 	int			min;
 	int			max;
 	int			value;
-	int			clicked; // redundant
 	int			bar_color;
-	size_t		size; // redundant
 };
 
 struct			s_drop_item
@@ -150,7 +135,6 @@ struct			s_drop_down
 {
 	int			item_amount;
 	t_element	*items[5]; // find on a better put
-	int			state; // is up or down
 	int			drop_height;
 	int			height;
 	size_t		size;
@@ -164,7 +148,6 @@ struct			s_surface
 struct			s_scrollbar
 {
 	t_element	*target;
-	size_t		size;
 };
 
 struct			s_window_info
@@ -207,51 +190,53 @@ typedef	struct	s_coords
 }				t_coords;
 
 void			ft_test_libui(void);
-t_window		*ft_create_window(t_libui *libui, t_window_info info);
-/* EXTRA */
-void			ft_create_line(SDL_Surface *surf, Uint32 color, t_shapes l);
-void			ft_create_circle(SDL_Surface *surface, Uint32 color, t_shapes c);
-void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
-void			set_blended_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
-SDL_Color		hex_to_rgba(int color);
-int				rgb_to_hex(int r, int g, int b, int a);
-Uint32			get_color(SDL_Surface *surface, int x, int y);
-void			flood_fill(SDL_Surface *surface, Uint32 w_color, Uint32 r_color, int x, int y);
-void			ft_create_square(SDL_Surface *surface, Uint32 color, t_shapes l);
+/*
+ ** EXTRA
+*/
 void			push_list(t_list **lst, void *content, size_t content_size);
 void			*pop_list(t_list **lst);
 char			*drag_and_drop(SDL_Event e);
 SDL_Surface		*load_image(char *file);
 int				save_image(SDL_Surface *img, char *file);
-int				ft_clamp(int val, int min, int max);
-void			ft_update_elem_background(t_element *elem, Uint32 color);
-void			ft_set_font(t_text text, char *font, unsigned short size);
-
-/*
-	** Move someehere else
-*/
-int				ft_min(int a, int b);
-int				ft_max(int a, int b);
-
-/* TESTS */
-t_element		*ft_create_element(t_element_info info);
-void			ft_update_element(t_element *elem);
-int				ft_event_handler(SDL_Event e, t_element *elem);
-void			ft_event_poller(t_libui *libui);
-void			ft_update_background(SDL_Surface *surface, Uint32 color);
-void			ft_create_text(t_text *text);
 void			ft_read_text(t_element *elem, int size);
-void			ft_drop_down_add_item(t_element *drop, char *name);
+char			*ft_strjoiner(char *first, ...);
 void			notify(char *title, char *msg);
 void			error_msg(char *str);
 int				true_false_popup(int x, int y, char *msg);
 char			*input_popup(int x, int y);
 void			text_area(SDL_Event e, t_element *elem);
-/* UI */
+void			ft_add_element_to_window_elements(t_window *win, t_element *elem);
+void			ft_add_window_to_libui_windows(t_libui *libui, t_window *win);
+void			ui_libui_init(t_libui *libui);
+void			ft_add_hotkey(t_libui *libui, SDL_Keycode, void (*f)());
+void			ft_set_icon(SDL_Window *window, char *dir);
+SDL_Surface		*ft_scale_surface(SDL_Surface *surface, int w, int h);
+SDL_Surface		*ft_scale_surface_aspect(SDL_Surface *surface, int w, int h);
+SDL_Surface		*ft_create_rgba_surface(int w, int h);
 /*
- ** NOTE: the ui creation could use create_surface for the boilerplate and the element type specific stuff can be edited in the relevant funcs
+ ** Draw
 */
+void			flood_fill(SDL_Surface *surface, Uint32 w_color, Uint32 r_color, int x, int y);
+void			set_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
+void			set_blended_pixel(SDL_Surface *surf, int x, int y, Uint32 color);
+SDL_Color		hex_to_rgba(int color);
+int				rgb_to_hex(int r, int g, int b, int a);
+Uint32			get_color(SDL_Surface *surface, int x, int y);
+void			ft_create_square(SDL_Surface *surface, Uint32 color, t_shapes l);
+void			ft_create_line(SDL_Surface *surf, Uint32 color, t_shapes l);
+void			ft_create_circle(SDL_Surface *surface, Uint32 color, t_shapes c);
+/*
+ ** Math
+*/
+int				ft_clamp(int val, int min, int max);
+int				ft_min(int a, int b);
+int				ft_max(int a, int b);
+/*
+ ** UI
+*/
+t_window		*ft_create_window(t_libui *libui, t_window_info info);
 t_element_info	ft_default_elem_info(t_window *win, t_xywh coord, t_element *parent);
+t_element		*ft_create_element(t_element_info info);
 t_element		*ui_create_button(t_window *win, t_xywh coord, t_element *parent);
 t_element		*ui_create_surface(t_window *win, t_xywh coord, t_element *parent);
 t_element		*ui_create_slider(t_window *win, t_xywh coord, t_element *parent, int min, int max);
@@ -259,44 +244,43 @@ t_element		*ui_create_drop(t_window *win, t_xywh coord, t_element *elem);
 t_element		*ui_create_scrollbar(t_window *win, t_element *elem);
 t_xywh			ui_init_coords(int x, int y, int w, int h);
 t_text			ft_default_text(char *txt);
-void			ui_render(t_window *win);
-void			ui_render_element(SDL_Surface *win, t_element *elem);
-void			ft_add_element_to_window_elements(t_window *win, t_element *elem);
-void			ft_add_window_to_libui_windows(t_libui *libui, t_window *win);
-void			default_click(SDL_Event e, t_element *elem);
-void			ui_libui_init(t_libui *libui);
+/*
+ ** UI HELP
+*/
+void			ft_update_background(SDL_Surface *surface, Uint32 color);
+void			ft_create_text(t_text *text);
+void			ft_drop_down_add_item(t_element *drop, char *name);
 void			ft_slider_function(SDL_Event e, t_element *elem);
 void			ft_update_slider_bar(int click_x, int click_y, t_element *elem);
-void			ft_add_hotkey(t_libui *libui, SDL_Keycode, void (*f)());
-void			ft_add_x_to_list(t_list *old, void *content, size_t content_size);
 void			ft_update_drop(t_element *elem);
 void			ft_drop_down_function(SDL_Event e, t_element *elem);
-void			ft_set_icon(SDL_Window *window, char *dir);
 void			ft_set_slider_value(t_element *elem, int new_value);
-char			*ft_strjoiner(char *first, ...);
-int				ft_keyboard_handler(t_libui *libui);
-SDL_Surface		*ft_scale_surface(SDL_Surface *surface, int w, int h);
-SDL_Surface		*ft_scale_surface_aspect(SDL_Surface *surface, int w, int h);
 void			ft_set_element_image(t_element *elem, SDL_Surface *img);
+void			ft_set_font(t_text text, char *font, unsigned short size);
+void			ft_update_elem_background(t_element *elem, Uint32 color);
+/*
+ ** Render
+*/
+void			ft_update_element(t_element *elem);
+void			ui_render(t_window *win);
+void			ui_render_element(SDL_Surface *win, t_element *elem);
 /*
 ** Free
 */
-void		free_element(t_element *elem);
-void		free_window(t_window *win);
+void			free_element(t_element *elem);
+void			free_window(t_window *win);
 /*
  ** Prefabs
 */
-t_element	*prefab_tools_init(t_window *win, int x, int y);
+t_element		*prefab_tools_init(t_window *win, int x, int y);
 /*
- ** Event handlers
+ ** Event handling
 */
-void		ft_drop_item_function(SDL_Event e, t_element *elem);
-void		ft_button_handler(SDL_Event e, t_element *elem);
-
-
-/*
- ** Extra Help
-*/
-SDL_Surface			*ft_create_rgba_surface(int w, int h);
+int				ft_event_handler(SDL_Event e, t_element *elem);
+void			ft_event_poller(t_libui *libui);
+void			ft_drop_item_function(SDL_Event e, t_element *elem);
+void			ft_button_handler(SDL_Event e, t_element *elem);
+void			default_click(SDL_Event e, t_element *elem);
+int				ft_keyboard_handler(t_libui *libui);
 
 #endif

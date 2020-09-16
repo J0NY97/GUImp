@@ -563,9 +563,9 @@ int		main(void)
 
 	if (!(libui = (t_libui *)malloc(sizeof(t_libui))))
 		exit (0);
-	ui_libui_init(libui);
 	if (!(info = (t_info *)malloc(sizeof(t_info))))
 		exit (0);
+	ui_libui_init(libui);
 	guimp_init(info);
 	tooltips_load(info);
 	shape_load(info);
@@ -583,7 +583,7 @@ int		main(void)
 	t_element *menu = prefab_tools_init(info->toolbox->window,
 										info->toolbox->window->surface->w - 175,
 										info->toolbox->window->surface->h - 125);
-	while (info->run)
+	while (libui->run)
 	{
 		ft_event_poller(libui); // input
 		drag_drop_thing(info, libui);
@@ -594,6 +594,11 @@ int		main(void)
 		ui_render(info->main->window);
 		ui_render(info->layers->window);
 	}
-	// cleanup()
+	printf("hello");
+	// guimp_quit(info); // cleanup the quimp stuff
+	// libui_quit(libui); // cleanup the libui stuff
+	IMG_Quit();
+	TTF_Quit();
+	SDL_Quit();
 	return (0);
 }
