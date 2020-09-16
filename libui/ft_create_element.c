@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/13 18:57:43 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/16 11:34:51 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_element		*ft_create_element(t_element_info info)
 	elem->text = info.text;
 	elem->default_state = 0;
 	elem->state = 0;
-	elem->old_state = 500;
 	elem->loop = 0;
 	elem->offset_x = 0;
 	elem->offset_y = 0;

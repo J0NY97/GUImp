@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 11:33:36 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 13:40:56 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 11:34:28 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	ft_update_slider_bar(int click_x, int click_y, t_element *elem)
 	int			x;
 	int			y;
 
-	elem->old_state = 500;
 	slider = (t_slider *)elem->info;
 	x = click_x - elem->coord.x;
 	y = click_y - elem->coord.y;
@@ -51,7 +50,5 @@ void	ft_slider_function(SDL_Event e, t_element *elem)
 	if (e.type == SDL_MOUSEBUTTONUP)
 		elem->state = 0;
 	if (elem->state == 1 || elem->state == 2)
-	{
 		ft_update_slider_bar(e.button.x, e.button.y, elem);
-	}
 }

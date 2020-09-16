@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 11:11:57 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/12 15:10:46 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 12:07:37 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,4 @@ void	ft_drop_down_add_item(t_element *drop, char *name)
 	dd->items[dd->item_amount] = ft_create_element(new_item);
 	dd->item_amount += 1;
 	ft_update_drop(drop);
-	printf("Item coord: %d %d\n", dd->items[dd->item_amount - 1]->coord.x, dd->items[dd->item_amount - 1]->coord.y);
 }

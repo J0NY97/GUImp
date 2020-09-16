@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:47:20 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/05 16:25:09 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 12:08:40 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ t_element *ui_create_drop(t_window *win, t_xywh rel_coord, t_element *parent)
 	info.text = ft_default_text("drip drawp");
 	elem = ft_create_element(info);
 	ft_add_element_to_window_elements(win, elem);
-
-	printf("Real coords of drop: %d %d %d %d\n", elem->coord.x, elem->coord.y, elem->coord.w, elem->coord.h);
 	// drop_down specific
 	{
 		dd = elem->info;

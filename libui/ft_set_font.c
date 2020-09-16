@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_update_element.c                                :+:      :+:    :+:   */
+/*   ft_set_font.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/19 16:38:36 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 11:27:21 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/09/16 12:10:20 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/09/16 12:15:01 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void		ft_update_element(t_element *elem)
+void	ft_set_font(t_text text, char *font, unsigned short size)
 {
-	if (elem->statique == 0)
-	{
-		SDL_FreeSurface(elem->surface);
-		elem->surface = ft_create_rgba_surface(elem->states[elem->state]->w,
-												elem->states[elem->state]->h);
-		SDL_BlitSurface(elem->states[elem->state], NULL, elem->surface, NULL);
-		if (elem->set_text == 1)
-		{
-			elem->text.parent = elem->surface;
-			ft_create_text(&elem->text);
-		}
-	}
+	if (text.font)
+		TTF_CloseFont(text.font);
+	text.font = TTF_OpenFont(font, size);
 }

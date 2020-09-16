@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 11:38:42 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/13 15:35:59 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 11:34:01 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_element	*prefab_tools_init(t_window *win, int x, int y)
 	ft_update_background(menu->states[0], menu->bg_color);
 	TTF_CloseFont(menu->text.font);
 	menu->text.font = TTF_OpenFont("font.ttf", 20);
-	menu->old_state = 500;
 	ft_update_element(menu);
 
 	coords = ui_init_coords(25, 25, 100, 50);
@@ -40,7 +39,6 @@ t_element	*prefab_tools_init(t_window *win, int x, int y)
 	quit->text.text = ft_strdup("Quit");
 	quit->f = &ft_quit;
 	quit->text.centered = 1;
-	quit->old_state = 500;
 	ft_update_element(quit);
 
 	return (menu);

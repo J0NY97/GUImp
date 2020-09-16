@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/13 16:35:52 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 11:36:19 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void		text_area(SDL_Event e, t_element *elem)
 		free(tmp);
 		elem->loop = 0;
 	}
-	elem->old_state = 500;
 }
 
 static void		init_button(t_window *win, t_element *buttons[2])
@@ -83,7 +82,6 @@ static void		init_button(t_window *win, t_element *buttons[2])
 	buttons[0]->text.centered = 1;
 	buttons[0]->f = &button;
 	((t_button *)buttons[0]->info)->type = 1;
-	buttons[0]->old_state = 500;
 	ft_update_background(buttons[0]->states[0], 0xff0082c4);
 
 	coord = ui_init_coords(200, 200, 100, 50);
@@ -92,7 +90,6 @@ static void		init_button(t_window *win, t_element *buttons[2])
 	buttons[1]->text.centered = 1;
 	buttons[1]->f = &button;
 	((t_button *)buttons[1]->info)->type = 0;
-	buttons[1]->old_state = 500;
 	ft_update_background(buttons[1]->states[0], 0xffEE7f1B);
 
 	coord = ui_init_coords(50, 100, 250, 50);
@@ -103,7 +100,6 @@ static void		init_button(t_window *win, t_element *buttons[2])
 	buttons[2]->text.parent = win->surface;
 	buttons[2]->set_text = 1;
 	buttons[2]->f = &text_area;
-	buttons[2]->old_state = 500;
 	buttons[2]->extra_info = win->win;
 
 	ft_update_element(buttons[0]);

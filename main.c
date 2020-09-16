@@ -98,7 +98,6 @@ void	tool_buttons_init(t_info *info)
 	{
 		info->buttons[i]->f = &draw_buttons;
 		info->buttons[i]->extra_info = info->buttons;
-		info->buttons[i]->old_state = 500;
 		info->buttons[i]->text.centered = 1;
 		((t_button *)info->buttons[i]->info)->extra = &info->brush_button_amount;
 	}
@@ -108,38 +107,37 @@ void	layer_init(t_info *info)
 {
 	t_xywh	coord;
 
-	// the hidden surface, that shows the small image of the selected brush
+	// the hidden surface, that shows the small image/tooltip of the selected brush
 	coord = ui_init_coords(0, 0, info->main->window->surface->w, info->main->window->surface->h);
 	info->hidden_surface = ui_create_surface(info->main->window, coord, NULL);
 	info->hidden_surface->shadow = 0;
 	info->hidden_surface->event_handler = NULL;
+	info->hidden_surface->statique = 1;
+	ft_update_elem_background(info->hidden_surface, 0x00000000);
 	
 	coord = ui_init_coords(51, 50, info->main->window->surface->w - 100, info->main->window->surface->h - 100);
 	// init all the drawing layers
 	for (int i = 0; i < 5; i++)
 	{
 		info->drawing_surface[i] = ui_create_surface(NULL, coord, NULL);
-		SDL_FreeSurface(info->drawing_surface[i]->surface);
-		info->drawing_surface[i]->surface = ft_create_rgba_surface(coord.w, coord.h);
-		ft_update_elem_background(info->drawing_surface[i], 0x00ffffff);
-		info->drawing_surface[i]->old_state = 500;
 		info->drawing_surface[i]->statique = 1;
+		ft_update_elem_background(info->drawing_surface[i], 0x00ffffff);
 	}
 	// make the first one white
 	ft_update_elem_background(info->drawing_surface[0], 0xffffffff);
 	// the screen_surface element gets the same stats as the drawing_surfac[0]]
 	info->screen_surface = ui_create_surface(info->main->window, coord, NULL);
-	SDL_FreeSurface(info->screen_surface->surface);
-	info->screen_surface->surface = ft_create_rgba_surface(coord.w, coord.h);
-	ft_update_elem_background(info->screen_surface, 0xff000000);
 	info->screen_surface->f = &draw;
 	info->screen_surface->extra_info = &info->brush;
+	info->screen_surface->statique = 1;
 	((t_surface *)info->screen_surface->info)->extra = info->drawing_surface;
+	ft_update_elem_background(info->screen_surface, 0xff000000);
 
 	// brush color surface
 	coord = ui_init_coords(275, 50, 100, 100);
 	info->brush_color = ui_create_surface(info->toolbox->window, coord, info->col_menu);
 	info->brush_color->f = NULL; // not needed but it will spam the terminal otherwise
+	info->brush_color->statique = 1;
 
 	for (int i = 0; i < 5; i++)	
 	{
@@ -149,7 +147,6 @@ void	layer_init(t_info *info)
 		info->layer_buttons[i]->f = &change_selected_layer;
 		info->layer_buttons[i]->set_text = 0;
 		info->layer_buttons[i]->extra_info = info->layer_buttons;
-		info->layer_buttons[i]->old_state = 500;
 		((t_button *)info->layer_buttons[i]->info)->extra = &info->layer_amount;
 		// the area where the layers are shown on
 		coord = ui_init_coords(10, 10, info->layer_buttons[i]->surface->w - 20, info->layer_buttons[i]->surface->h - 20);
@@ -294,7 +291,6 @@ void	utility_init(t_info *info)
 	info->save_button->text.centered = 1;
 	info->save_button->f = &save_img;
 	info->save_button->extra_info = info->drawing_surface[0];
-	info->save_button->old_state = 500;
 	// new layer button
 	coord = ui_init_coords(150, 25, 100, 50);
 	info->new_layer_button = ui_create_button(info->toolbox->window, coord, menu);
@@ -302,7 +298,6 @@ void	utility_init(t_info *info)
 	info->new_layer_button->text.centered = 1;
 	info->new_layer_button->f = &add_new_layer;
 	info->new_layer_button->extra_info = &info->layer_amount;
-	info->new_layer_button->old_state = 500;
 	// text input area
 	coord = ui_init_coords(40, 1000, 400, 50);
 	info->text_area = ui_create_button(info->toolbox->window, coord, NULL);
@@ -311,7 +306,6 @@ void	utility_init(t_info *info)
 	info->text_area->text.y = 10;
 	info->text_area->text.x = 10;
 	info->text_area->set_text = 1;
-	info->text_area->old_state = 500;
 	info->text_area->extra_info = info->toolbox->window;
 }
 
@@ -336,7 +330,7 @@ void	drop_down_init(t_info *info)
 
 	temp.w = 32;
 	temp.h = 32;
-	temp.x = 175 - temp.w;
+	temp.x = 150 - temp.w;
 	temp.y = 0;
 
 	// STICKER SELECTION DROP DOWN
@@ -344,13 +338,13 @@ void	drop_down_init(t_info *info)
 	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
 	info->drop_down->text.text = ft_strdup("Sticker select");
 	info->drop_down->text.x = 10;
-	info->drop_down->old_state = 500;
 	// item1
 	ft_drop_down_add_item(info->drop_down, "Minion");
 	icon = load_image("resources/stickers/icon-minion.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[1], &temp);
+	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[2], &temp);
 	SDL_FreeSurface(icon);
 	// item2
 	ft_drop_down_add_item(info->drop_down, "Guimp-icon");
@@ -358,6 +352,7 @@ void	drop_down_init(t_info *info)
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[1], &temp);
+	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[2], &temp);
 	SDL_FreeSurface(icon);
 
 	// this have to be called after all the items have been added other wise if you edite the items they wont be updated
@@ -369,7 +364,6 @@ void	drop_down_init(t_info *info)
 	info->font_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
 	info->font_down->text.text = ft_strdup("Font select");
 	info->font_down->text.x = 10;
-	info->font_down->old_state = 500;
 
 	ft_drop_down_add_item(info->font_down, "font.ttf");
 	ft_drop_down_add_item(info->font_down, "Amatic.ttf");
@@ -430,9 +424,7 @@ void	menu_init(t_info *info)
 	info->brush_menu->f = NULL;
 	info->brush_menu->text = ft_default_text("Brush buttons");
 	info->brush_menu->text.x = 5;
-	TTF_CloseFont(info->brush_menu->text.font);
-	info->brush_menu->text.font = TTF_OpenFont("font.ttf", 20);
-	info->brush_menu->old_state = 500;
+	ft_set_font(info->brush_menu->text, "font.tff", 20);
 	ft_update_elem_background(info->brush_menu, 0xffa9a9a9);
 
 	coord = ui_init_coords(40, 305, 400, 380);
@@ -441,9 +433,7 @@ void	menu_init(t_info *info)
 	info->col_menu->f = NULL;
 	info->col_menu->text = ft_default_text("Brush modifier");
 	info->col_menu->text.x = 5;
-	TTF_CloseFont(info->col_menu->text.font);
-	info->col_menu->text.font = TTF_OpenFont("font.ttf", 20);
-	info->col_menu->old_state = 500;
+	ft_set_font(info->col_menu->text, "font.tff", 20);
 	ft_update_elem_background(info->col_menu, 0xffa9a9a9);
 
 	coord = ui_init_coords(40, 710, 400, 100);
@@ -454,9 +444,7 @@ void	menu_init(t_info *info)
 	info->shape_menu->bg_color = 0xffa9a9a9;
 	info->shape_menu->text.x = 5;
 	ft_update_background(info->shape_menu->states[0], 0xffa9a9a9);
-	TTF_CloseFont(info->shape_menu->text.font);
-	info->shape_menu->text.font = TTF_OpenFont("font.ttf", 20);
-	info->shape_menu->old_state = 500;
+	ft_set_font(info->shape_menu->text, "font.tff", 20);
 
 	coord = ui_init_coords(50, 50, 400, 1150);
 	info->layer_menu = ui_create_surface(info->layers->window, coord, NULL);
@@ -464,9 +452,7 @@ void	menu_init(t_info *info)
 	info->layer_menu->f = NULL;
 	info->layer_menu->text = ft_default_text("Layers");
 	info->layer_menu->text.x = 5;
-	TTF_CloseFont(info->layer_menu->text.font);
-	info->layer_menu->text.font = TTF_OpenFont("font.ttf", 20);
-	info->layer_menu->old_state = 500;
+	ft_set_font(info->layer_menu->text, "font.ttf", 20);
 	ft_update_elem_background(info->layer_menu, 0xffa9a9a9);
 
 	// scrollbar
@@ -481,28 +467,11 @@ void	drag_drop_thing(t_info *info, t_libui *libui)
 	{
 		if ((new_image = load_image(libui->drag_file)))
 		{
-			SDL_BlitSurface(new_image, NULL, info->drawing_surface[0]->surface, NULL);
+			SDL_BlitSurface(new_image, NULL, info->drawing_surface[info->brush.selected_layer]->surface, NULL);
 			SDL_FreeSurface(new_image);
 		}
 		ft_strdel(&libui->drag_file);
 	}
-}
-
-void	parent_elem_test(t_info *info)
-{
-	t_xywh		coord;
-	t_element	*menu;
-	t_element	*butt;
-
-	coord = ui_init_coords(50, 800, 100, 100);
-	menu = ui_create_surface(info->toolbox->window, coord, NULL);
-	menu->old_state = 500;
-	ft_update_elem_background(menu, 0xffa9a9a9);
-
-	coord = ui_init_coords(10, 10, 10, 10);
-	butt = ui_create_button(info->toolbox->window, coord, menu);
-	butt->old_state = 500;
-	ft_update_elem_background(butt, 0xff3dffff);
 }
 
 void	update_layers(t_info *info)
@@ -514,7 +483,7 @@ void	update_layers(t_info *info)
 		new_surface = ft_scale_surface_aspect(info->drawing_surface[i]->surface,
 											info->layer_layers[i]->surface->w,
 											info->layer_layers[i]->surface->h);
-		SDL_BlitSurface(new_surface, NULL, info->layer_layers[i]->surface, NULL);
+		SDL_BlitSurface(new_surface, NULL, info->layer_layers[i]->states[0], NULL);
 		SDL_FreeSurface(new_surface);
 	}
 	for (int i = 0; i < info->layer_amount; i++)

@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 16:55:56 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/13 17:18:43 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/16 11:36:52 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	shape_buttons_init(t_info *info)
 		info->shapes[i]->f = &draw_buttons;
 		info->shapes[i]->extra_info = info->shapes;
 		((t_button *)info->shapes[i]->info)->extra = &info->shapes_nbr;
-		info->shapes[i]->old_state = 500;
 		info->shapes[i]->text.centered = 1;
 		ft_update_element(info->shapes[i]);
 	}
