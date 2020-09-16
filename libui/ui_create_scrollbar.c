@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 10:55:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/13 18:47:20 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/16 11:33:33 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 void		ft_set_scrollbar_value(t_element *elem, int value);
 void		ft_update_scrollbar_bar(int click_x, int click_y, t_element *elem);
 void		ft_scrollbar_function(SDL_Event e, t_element *elem);
-/*
- **	Is basically a vertical slider...
- ** Scrollbar must have a parent elem;
-*/
 
 t_element	*ui_create_scrollbar(t_window *win, t_element *parent)
 {
@@ -39,7 +35,7 @@ t_element	*ui_create_scrollbar(t_window *win, t_element *parent)
 	info.extra_info = parent;
 	elem = ft_create_element(info);
 	ft_add_element_to_window_elements(win, elem);
-	{ // scrollbar specific stuff
+	{
 		((t_slider *)elem->info)->min = -parent->coord.h;
 		((t_slider *)elem->info)->max = parent->coord.h;
 		((t_slider *)elem->info)->value = 0;
@@ -78,7 +74,6 @@ void		ft_update_scrollbar_bar(int click_x, int click_y, t_element *elem)
 	int			x;
 	int			y;
 
-	elem->old_state = 500;
 	slider = (t_slider *)elem->info;
 	x = click_x - elem->coord.x;
 	y = click_y - elem->coord.y;

@@ -67,8 +67,8 @@ struct			s_text
 {
 	int			x;
 	int			y;
-	int			margin; // maximum width of the text (parent->w - margin)
 	int			color;
+	int			margin; // maximum width of the text (parent->w - margin)
 	int			centered;
 	char		*text;
 	TTF_Font	*font;
@@ -100,8 +100,6 @@ struct	s_element_info
 struct	s_element
 {
 	int			state; //0 = press, 1 = hover, 2 = click
-	int			z_buffer;
-	int			old_state;
 	int			default_state;
 	int			statique;
 	int			shadow;
@@ -227,6 +225,7 @@ SDL_Surface		*load_image(char *file);
 int				save_image(SDL_Surface *img, char *file);
 int				ft_clamp(int val, int min, int max);
 void			ft_update_elem_background(t_element *elem, Uint32 color);
+void			ft_set_font(t_text text, char *font, unsigned short size);
 
 /*
 	** Move someehere else

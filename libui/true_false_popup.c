@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:01:12 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/13 18:49:56 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/16 11:35:23 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int			true_false_popup(int x1, int y1, char *msg)
 	buttons[0]->f = &button;
 	((t_button *)buttons[0]->info)->type = 1;
 	buttons[0]->extra_info = &result;
-	buttons[0]->old_state = 500;
 	ft_update_background(buttons[0]->states[0], 0xff0082c4);
 
 	coord = ui_init_coords(200, 200, 100, 50);
@@ -55,7 +54,6 @@ int			true_false_popup(int x1, int y1, char *msg)
 	buttons[1]->f = &button;
 	((t_button *)buttons[1]->info)->type = 0;
 	buttons[1]->extra_info = &result;
-	buttons[1]->old_state = 500;
 	ft_update_background(buttons[1]->states[0], 0xffEE7f1B);
 
 	ft_update_element(buttons[0]);

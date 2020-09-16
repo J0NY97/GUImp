@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 11:49:45 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/13 19:50:22 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 11:30:41 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ui_create_shadow(t_element *elem)
 	
 	temp.w = elem->surface->w;	
 	temp.h = elem->surface->h;
+	l.fill = 1;
+	l.color = 0xff9a9a9a;
 	if (elem->parent_elem != NULL)
 	{
 		temp.x = elem->rel_coord.x;
@@ -34,8 +36,6 @@ void	ui_create_shadow(t_element *elem)
 	l.y1 = temp.y + 5;
 	l.x2 = l.x1 + 5;
 	l.y2 = l.y1 + temp.h;
-	l.fill = 1;
-	l.color = 0xff9a9a9a;
 	if (elem->parent_elem)
 		ft_create_square(elem->parent_elem->surface, 0xff9a9a9a, l);
 	else
@@ -60,8 +60,6 @@ void	ui_clean(t_window *win, t_element *elem)
 		temp.y1 = elem->coord.y;
 		temp.x2 = ft_clamp(temp.x1 + elem->surface->w, 0, win->surface->w);
 		temp.y2 = ft_clamp(temp.y1 + elem->surface->h, 0, win->surface->h);
-		elem->old_state = 365;
-		ft_update_element(elem);
 		// this while loop is faster than the ft_create_square
 		while (temp.x1 < temp.x2)
 		{
@@ -91,14 +89,10 @@ void	ui_render_element(SDL_Surface *win, t_element *elem)
 	{
 		temp.x = elem->rel_coord.x + elem->offset_x;
 		temp.y = elem->rel_coord.y + elem->offset_y;
-		ft_update_element(elem);
 		SDL_BlitSurface(elem->surface, NULL, elem->parent_elem->surface, &temp);
 	}
 	else
-	{
-		ft_update_element(elem);
 		SDL_BlitSurface(elem->surface, NULL, win, &temp);
-	}
 }
 
 void	ui_recalc_elem(t_element *elem)
@@ -120,6 +114,12 @@ void	ui_render(t_window *win)
 	t_list *curr;
 	t_element *elem;
 	
+	curr = win->elements;
+	while (curr != NULL)
+	{
+		ft_update_element(curr->content);
+		curr = curr->next;
+	}
 	curr = win->elements;
 	while (curr != NULL)
 	{

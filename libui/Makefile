@@ -47,8 +47,9 @@ SRCS = ft_test_libui.c\
 	   ft_set_element_image.c\
 	   ft_min_max.c\
 	   ui_create_scrollbar.c\
+	   ft_set_font.c\
 	   free.c\
-		extra_help.c
+	   extra_help.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
 #FLAGS = -Wall -Wextra -Werror

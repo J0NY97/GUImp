@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 12:26:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/06 13:31:59 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/16 11:35:05 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	ft_read_text(t_element *elem, int size)
 				elem->text.text = ft_strjoin(tmp, event.text.text);
 				free(tmp);
 			}
-			elem->old_state = 500;
 			ui_render(elem->extra_info);
 			key_state = 0;
 		}
@@ -44,7 +43,6 @@ void	ft_read_text(t_element *elem, int size)
 			elem->text.text[char_nbr] = '\0';
 			char_nbr -= 1;
 			key_state = -1;
-			elem->old_state = 500;
 			ui_render(elem->extra_info);
 		}
 		SDL_PollEvent(&event);
