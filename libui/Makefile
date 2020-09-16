@@ -48,6 +48,7 @@ SRCS = ft_test_libui.c\
 	   ft_min_max.c\
 	   ui_create_scrollbar.c\
 	   ft_set_font.c\
+	   get_color.c\
 	   free.c\
 	   dir_open.c\
 	   dir_explorer.c\

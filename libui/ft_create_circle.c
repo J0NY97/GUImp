@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 15:06:09 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/12 17:00:07 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 14:08:24 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ static inline void full_or_empty(SDL_Surface *surf, Uint32 color, t_shapes l)
 		ft_create_line(surf, color, l);
 	else
 	{
-		set_blended_pixel(surf, l.x2, l.y2, color);
-		set_blended_pixel(surf, l.x1, l.y1, color);
+//		set_blended_pixel(surf, l.x2, l.y2, color);
+//		set_blended_pixel(surf, l.x1, l.y1, color);
+		set_pixel(surf, l.x2, l.y2, color);
+		set_pixel(surf, l.x1, l.y1, color);
 	}
 }
 

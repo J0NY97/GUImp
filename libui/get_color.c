@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input.c                                            :+:      :+:    :+:   */
+/*   get_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/10 14:31:07 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/10 14:49:28 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/09/16 15:56:30 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/09/16 15:56:49 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "guimp.h"
+#include "libui.h"
 
-void	check_input(t_info *info)
+Uint32  get_color(SDL_Surface *surface, int x, int y)
 {
-	while (SDL_PollEvent(&info->event) != 0)
-	{
-		SDL_Keycode keypressed;
-		if (info->event.type == SDL_QUIT || info->event.key.keysym.sym == SDLK_ESCAPE)
-			info->run = 0;
-	}
+    Uint32 *pixels;
+
+	pixels = surface->pixels;
+	return (pixels[y * surface->w + x]);
 }

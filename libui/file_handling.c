@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 15:55:38 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 12:18:21 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/16 14:23:09 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ SDL_Surface		*load_image(char *file)
 {
 	SDL_Surface *img;
 
-	img = IMG_Load(file);
-	if (!img)
+	if (!(img = IMG_Load(file)))
+	{
 		printf("IMG_Load: %s\n", IMG_GetError());
+		return (NULL);
+	}
 	return (img);
 }
 

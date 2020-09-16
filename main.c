@@ -344,7 +344,6 @@ void	drop_down_init(t_info *info)
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[1], &temp);
-	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[2], &temp);
 	SDL_FreeSurface(icon);
 	// item2
 	ft_drop_down_add_item(info->drop_down, "Guimp-icon");
@@ -352,7 +351,6 @@ void	drop_down_init(t_info *info)
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[1], &temp);
-	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[2], &temp);
 	SDL_FreeSurface(icon);
 
 	// this have to be called after all the items have been added other wise if you edite the items they wont be updated
@@ -424,7 +422,7 @@ void	menu_init(t_info *info)
 	info->brush_menu->f = NULL;
 	info->brush_menu->text = ft_default_text("Brush buttons");
 	info->brush_menu->text.x = 5;
-	ft_set_font(info->brush_menu->text, "font.tff", 20);
+	ft_set_font(&info->brush_menu->text, "font.ttf", 20);
 	ft_update_elem_background(info->brush_menu, 0xffa9a9a9);
 
 	coord = ui_init_coords(40, 305, 400, 380);
@@ -433,7 +431,7 @@ void	menu_init(t_info *info)
 	info->col_menu->f = NULL;
 	info->col_menu->text = ft_default_text("Brush modifier");
 	info->col_menu->text.x = 5;
-	ft_set_font(info->col_menu->text, "font.tff", 20);
+	ft_set_font(&info->col_menu->text, "font.ttf", 20);
 	ft_update_elem_background(info->col_menu, 0xffa9a9a9);
 
 	coord = ui_init_coords(40, 710, 400, 100);
@@ -444,7 +442,7 @@ void	menu_init(t_info *info)
 	info->shape_menu->bg_color = 0xffa9a9a9;
 	info->shape_menu->text.x = 5;
 	ft_update_background(info->shape_menu->states[0], 0xffa9a9a9);
-	ft_set_font(info->shape_menu->text, "font.tff", 20);
+	ft_set_font(&info->shape_menu->text, "font.ttf", 20);
 
 	coord = ui_init_coords(50, 50, 400, 1150);
 	info->layer_menu = ui_create_surface(info->layers->window, coord, NULL);
@@ -452,7 +450,7 @@ void	menu_init(t_info *info)
 	info->layer_menu->f = NULL;
 	info->layer_menu->text = ft_default_text("Layers");
 	info->layer_menu->text.x = 5;
-	ft_set_font(info->layer_menu->text, "font.ttf", 20);
+	ft_set_font(&info->layer_menu->text, "font.ttf", 20);
 	ft_update_elem_background(info->layer_menu, 0xffa9a9a9);
 
 	// scrollbar
@@ -483,7 +481,7 @@ void	update_layers(t_info *info)
 		new_surface = ft_scale_surface_aspect(info->drawing_surface[i]->surface,
 											info->layer_layers[i]->surface->w,
 											info->layer_layers[i]->surface->h);
-		SDL_BlitSurface(new_surface, NULL, info->layer_layers[i]->states[0], NULL);
+		SDL_BlitSurface(new_surface, NULL, info->layer_layers[i]->surface, NULL);
 		SDL_FreeSurface(new_surface);
 	}
 	for (int i = 0; i < info->layer_amount; i++)
@@ -505,17 +503,17 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 	ft_update_background(info->hidden_surface->surface, 0x00000000);
 	if (libui->event.window.windowID == info->main->window->id)
 	{	
-		if (info->brush.type == 1)
+		if (info->brush.type == 1) // pencil
 		{
 			l.fill = 0;
 			ft_create_circle(info->hidden_surface->surface, info->brush.color, l);
 		}
-		else if (info->brush.type == 2)
+		else if (info->brush.type == 2) // text
 		{
 			l.color = info->brush.color;
 			text_to_screen(info->hidden_surface->surface, l, info->brush.str, info->brush.font_dir);
 		}
-		else if (info->brush.type == 3)
+		else if (info->brush.type == 3) // eraser
 		{
 			l.fill = 1;
 			ft_create_circle(info->hidden_surface->surface, info->drawing_surface[info->brush.selected_layer]->bg_color, l);
@@ -558,9 +556,9 @@ int		main(void)
 
 	if (!(libui = (t_libui *)malloc(sizeof(t_libui))))
 		exit (0);
-	ui_libui_init(libui);
 	if (!(info = (t_info *)malloc(sizeof(t_info))))
 		exit (0);
+	ui_libui_init(libui);
 	guimp_init(info);
 	tooltips_load(info);
 	shape_load(info);
@@ -582,7 +580,7 @@ int		main(void)
 	//#include <dirent.h>
 	//printf("%s\n", dir_open(0, 0, "./", DT_REG));
 
-	while (info->run)
+	while (libui->run)
 	{
 		ft_event_poller(libui); // input
 		drag_drop_thing(info, libui);
@@ -593,6 +591,11 @@ int		main(void)
 		ui_render(info->main->window);
 		ui_render(info->layers->window);
 	}
-	// cleanup()
+	printf("bye!");
+	// guimp_quit(info); // cleanup the quimp stuff
+	// libui_quit(libui); // cleanup the libui stuff
+	IMG_Quit();
+	TTF_Quit();
+	SDL_Quit();
 	return (0);
 }

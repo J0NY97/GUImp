@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 13:43:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/02 16:00:28 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 15:56:06 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,4 @@ void	ft_add_hotkey(t_libui *libui, SDL_Keycode key, void (*f)(SDL_Event e, t_hot
 	hotkey->key = key;
 	hotkey->f = f;
 	ft_add_hotkey_to_list(libui, hotkey);
-//	ft_add_x_to_list(libui->hotkeys, hotkey, sizeof(t_hotkey));
 }

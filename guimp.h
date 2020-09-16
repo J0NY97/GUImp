@@ -125,25 +125,16 @@ struct			s_info
 };
 
 void			event_handler(t_info *info);
-void			check_input(t_info *info);
 void			draw(SDL_Event event, t_element *elem);
 void			text_to_screen(SDL_Surface *surface, t_shapes l, char *str, char *font_dir);
 int				load_font(char *file, TTF_Font *font);
 void			zoom_and_move(t_element *elem, SDL_Event event, int org_w, int org_h);
-
 void			trace_shape(t_info *info);
 void			select_shape(SDL_Surface *surf, t_brush *brush);
-
 void			shape_buttons_init(t_info *info);
-
 void			draw_buttons(SDL_Event e, t_element *elem);
-
 void			shape_load(t_info *info);
 void			tooltips_load(t_info *info);
 void			sticker_load(t_info *info);
 
-/*
-** Boonus
-*/
-char				*ft_strjoiner(char *first, ...);
 #endif
