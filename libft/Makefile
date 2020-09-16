@@ -6,7 +6,7 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/17 15:28:58 by jsalmi            #+#    #+#              #
-#    Updated: 2020/08/27 16:57:31 by nneronin         ###   ########.fr        #
+#    Updated: 2020/09/16 13:15:59 by nneronin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,15 +87,18 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME):
-	gcc -c $(SRCS) $(FLAGS)
-	ar rc $(NAME) $(OBJS)
-	ranlib $(NAME)
+	@gcc -c $(SRCS) $(FLAGS)
+	@ar rc $(NAME) $(OBJS)
+	@ranlib $(NAME)
+	@/bin/rm -f $(OBJS)
+	@echo "libft was successfully created."
 
 clean:
-	/bin/rm -f $(OBJS)
+	@/bin/rm -f $(OBJS)
+	@echo "$(NAME) was cleaned."
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@/bin/rm -f $(NAME)
 
 re: fclean all
 
