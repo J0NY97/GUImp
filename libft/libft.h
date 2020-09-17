@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:44:05 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/08/27 16:58:18 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/17 16:21:12 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ int					ft_strchrlen(const char *str, int c);
 int					ft_atoi_base(const char *str, int str_base);
 size_t				ft_strspn(const char *s, const char *accept);
 int					ft_nstrstr(char *str1, char *str2);
+char				*ft_strndup(const char *s1, size_t len);
 
 #endif
