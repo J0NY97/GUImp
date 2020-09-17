@@ -5,6 +5,7 @@ SRCS = ./main.c\
 		./zoom_and_move.c\
 		./shapes.c\
 		./shape_button_init.c\
+		./guimp_quit.c\
 		./load_icons.c
 OBJS = ./*.o
 INCLUDES = ./libft/libft.a\

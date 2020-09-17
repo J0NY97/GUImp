@@ -567,7 +567,7 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 	}
 }
 
-int		main(void)
+int		fake_main(void)
 {
 	t_libui *libui;
 	t_info *info;
@@ -597,9 +597,10 @@ int		main(void)
 	//#include <dirent.h>
 	//printf("%s\n", dir_open(0, 0, "./", DT_REG));
 
-	while (libui->run)
+	while (info->run)
 	{
 		ft_event_poller(libui); // input
+		info->run = libui->quit != 1;
 		drag_drop_thing(info, libui);
 		update_brush(info);
 		update_layers(info);
@@ -609,10 +610,17 @@ int		main(void)
 		ui_render(info->layers->window);
 	}
 	printf("bye!");
-	// guimp_quit(info); // cleanup the quimp stuff
-	// libui_quit(libui); // cleanup the libui stuff
+//	guimp_quit(info); // cleanup the quimp stuff
+//	libui_quit(libui); // cleanup the libui stuff
 	IMG_Quit();
 	TTF_Quit();
 	SDL_Quit();
+	return (0);
+}
+
+int main(void)
+{
+	fake_main();
+	while(1);
 	return (0);
 }

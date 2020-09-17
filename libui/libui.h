@@ -43,7 +43,7 @@ typedef struct	s_libui
 	t_list		*windows;
 	t_list		*hotkeys;
 	char		*drag_file;
-	int			run;
+	int			quit;
 }				t_libui;
 
 struct			s_hotkey
@@ -62,7 +62,6 @@ struct			s_text
 	char		*text;
 	int			set_text;
 	TTF_Font	*font;
-	SDL_Surface *surface;
 	SDL_Surface *parent;
 };
 
@@ -193,6 +192,7 @@ void			ft_test_libui(void);
 /*
  ** EXTRA
 */
+void			libui_quit(t_libui *libui);
 void			push_list(t_list **lst, void *content, size_t content_size);
 void			*pop_list(t_list **lst);
 char			*drag_and_drop(SDL_Event e);
@@ -286,6 +286,6 @@ void			ft_button_handler(SDL_Event e, t_element *elem);
 void			default_click(SDL_Event e, t_element *elem);
 int				ft_keyboard_handler(t_libui *libui);
 
-t_list				*dir_explorer(char *folder_path, unsigned char type, int *size);
-char				*dir_open(int x1, int y1, char *folder_path, unsigned char type);
+t_list			*dir_explorer(char *folder_path, unsigned char type, int *size);
+char			*dir_open(int x1, int y1, char *folder_path, unsigned char type);
 #endif
