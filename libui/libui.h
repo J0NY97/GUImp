@@ -287,5 +287,5 @@ void			default_click(SDL_Event e, t_element *elem);
 int				ft_keyboard_handler(t_libui *libui);
 
 t_list				*dir_explorer(char *folder_path, unsigned char type, int *size);
-char				*dir_open(int x1, int y1, char *folder_path, unsigned char type);
+char				*dir_open(char *folder_path, unsigned char type);
 #endif
