@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 12:07:14 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 17:08:16 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/17 13:15:29 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ t_element		*ft_create_element(t_element_info info)
 	elem->f = info.f;
 	elem->event_handler = info.event_handler;
 	elem->statique = 0;
-	elem->set_text = info.set_text;
-	elem->text = info.text;
+	elem->text.set_text = 0;
+	elem->text.text = NULL;
+	elem->text.font = NULL;
 	elem->default_state = 0;
 	elem->state = 0;
 	elem->loop = 0;

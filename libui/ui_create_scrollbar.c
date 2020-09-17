@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 10:55:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 16:55:29 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/17 12:44:05 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ t_element	*ui_create_scrollbar(t_window *win, t_element *parent)
 	info.f = &ft_scrollbar_function;
 	info.info = (t_slider *)malloc(sizeof(t_slider));
 	info.info_size = 0;
-	info.set_text = 0;
-	info.text = ft_default_text("scroll");
 	info.extra_info = parent;
 	elem = ft_create_element(info);
 	ft_add_element_to_window_elements(win, elem);

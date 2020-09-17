@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 13:20:36 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/17 13:39:24 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ void		init_button(t_window *win, int elem_nb, t_list *list)
 	{
 		coord = ui_init_coords(50, coord.y + 25 + coord.h, 250, 50);
 		ui_create_button(win, coord, NULL);
-		//ft_strdel(&((t_element *)win->elements->content)->text.text); //betterer fix
-		((t_element *)win->elements->content)->text = ft_default_text(curr->content);
+		ft_set_text(&((t_element *)win->elements->content)->text, curr->content);
 		curr = curr->next;
 		((t_element *)win->elements->content)->text.centered = 1;
 		((t_element *)win->elements->content)->f = &button1;
