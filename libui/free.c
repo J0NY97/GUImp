@@ -6,22 +6,36 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 13:43:34 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 11:42:47 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/17 13:08:52 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
+void	free_text(t_text *text)
+{
+	ft_strdel(&text->text);
+	TTF_CloseFont(text->font);
+	text->font = NULL; // to be safe...
+	text->parent = NULL;
+	//text->surface = NULL; jony frear nonstans
+
+}
+
 void	free_element(t_element *elem)
 {
 	free(elem->info);
-	ft_strdel(&elem->text.text);
-	TTF_CloseFont(elem->text.font);
-	elem->text.font = NULL; // to be safe...
+	//ft_strdel((char **)&elem->extra_info);//idk
+	elem->extra_info = NULL;
+
+	free_text(&elem->text);
+
 	SDL_FreeSurface(elem->surface);
 	SDL_FreeSurface(elem->states[2]);
 	SDL_FreeSurface(elem->states[1]);
 	SDL_FreeSurface(elem->states[0]);
+	elem->parent_elem = NULL;
+	elem->parent = NULL;
 	free(elem);
 }
 

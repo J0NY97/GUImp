@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 12:04:32 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/17 13:20:36 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void		init_button(t_window *win, int elem_nb, t_list *list)
 {
 	int i;
 	t_list *curr;
-	t_list *tmp;
 	t_xywh coord;
 
 	i = -1;
@@ -43,6 +42,7 @@ void		init_button(t_window *win, int elem_nb, t_list *list)
 	{
 		coord = ui_init_coords(50, coord.y + 25 + coord.h, 250, 50);
 		ui_create_button(win, coord, NULL);
+		//ft_strdel(&((t_element *)win->elements->content)->text.text); //betterer fix
 		((t_element *)win->elements->content)->text = ft_default_text(curr->content);
 		curr = curr->next;
 		((t_element *)win->elements->content)->text.centered = 1;
@@ -67,11 +67,12 @@ char		*dir_open(int x1, int y1, char *folder_path, unsigned char type)
 	list = dir_explorer(folder_path, type, &elem_nb);
 
 	test.coord = ui_init_coords(0, 0, 350, 25 + (elem_nb * 75));
-	test.title = ft_strdup(folder_path); //font dir later on
+	test.title = ft_strdup(folder_path); //free in ft_create_window
 	win = ft_create_window(libui, test);
 	ft_update_background(win->surface, 0xffECECEC);
 	init_button(win, elem_nb, list);
 	ft_lstdel(&list, &del);
+
 
 	t_list *curr;
 	curr = win->elements;
