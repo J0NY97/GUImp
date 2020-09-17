@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 14:38:39 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/17 15:02:12 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ t_window		*init_dir_win(t_libui *libui, char *folder_path, unsigned char type)
 	t_window_info	test;
 	t_window		*win;
 
-	list = dir_explorer(folder_path, type, &elem_nb);
+	if ((list = dir_explorer(folder_path, type, &elem_nb)) == NULL)
+		return (NULL);
 	test.coord = ui_init_coords(0, 0, 350, 25 + (elem_nb * 75));
 	popup_coord(&test.coord.x, &test.coord.y,  350, 25 + (elem_nb * 75));
 	test.title = ft_strdup(folder_path);
@@ -86,7 +87,8 @@ char		*dir_open(char *folder_path, unsigned char type)
 	libui->windows = NULL;
 	libui->hotkeys = NULL;
 	result = NULL;
-	win = init_dir_win(libui, folder_path, type);
+	if ((win = init_dir_win(libui, folder_path, type)) == NULL)
+		return (NULL);
 	list = win->elements;
 	while (list)
 	{

@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:15:15 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 13:21:11 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/17 16:06:39 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_window	*ft_create_window(t_libui *libui, t_window_info info)
 	new_window->elements = NULL;
 	new_window->bg_color = info.bg_color;
 	ft_strdel(&info.title);
-	free(info.title);
+	free(info.title); //probably useless
 	ft_add_window_to_libui_windows(libui, new_window);
 	return (new_window);
 }

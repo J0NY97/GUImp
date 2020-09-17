@@ -286,6 +286,7 @@ void			ft_button_handler(SDL_Event e, t_element *elem);
 void			default_click(SDL_Event e, t_element *elem);
 int				ft_keyboard_handler(t_libui *libui);
 
-t_list				*dir_explorer(char *folder_path, unsigned char type, int *size);
-char				*dir_open(char *folder_path, unsigned char type);
+t_list			*dir_explorer(char *folder_path, unsigned char type, int *size);
+char			*dir_open(char *folder_path, unsigned char type);
+void			popup_coord(int *x, int *y, int w, int h);
 #endif
