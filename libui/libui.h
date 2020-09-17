@@ -259,6 +259,7 @@ void			ft_drop_down_function(SDL_Event e, t_element *elem);
 void			ft_set_slider_value(t_element *elem, int new_value);
 void			ft_set_element_image(t_element *elem, SDL_Surface *img);
 void			ft_set_font(t_text *text, char *font, int size);
+void			ft_set_text(t_text *text, char *txt);
 void			ft_update_elem_background(t_element *elem, Uint32 color);
 /*
  ** Render

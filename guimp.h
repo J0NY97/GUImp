@@ -104,6 +104,7 @@ struct			s_info
 	t_element	*text_area;
 	t_element	*save_button;
 	t_element	*new_layer_button;
+	t_element	*clear_workspace;
 	t_element	*font_button;
 	t_element	*drop_down;
 	t_element	*font_down;
