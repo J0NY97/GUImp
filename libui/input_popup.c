@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/16 11:36:19 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/17 13:16:55 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void		init_button(t_window *win, t_element *buttons[2])
 	buttons[2]->text.y = 10;
 	buttons[2]->text.x = 10;
 	buttons[2]->text.parent = win->surface;
-	buttons[2]->set_text = 1;
+	buttons[2]->text.set_text = 1;
 	buttons[2]->f = &text_area;
 	buttons[2]->extra_info = win->win;
 

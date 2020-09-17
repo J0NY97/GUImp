@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 11:18:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 16:58:41 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/17 12:44:17 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ t_element	*ui_create_slider(t_window *win, t_xywh rel_coord, t_element *parent, 
 	info.f = &ft_slider_function;
 	info.info = (t_slider *)malloc(sizeof(t_slider));
 	info.info_size = 0; 
-	info.set_text = 0;
-	info.text = ft_default_text(NULL); 
 	if ((elem = ft_create_element(info)) == NULL)
 		ft_putstr("Slider coulndt be created!\n");
 	ft_add_element_to_window_elements(win, elem);

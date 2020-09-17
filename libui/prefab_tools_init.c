@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 11:38:42 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 15:32:00 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/17 13:17:14 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,16 @@ t_element	*prefab_tools_init(t_window *win, int x, int y)
 
 	coords = ui_init_coords(x, y, 150, 100);
 	menu = ui_create_surface(win, coords, NULL);
-	menu->set_text = 1;
-	menu->text = ft_default_text("Tools menu");
+	menu->text.set_text = 1;
+	ft_set_text(&menu->text, "Tools menu");
 	menu->bg_color = 0xffa9a9a9;
 	ft_update_background(menu->states[0], menu->bg_color);
-	TTF_CloseFont(menu->text.font);
-	menu->text.font = TTF_OpenFont("font.ttf", 20);
+	ft_set_font(&menu->text, "font.ttf", 20);
 	ft_update_element(menu);
 
 	coords = ui_init_coords(25, 25, 100, 50);
 	quit = ui_create_button(win, coords, menu);
-	quit->text = ft_default_text("Quit");
+	ft_set_text(&quit->text, "Quit");
 	quit->f = &ft_quit;
 	quit->text.centered = 1;
 	ft_update_element(quit);

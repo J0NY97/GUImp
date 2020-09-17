@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:47:20 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 16:56:22 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/17 12:32:50 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ t_element *ui_create_drop(t_window *win, t_xywh rel_coord, t_element *parent)
 	info.info = (t_drop_down *)malloc(sizeof(t_drop_down));
 	info.info_size = 0;
 	info.f = &ft_drop_down_function;
-	info.set_text = 1;
-	info.text = ft_default_text("drip drawp");
 	elem = ft_create_element(info);
 	ft_add_element_to_window_elements(win, elem);
 	{

@@ -60,6 +60,7 @@ struct			s_text
 	int			margin; // maximum width of the text (parent->w - margin)
 	int			centered;
 	char		*text;
+	int			set_text;
 	TTF_Font	*font;
 	SDL_Surface *surface;
 	SDL_Surface *parent;
@@ -101,7 +102,6 @@ struct	s_element
 	void		*extra_info;
 	void		(*f)(SDL_Event, t_element *);
 	int			(*event_handler)(SDL_Event, t_element *);
-	int			set_text;
 	int			loop;
 	t_text		text;
 	t_element	*parent_elem;
@@ -245,7 +245,7 @@ t_element		*ui_create_slider(t_window *win, t_xywh coord, t_element *parent, int
 t_element		*ui_create_drop(t_window *win, t_xywh coord, t_element *elem);
 t_element		*ui_create_scrollbar(t_window *win, t_element *elem);
 t_xywh			ui_init_coords(int x, int y, int w, int h);
-t_text			ft_default_text(char *txt);
+void			ft_default_text(t_text *text, char *txt);
 /*
  ** UI HELP
 */

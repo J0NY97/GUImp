@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 10:57:10 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/10 14:28:50 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/17 12:15:24 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_element_info		ft_default_elem_info(t_window *win, t_xywh rel_coord, t_element 
 
 	info.rel_coord = rel_coord;
 	info.parent_elem = parent;
-	info.z_buffer = 0;
 	if (win)
 		info.parent = win->surface;
 	info.f = &default_click;

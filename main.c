@@ -145,7 +145,7 @@ void	layer_init(t_info *info)
 		coord = ui_init_coords(50, i * 200 + (i * 25) + 25, info->layer_menu->surface->w - 100, 200);
 		info->layer_buttons[i] = ui_create_button(info->layers->window, coord, info->layer_menu);
 		info->layer_buttons[i]->f = &change_selected_layer;
-		info->layer_buttons[i]->set_text = 0;
+		info->layer_buttons[i]->text.set_text = 0;// might be redundant
 		info->layer_buttons[i]->extra_info = info->layer_buttons;
 		((t_button *)info->layer_buttons[i]->info)->extra = &info->layer_amount;
 		// the area where the layers are shown on
@@ -439,37 +439,33 @@ void	menu_init(t_info *info)
 
 	coord = ui_init_coords(40, 25, 400, 255);
 	info->brush_menu = ui_create_surface(info->toolbox->window, coord, NULL);
-	info->brush_menu->set_text = 1;
 	info->brush_menu->f = NULL;
-	info->brush_menu->text = ft_default_text("Brush buttons");
+	ft_set_text(&info->brush_menu->text, "Brush buttons");
 	info->brush_menu->text.x = 5;
 	ft_set_font(&info->brush_menu->text, "font.ttf", 20);
 	ft_update_elem_background(info->brush_menu, 0xffa9a9a9);
 
 	coord = ui_init_coords(40, 305, 400, 380);
 	info->col_menu = ui_create_surface(info->toolbox->window, coord, NULL);
-	info->col_menu->set_text = 1;
 	info->col_menu->f = NULL;
-	info->col_menu->text = ft_default_text("Brush modifier");
+	ft_set_text(&info->col_menu->text, "Brush modifier");
 	info->col_menu->text.x = 5;
 	ft_set_font(&info->col_menu->text, "font.ttf", 20);
 	ft_update_elem_background(info->col_menu, 0xffa9a9a9);
 
 	coord = ui_init_coords(40, 710, 400, 100);
 	info->shape_menu = ui_create_surface(info->toolbox->window, coord, NULL);
-	info->shape_menu->set_text = 1;
 	info->shape_menu->f = NULL;
-	info->shape_menu->text = ft_default_text("Shapes modifier");
 	info->shape_menu->bg_color = 0xffa9a9a9;
-	info->shape_menu->text.x = 5;
 	ft_update_background(info->shape_menu->states[0], 0xffa9a9a9);
+	ft_set_text(&info->shape_menu->text, "Shapes modifier");
 	ft_set_font(&info->shape_menu->text, "font.ttf", 20);
+	info->shape_menu->text.x = 5;
 
 	coord = ui_init_coords(50, 50, 400, 1150);
 	info->layer_menu = ui_create_surface(info->layers->window, coord, NULL);
-	info->layer_menu->set_text = 1;
 	info->layer_menu->f = NULL;
-	info->layer_menu->text = ft_default_text("Layers");
+	ft_set_text(&info->layer_menu->text, "Layers");
 	info->layer_menu->text.x = 5;
 	ft_set_font(&info->layer_menu->text, "font.ttf", 20);
 	ft_update_elem_background(info->layer_menu, 0xffa9a9a9);
