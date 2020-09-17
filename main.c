@@ -595,7 +595,9 @@ int		fake_main(void)
 										info->toolbox->window->surface->w - 175,
 										info->toolbox->window->surface->h - 125);
 	//#include <dirent.h>
-	//printf("%s\n", dir_open(0, 0, "./", DT_REG));
+	//char *str;
+	//printf("%s\n", str = dir_open("./", DT_REG));
+	//free(str);
 
 	while (info->run)
 	{
