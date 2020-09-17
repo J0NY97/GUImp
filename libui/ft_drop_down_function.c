@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:54:31 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 12:07:11 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 17:22:47 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	ft_drop_item_function(SDL_Event e, t_element *elem)
 void	ft_update_drop(t_element *elem)
 {
 	t_drop_down *dd;
+	t_element *item;
+	SDL_Rect	temp;
 
 	dd = elem->info;
 	SDL_FreeSurface(elem->states[1]);
@@ -41,14 +43,12 @@ void	ft_update_drop(t_element *elem)
 	ft_update_background(elem->states[1], 0xff00ff00);
 	for (int i = 0; i < dd->item_amount; i++)
 	{
-		t_element *item;
-		SDL_Rect	temp;
-
 		item = dd->items[i];
 		temp.x = item->rel_coord.x;
 		temp.y = item->rel_coord.y;
 		temp.w = item->rel_coord.w;
 		temp.h = item->rel_coord.h;
+		ft_update_element(dd->items[i]);
 		SDL_BlitSurface(item->surface, NULL, elem->states[1], &temp);
 	}
 }

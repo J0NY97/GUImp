@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 11:11:57 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/16 12:07:37 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/16 16:13:50 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ void	ft_drop_down_add_item(t_element *drop, char *name)
 	new_item.set_text = name != NULL;
 	if (name != NULL)
 		new_item.text = ft_default_text(name);
-	{ // t_drop_item specific
-		((t_drop_item *)new_item.info)->item_nbr = dd->item_amount;
-	}
+	((t_drop_item *)new_item.info)->item_nbr = dd->item_amount;
 	dd->items[dd->item_amount] = ft_create_element(new_item);
 	dd->item_amount += 1;
 	ft_update_drop(drop);
