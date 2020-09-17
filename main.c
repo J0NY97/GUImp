@@ -58,7 +58,7 @@ void	tool_buttons_init(t_info *info)
 	// text	
 	coord = ui_init_coords(150, 25, 100, 50);
 	info->buttons[1] = ui_create_button(info->toolbox->window, coord, info->brush_menu);
-	info->buttons[1]->text.text = ft_strdup("Text");
+	ft_set_text(&info->buttons[1]->text, "Text");
 
 	// deletion
 	coord = ui_init_coords(275, 25, 100, 50);
@@ -276,6 +276,22 @@ void	add_new_layer(SDL_Event e, t_element *elem)
 	}
 }
 
+void	reset_workspace(SDL_Event e, t_element *elem)
+{
+	t_element **surfaces;
+
+	surfaces = elem->extra_info;
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+	{
+		printf("clicketi click clock\n");
+		for (int i = 0; i < 5; i++)
+		{
+			SDL_FreeSurface(surfaces[i]->surface);
+			surfaces[i]->surface = ft_create_rgba_surface(surfaces[i]->coord.w, surfaces[i]->coord.h);
+		}
+	}
+}
+
 void	utility_init(t_info *info)
 {
 	t_xywh coord;
@@ -287,26 +303,31 @@ void	utility_init(t_info *info)
 	// save_button
 	coord = ui_init_coords(25, 25, 100, 50);
 	info->save_button = ui_create_button(info->toolbox->window, coord, menu);
-	info->save_button->text.text = ft_strdup("Save");
+	ft_set_text(&info->save_button->text, "Save");
 	info->save_button->text.centered = 1;
 	info->save_button->f = &save_img;
 	info->save_button->extra_info = info->drawing_surface[0];
 	// new layer button
 	coord = ui_init_coords(150, 25, 100, 50);
 	info->new_layer_button = ui_create_button(info->toolbox->window, coord, menu);
-	info->new_layer_button->text.text = ft_strdup("New layer");
+	ft_set_text(&info->new_layer_button->text, "New layer");
 	info->new_layer_button->text.centered = 1;
 	info->new_layer_button->f = &add_new_layer;
 	info->new_layer_button->extra_info = &info->layer_amount;
 	// text input area
 	coord = ui_init_coords(40, 1000, 400, 50);
 	info->text_area = ui_create_button(info->toolbox->window, coord, NULL);
-	info->text_area->text.text = ft_strdup("Print Text");
+	ft_set_text(&info->text_area->text, "Print Text");
+	info->text_area->text.centered = 1;
 	info->text_area->f = &text_area;
-	info->text_area->text.y = 10;
-	info->text_area->text.x = 10;
-	info->text_area->set_text = 1;
 	info->text_area->extra_info = info->toolbox->window;
+	// clear workspace
+	coord = ui_init_coords(40, 1100, 100, 50);
+	info->clear_workspace = ui_create_button(info->toolbox->window, coord, NULL);
+	ft_set_text(&info->clear_workspace->text, "Clear");
+	info->clear_workspace->text.centered = 1;
+	info->clear_workspace->f = &reset_workspace;
+	info->clear_workspace->extra_info = info->drawing_surface;
 }
 
 void	key_press(SDL_Event e, t_hotkey *hotkey)
@@ -336,7 +357,7 @@ void	drop_down_init(t_info *info)
 	// STICKER SELECTION DROP DOWN
 	coord = ui_init_coords(25, 200, 162, 32);
 	info->drop_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
-	info->drop_down->text.text = ft_strdup("Sticker select");
+	ft_set_text(&info->drop_down->text, "Sticker select");
 	info->drop_down->text.x = 10;
 	// item1
 	ft_drop_down_add_item(info->drop_down, "Minion");
@@ -360,7 +381,7 @@ void	drop_down_init(t_info *info)
 	// FONT SELECTION DROP DOWN
 	coord = ui_init_coords(212, 200, 162, 32);
 	info->font_down = ui_create_drop(info->toolbox->window, coord, info->col_menu);
-	info->font_down->text.text = ft_strdup("Font select");
+	ft_set_text(&info->font_down->text, "Font select");
 	info->font_down->text.x = 10;
 
 	ft_drop_down_add_item(info->font_down, "font.ttf");
@@ -484,6 +505,7 @@ void	update_layers(t_info *info)
 		SDL_BlitSurface(new_surface, NULL, info->layer_layers[i]->surface, NULL);
 		SDL_FreeSurface(new_surface);
 	}
+	ft_update_background(info->screen_surface->surface, info->drawing_surface[0]->bg_color);
 	for (int i = 0; i < info->layer_amount; i++)
 	{
 		SDL_BlitScaled(info->drawing_surface[i]->surface, NULL, info->screen_surface->surface, NULL);

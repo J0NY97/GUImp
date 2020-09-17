@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_icon.c                                          :+:      :+:    :+:   */
+/*   ft_set_text.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/05 11:25:20 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 11:25:50 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/09/17 11:57:43 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/09/17 11:59:42 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ft_set_icon(SDL_Window *window, char *dir)
+void	ft_set_text(t_text *text, char *txt)
 {
-	SDL_Surface *icon;
-
-	if ((icon = load_image(dir)) == NULL)
-		exit (0);
-	SDL_SetWindowIcon(window, icon);
-	SDL_FreeSurface(icon);
+	if (text->text)
+		free(text->text);
+	text->text = ft_strdup(txt);
 }
