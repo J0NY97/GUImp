@@ -9,8 +9,7 @@
 # include "../include/SDL2/SDL.h"
 # include "../include/SDL2/SDL_ttf.h"
 # include "../include/SDL2/SDL_image.h"
-
-#include <time.h>
+# include <dirent.h>
 
 typedef struct	s_window_info	t_window_info;
 typedef struct	s_window		t_window;
@@ -43,7 +42,7 @@ typedef struct	s_libui
 	t_list		*windows;
 	t_list		*hotkeys;
 	char		*drag_file;
-	int			run;
+	int			quit;
 }				t_libui;
 
 struct			s_hotkey
@@ -62,7 +61,6 @@ struct			s_text
 	char		*text;
 	int			set_text;
 	TTF_Font	*font;
-	SDL_Surface *surface;
 	SDL_Surface *parent;
 };
 
@@ -193,6 +191,7 @@ void			ft_test_libui(void);
 /*
  ** EXTRA
 */
+void			libui_quit(t_libui *libui);
 void			push_list(t_list **lst, void *content, size_t content_size);
 void			*pop_list(t_list **lst);
 char			*drag_and_drop(SDL_Event e);

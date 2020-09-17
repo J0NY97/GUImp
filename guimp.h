@@ -11,23 +11,6 @@
 #define POS(n) ((n) < 0 ? 0 - (n) : (n))
 
 typedef struct	s_info	t_info;
-/*
-	**	type; 	0 = deletion
-				1 = circle
-				2 = square
-				3 = ...
-	**	size;	radius of the brush
-*/
-
-typedef	struct	s_more_info
-{
-	void		*data1;
-	void		*data2;
-	void		*data3;
-	void		*data4;
-	void		*data5;
-	void		*data6;
-}				t_more_info;
 
 typedef struct	s_brush
 {
@@ -52,7 +35,6 @@ typedef	struct	s_win
 {
 	t_window	*window;
 	int			elem_amount;
-	t_list		*elements;
 }				t_win;
 
 typedef	struct	s_tooltips
@@ -77,10 +59,7 @@ struct			s_info
 {
 	int			run;
 	int			draw;
-	TTF_Font	*font;
 
-	SDL_Event	event;
-	
 	t_win		*toolbox;
 	t_win		*main;
 	t_win		*layers;
@@ -137,5 +116,6 @@ void			draw_buttons(SDL_Event e, t_element *elem);
 void			shape_load(t_info *info);
 void			tooltips_load(t_info *info);
 void			sticker_load(t_info *info);
+void			guimp_quit(t_info *info);
 
 #endif

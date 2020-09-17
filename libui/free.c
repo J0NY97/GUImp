@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 13:43:34 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 14:28:44 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/17 14:42:54 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	free_text(t_text *text)
 	TTF_CloseFont(text->font);
 	text->font = NULL; // to be safe...
 	text->parent = NULL;
-	//text->surface = NULL; jony frear nonstans
-
 }
 
 void	free_element(t_element *elem)

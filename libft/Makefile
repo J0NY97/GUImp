@@ -6,7 +6,7 @@
 #    By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/17 15:28:58 by jsalmi            #+#    #+#              #
-#    Updated: 2020/09/16 13:15:59 by nneronin         ###   ########.fr        #
+#    Updated: 2020/09/17 16:20:46 by jsalmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,8 @@ SRCS = ft_memset.c\
 	   ft_atoi_base.c\
 	   get_next_line.c\
 	   ft_strspn.c\
-	   ft_nstrstr.c
+	   ft_nstrstr.c\
+	   ft_strndup.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libft.h
 FLAGS = -Wall -Wextra -Werror

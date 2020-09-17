@@ -1,23 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_libui_init.c                                    :+:      :+:    :+:   */
+/*   libui_quit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/30 14:49:35 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/17 13:55:50 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/09/17 14:14:12 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/09/17 14:36:33 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ui_libui_init(t_libui *libui)
+void	libui_quit(t_libui *libui)
 {
-	SDL_Init(SDL_INIT_VIDEO);
-	TTF_Init();
-	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
-	libui->windows = NULL;
-	libui->hotkeys = NULL;
-	libui->quit = 0;
+	t_list	*temp;
+	t_list	*curr;
+
+	curr = libui->windows;
+	while (curr)
+	{
+		temp = curr;
+		curr = curr->next;
+		free_window(temp->content);
+		temp->next = NULL;
+		free(temp);
+	}
+	// HOTKEYS
+	curr = libui->hotkeys;
+	while (curr)
+	{
+		temp = curr;
+		curr = curr->next;
+		temp->next = NULL;
+		free(temp);
+	}
+	free(libui);
 }

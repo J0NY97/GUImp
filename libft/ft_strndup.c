@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_libui_init.c                                    :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/30 14:49:35 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/17 13:55:50 by jsalmi           ###   ########.fr       */
+/*   Created: 2020/09/17 15:47:24 by jsalmi            #+#    #+#             */
+/*   Updated: 2020/09/17 16:21:35 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libui.h"
+#include "libft.h"
 
-void	ui_libui_init(t_libui *libui)
+char	*ft_strndup(const char *s1, size_t len)
 {
-	SDL_Init(SDL_INIT_VIDEO);
-	TTF_Init();
-	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
-	libui->windows = NULL;
-	libui->hotkeys = NULL;
-	libui->quit = 0;
+	size_t	counter;
+	char	*sdest;
+
+	counter = 0;
+	if (!(sdest = (char *)ft_memalloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	while (s1[counter] != '\0' && counter < len)
+	{
+		sdest[counter] = s1[counter];
+		counter++;
+	}
+	sdest[counter] = '\0';
+	return (sdest);
 }
