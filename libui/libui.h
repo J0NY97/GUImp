@@ -9,8 +9,7 @@
 # include "../include/SDL2/SDL.h"
 # include "../include/SDL2/SDL_ttf.h"
 # include "../include/SDL2/SDL_image.h"
-
-#include <time.h>
+# include <dirent.h>
 
 typedef struct	s_window_info	t_window_info;
 typedef struct	s_window		t_window;

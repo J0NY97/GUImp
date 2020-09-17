@@ -292,6 +292,38 @@ void	reset_workspace(SDL_Event e, t_element *elem)
 	}
 }
 
+void	open_button(SDL_Event e, t_element *elem)
+{
+	char *file;
+	t_brush *brush;
+	t_button *button;
+	t_element **surfaces;
+	SDL_Surface *image;
+	SDL_Rect temp;
+
+	button = elem->info;
+	brush = button->extra;
+	surfaces = elem->extra_info;
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+	{
+		file = dir_open("./", DT_REG);
+		if (file != NULL)
+		{
+			image = load_image(file);
+			if (image != NULL)
+			{
+				temp = ft_sdl_rect(0,0,image->w,image->h);
+				SDL_BlitScaled(image, NULL, surfaces[brush->selected_layer]->surface, &temp);
+				SDL_FreeSurface(image);
+			}
+			else
+				ft_putstr("open_button: image couldnt be loaded\n");
+		}
+		else
+			ft_putstr("open_button: file doesnt exist\n");
+	}
+}
+
 void	utility_init(t_info *info)
 {
 	t_xywh coord;
@@ -327,6 +359,14 @@ void	utility_init(t_info *info)
 	ft_set_text(&info->clear_workspace->text, "Clear");
 	info->clear_workspace->text.centered = 1;
 	info->clear_workspace->f = &reset_workspace;
+	info->clear_workspace->extra_info = info->drawing_surface;
+	// open button
+	coord = ui_init_coords(165, 1100, 100, 50);
+	info->clear_workspace = ui_create_button(info->toolbox->window, coord, NULL);
+	ft_set_text(&info->clear_workspace->text, "Open");
+	info->clear_workspace->text.centered = 1;
+	info->clear_workspace->f = &open_button;
+	((t_button *)info->clear_workspace->info)->extra = &info->brush;
 	info->clear_workspace->extra_info = info->drawing_surface;
 }
 
@@ -411,6 +451,7 @@ void	update_brush(t_info *info)
 									((t_slider *)info->g_slider->info)->value,
 									((t_slider *)info->b_slider->info)->value,
 									((t_slider *)info->a_slider->info)->value);
+		info->brush.shape.color = info->brush.color;
 	}
 	info->brush.size = ((t_slider *)info->size_slider->info)->value;
 	for (int i = 0; i < info->brush_button_amount; i++)
@@ -514,7 +555,8 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 	int y = libui->event.button.y;
 	t_shapes l;
 	SDL_Rect	temp;
-
+	
+	l = info->brush.shape;
 	l.x1 = x;
 	l.y1 = y;
 	l.size = info->brush.size / info->brush.aspect_x;
@@ -528,7 +570,6 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 		}
 		else if (info->brush.type == 2) // text
 		{
-			l.color = info->brush.color;
 			text_to_screen(info->hidden_surface->surface, l, info->brush.str, info->brush.font_dir);
 		}
 		else if (info->brush.type == 3) // eraser
@@ -594,14 +635,9 @@ int		fake_main(void)
 	t_element *menu = prefab_tools_init(info->toolbox->window,
 										info->toolbox->window->surface->w - 175,
 										info->toolbox->window->surface->h - 125);
-	//#include <dirent.h>
-	//char *str;
-	//printf("%s\n", str = dir_open("./", DT_REG));
-	//free(str);
-
 	while (info->run)
 	{
-		ft_event_poller(libui); // input
+		ft_event_poller(libui);
 		info->run = libui->quit != 1;
 		drag_drop_thing(info, libui);
 		update_brush(info);
