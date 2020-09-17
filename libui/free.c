@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 13:43:34 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 13:08:52 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/17 13:44:11 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	free_window(t_window *win)
 		curr = curr->next;
 		free_element(tmp->content);
 		tmp->next = NULL;
+		free(tmp);
 	}
 	free(win);
 }
