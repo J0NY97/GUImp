@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/27 16:51:09 by nneronin          #+#    #+#             */
-/*   Updated: 2020/08/27 17:02:26 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/17 17:03:12 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		ft_nstrstr(char *str1, char *str2)
 	int k;
 
 	i = 0;
-	k = ft_strlen(str1) -  ft_strlen(str2);
+	k = ft_strlen(str1) - ft_strlen(str2);
 	while (str1[k + i] != '\0')
 	{
 		if (str1[k + i] != str2[i])
