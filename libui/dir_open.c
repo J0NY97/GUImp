@@ -6,16 +6,25 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/16 17:27:58 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/17 12:04:32 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 #include <dirent.h>
 
+void	del(void *name, size_t size)
+{
+
+	ft_strdel((char **)&name);
+}
+
+
 void		button1(SDL_Event e, t_element *elem)
 {
-	char **str = elem->extra_info;
+	char **str;
+   
+	str	= elem->extra_info;
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 		(*str) = ft_strdup(elem->text.text);
 }
@@ -24,6 +33,7 @@ void		init_button(t_window *win, int elem_nb, t_list *list)
 {
 	int i;
 	t_list *curr;
+	t_list *tmp;
 	t_xywh coord;
 
 	i = -1;
@@ -49,7 +59,8 @@ char		*dir_open(int x1, int y1, char *folder_path, unsigned char type)
 	t_window_info	test;
 
 	libui = (t_libui *)malloc(sizeof(t_libui));
-	ui_libui_init(libui);
+	libui->windows = NULL;
+	libui->hotkeys = NULL;
 
 	t_list *list;
 	int elem_nb;
@@ -60,6 +71,7 @@ char		*dir_open(int x1, int y1, char *folder_path, unsigned char type)
 	win = ft_create_window(libui, test);
 	ft_update_background(win->surface, 0xffECECEC);
 	init_button(win, elem_nb, list);
+	ft_lstdel(&list, &del);
 
 	t_list *curr;
 	curr = win->elements;
@@ -78,5 +90,6 @@ char		*dir_open(int x1, int y1, char *folder_path, unsigned char type)
 	free(libui->windows);
 	free(libui->hotkeys);
 	free(libui);
+
 	return (result); //maybe strjoin
 }

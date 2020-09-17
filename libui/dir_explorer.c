@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 13:34:38 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/16 17:23:14 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/17 11:17:52 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	add_to_list(t_list **list, char *file)
 
 	lst = ft_lstnew(0, 0);
 	lst->content = ft_strdup(file);
-	lst->content_size = sizeof(file);
+	lst->content_size = 0;
 	if (list == NULL)
 		(*list) = lst;
 	else
