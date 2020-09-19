@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 16:50:49 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/17 16:57:27 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char		*dir_explore(char *folder_path, unsigned char type)
 	libui->windows = NULL;
 	libui->hotkeys = NULL;
 	result = NULL;
-	if ((win = init_dir_win(libui, folder_path, type)) == NULL)
+	if ((win = init_dir_win(libui, folder_path, type)) == NULL) //free libui
 		return (NULL);
 	list = win->elements;
 	while (list)
@@ -104,5 +104,9 @@ char		*dir_explore(char *folder_path, unsigned char type)
 	free(libui->windows);
 	free(libui->hotkeys);
 	free(libui);
-	return (result); //maybe strjoin
+
+	char *str;
+	str = ft_strjoiner(folder_path, "/", result, NULL);
+	free(result);
+	return (str); //maybe strjoin
 }

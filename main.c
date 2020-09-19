@@ -306,7 +306,7 @@ void	open_button(SDL_Event e, t_element *elem)
 	surfaces = elem->extra_info;
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
-		file = dir_explore("./", DT_REG);
+		file = dir_explore("./images", DT_REG);
 		if (file != NULL)
 		{
 			image = load_image(file);
