@@ -318,6 +318,7 @@ void	open_button(SDL_Event e, t_element *elem)
 			}
 			else
 				ft_putstr("open_button: image couldnt be loaded\n");
+			ft_strdel(&file);
 		}
 		else
 			ft_putstr("open_button: file doesnt exist\n");

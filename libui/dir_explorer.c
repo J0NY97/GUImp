@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 16:57:27 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/19 10:56:40 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ char		*dir_explore(char *folder_path, unsigned char type)
 	libui = (t_libui *)malloc(sizeof(t_libui));
 	libui->windows = NULL;
 	libui->hotkeys = NULL;
+	libui->quit = 0;
 	result = NULL;
 	if ((win = init_dir_win(libui, folder_path, type)) == NULL) //free libui
 		return (NULL);
@@ -95,18 +96,23 @@ char		*dir_explore(char *folder_path, unsigned char type)
 		((t_element *)list->content)->extra_info = &result;
 		list = list->next;
 	}
-	while (result == NULL)
+	while (result == NULL && libui->quit != 1)
 	{
 		ft_event_poller(libui);
 		ui_render(win);
 	}
-	free_window(win);
-	free(libui->windows);
-	free(libui->hotkeys);
-	free(libui);
+	//free_window(win);
+	//free(libui->windows);
+	//free(libui->hotkeys);
+	//free(libui);
+	free_libui(libui);
 
 	char *str;
-	str = ft_strjoiner(folder_path, "/", result, NULL);
+
+	if (libui->quit != 1)
+		str = ft_strjoiner(folder_path, "/", result, NULL);
+	else
+		str = NULL;
 	free(result);
 	return (str); //maybe strjoin
 }

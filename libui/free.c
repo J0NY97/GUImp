@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 13:43:34 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 14:42:54 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/19 10:59:21 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ void	free_element(t_element *elem)
 	free(elem->info);
 	//ft_strdel((char **)&elem->extra_info);//idk
 	elem->extra_info = NULL;
-
 	free_text(&elem->text);
-
 	SDL_FreeSurface(elem->surface);
 	SDL_FreeSurface(elem->states[2]);
 	SDL_FreeSurface(elem->states[1]);
@@ -54,4 +52,31 @@ void	free_window(t_window *win)
 		free(tmp);
 	}
 	free(win);
+}
+
+void	free_hotkeys(t_hotkey *idk)
+{
+}
+
+void	free_libui(t_libui *libui)
+{
+	t_list *curr;
+
+	curr = libui->windows;
+	while (curr)
+	{
+		free_window(curr->content);
+		curr = curr->next;
+	}
+	curr = libui->hotkeys;
+	while (curr)
+	{
+		//free_hotkeys(curr->content);
+		curr = curr->next;
+	}
+	free(libui->windows);
+	free(libui->hotkeys);
+	//ft_strdel(&libui->drag_file);
+	free(libui);
+
 }

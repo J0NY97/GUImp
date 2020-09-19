@@ -271,6 +271,7 @@ void			ui_render_element(SDL_Surface *win, t_element *elem);
 */
 void			free_element(t_element *elem);
 void			free_window(t_window *win);
+void			free_libui(t_libui *libui);
 /*
  ** Prefabs
 */
