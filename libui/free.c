@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 13:43:34 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/19 10:59:21 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/19 11:24:49 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,18 @@ void	free_window(t_window *win)
 	t_list *curr;
 	t_list *tmp;
 
-	curr = win->elements;
 	SDL_FreeSurface(win->surface);
 	SDL_DestroyWindow(win->win);
+	curr = win->elements;
+	while (curr)
+	{
+		tmp = curr;
+		curr = curr->next;
+		free_element(tmp->content);
+		tmp->next = NULL;
+		free(tmp);
+	}
+	curr = win->non_render;
 	while (curr)
 	{
 		tmp = curr;
