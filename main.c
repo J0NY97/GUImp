@@ -584,10 +584,10 @@ void	update_hidden_surface(t_info *info, t_libui *libui)
 		}
 		else if (info->brush.type == 5) // sticker
 		{
-			temp.w = info->brush.stickers[info->brush.selected_sticker]->w;
-			temp.h = info->brush.stickers[info->brush.selected_sticker]->h;
-			temp.x = l.x1 - temp.w / 2;
-			temp.y = l.y1 - temp.h / 2;
+			temp = ft_sdl_rect(l.x1 - info->brush.stickers[info->brush.selected_sticker]->w / 2,
+							l.y1 - info->brush.stickers[info->brush.selected_sticker]->h / 2,
+							info->brush.stickers[info->brush.selected_sticker]->w,
+							info->brush.stickers[info->brush.selected_sticker]->h);
 			SDL_BlitSurface(info->brush.stickers[info->brush.selected_sticker], NULL, info->hidden_surface->surface, &temp);
 		}
 		else if (info->brush.type == 6) // move and zoom
