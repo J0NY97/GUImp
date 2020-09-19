@@ -401,14 +401,14 @@ void	drop_down_init(t_info *info)
 	ft_set_text(&info->drop_down->text, "Sticker select");
 	info->drop_down->text.x = 10;
 	// item1
-	ft_drop_down_add_item(info->drop_down, "Minion");
+	ft_drop_down_add_item(info->toolbox->window, info->drop_down, "Minion");
 	icon = load_image("resources/stickers/icon-minion.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[1], &temp);
 	SDL_FreeSurface(icon);
 	// item2
-	ft_drop_down_add_item(info->drop_down, "Guimp-icon");
+	ft_drop_down_add_item(info->toolbox->window, info->drop_down, "Guimp-icon");
 	icon = load_image("resources/stickers/icon-gimp-icon.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[0], &temp);
@@ -425,11 +425,11 @@ void	drop_down_init(t_info *info)
 	ft_set_text(&info->font_down->text, "Font select");
 	info->font_down->text.x = 10;
 
-	ft_drop_down_add_item(info->font_down, "font.ttf");
-	ft_drop_down_add_item(info->font_down, "Amatic.ttf");
-	ft_drop_down_add_item(info->font_down, "OpenSans.ttf");
-	ft_drop_down_add_item(info->font_down, "Pacifico.ttf");
-	ft_drop_down_add_item(info->font_down, "Tusj.ttf");
+	ft_drop_down_add_item(info->toolbox->window, info->font_down, "font.ttf");
+	ft_drop_down_add_item(info->toolbox->window, info->font_down, "Amatic.ttf");
+	ft_drop_down_add_item(info->toolbox->window, info->font_down, "OpenSans.ttf");
+	ft_drop_down_add_item(info->toolbox->window, info->font_down, "Pacifico.ttf");
+	ft_drop_down_add_item(info->toolbox->window, info->font_down, "Tusj.ttf");
 	//ft_drop_down_add_item(info->font_down, "SeaSideResort.ttf");
 	ft_update_drop(info->font_down);
 }
@@ -651,6 +651,7 @@ int		fake_main(void)
 	printf("bye!");
 //	guimp_quit(info); // cleanup the quimp stuff
 //	libui_quit(libui); // cleanup the libui stuff
+	free_libui(libui);
 	IMG_Quit();
 	TTF_Quit();
 	SDL_Quit();
