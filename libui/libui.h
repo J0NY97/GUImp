@@ -166,6 +166,7 @@ struct s_window
 	SDL_Window	*win;
 	SDL_Surface	*surface;
 	t_list		*elements;
+	t_list		*non_render;
 	Uint32		id;
 	int			bg_color;
 };
@@ -205,6 +206,7 @@ int				true_false_popup(int x, int y, char *msg);
 char			*input_popup(int x, int y);
 void			text_area(SDL_Event e, t_element *elem);
 void			ft_add_element_to_window_elements(t_window *win, t_element *elem);
+void			ft_add_to_non_render_elem_list(t_window *win, t_element *elem);
 void			ft_add_window_to_libui_windows(t_libui *libui, t_window *win);
 void			ui_libui_init(t_libui *libui);
 void			ft_add_hotkey(t_libui *libui, SDL_Keycode, void (*f)());
@@ -250,7 +252,7 @@ void			ft_default_text(t_text *text, char *txt);
 */
 void			ft_update_background(SDL_Surface *surface, Uint32 color);
 void			ft_create_text(t_text *text);
-void			ft_drop_down_add_item(t_element *drop, char *name);
+void			ft_drop_down_add_item(t_window *win, t_element *drop, char *name);
 void			ft_slider_function(SDL_Event e, t_element *elem);
 void			ft_update_slider_bar(int click_x, int click_y, t_element *elem);
 void			ft_update_drop(t_element *elem);

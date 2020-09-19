@@ -6,13 +6,13 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 11:11:57 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/17 14:12:42 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/19 11:13:47 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void	ft_drop_down_add_item(t_element *drop, char *name)
+void	ft_drop_down_add_item(t_window *win, t_element *drop, char *name)
 {
 	t_drop_down *dd;
 	t_element_info new_item;
@@ -40,6 +40,7 @@ void	ft_drop_down_add_item(t_element *drop, char *name)
 		dd->items[dd->item_amount]->text.set_text = 1;
 		ft_set_text(&dd->items[dd->item_amount]->text, name);
 	}
+	ft_add_to_non_render_elem_list(win, dd->items[dd->item_amount]);
 	dd->item_amount += 1;
 	ft_update_drop(drop);
 }
