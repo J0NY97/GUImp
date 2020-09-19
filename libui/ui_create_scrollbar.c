@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 10:55:09 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/17 12:44:05 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/19 12:20:20 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ t_element	*ui_create_scrollbar(t_window *win, t_element *parent)
 	elem = ft_create_element(info);
 	ft_add_element_to_window_elements(win, elem);
 	{
-		((t_slider *)elem->info)->min = -parent->coord.h;
-		((t_slider *)elem->info)->max = parent->coord.h;
+		((t_slider *)elem->info)->min = -(parent->coord.h / 2);
+		((t_slider *)elem->info)->max = (parent->coord.h / 2);
 		((t_slider *)elem->info)->value = 0;
 		((t_slider *)elem->info)->bar_color = 0xffd3d3d3;
 	}
