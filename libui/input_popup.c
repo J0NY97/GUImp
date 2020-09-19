@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/19 11:17:58 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/19 13:20:09 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,6 @@ void		text_area(SDL_Event e, t_element *elem)
 	}
 }
 
-static void		button_func(SDL_Event e, t_element *elem)
-{
-	int	*result;
-
-	result = elem->extra_info;
-	if (e.type == SDL_MOUSEBUTTONDOWN)
-		*result = ((t_button *)elem->info)->type;
-}
-
 static void		init_button(t_window *win)
 {
 	t_xywh coord;
@@ -63,7 +54,7 @@ static void		init_button(t_window *win)
 	ui_create_button(win, coord, NULL);
 	ft_set_text(&((t_element *)win->elements->content)->text, "OK");
 	((t_element *)win->elements->content)->text.centered = 1;
-	((t_element *)win->elements->content)->f = &button_func;
+	((t_element *)win->elements->content)->f = &popup_int_func;
 	((t_button *)((t_element *)win->elements->content)->info)->type = 2;
 	ft_update_elem_background(win->elements->content, 0xff0082c4);
 
@@ -71,7 +62,7 @@ static void		init_button(t_window *win)
 	ui_create_button(win, coord, NULL);
 	ft_set_text(&((t_element *)win->elements->content)->text, "CANCEL");
 	((t_element *)win->elements->content)->text.centered = 1;
-	((t_element *)win->elements->content)->f = &button_func;
+	((t_element *)win->elements->content)->f = &popup_int_func;
 	((t_button *)((t_element *)win->elements->content)->info)->type = -1;
 	ft_update_elem_background(win->elements->content, 0xffEE7f1B);
 
@@ -117,9 +108,7 @@ char		*input_popup(int x1, int y1)
 
 	str = NULL; //cant be NULL
 	libui = (t_libui *)malloc(sizeof(t_libui));
-	libui->windows = NULL;
-	libui->hotkeys = NULL;
-	libui->quit = 0;
+	popup_sdl_init(libui);
 	result = -1;
 	win = init_input_win(libui);
 	init_text_area(&button, win);

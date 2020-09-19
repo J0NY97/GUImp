@@ -6,34 +6,11 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/19 12:42:36 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/19 13:16:30 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
-#include <dirent.h>
-
-void	popup_coord(int *x, int *y, int w, int h)
-{
-	SDL_DisplayMode DM;
-	SDL_GetCurrentDisplayMode(0, &DM);
-	*x = DM.w / 2 - (w / 2);
-	*y = DM.h / 2 - (h / 2);
-}
-
-void	del(void *name, size_t size)
-{
-	ft_strdel((char **)&name);
-}
-
-void		button1(SDL_Event e, t_element *elem)
-{
-	char **str;
-   
-	str	= elem->extra_info;
-	if (e.type == SDL_MOUSEBUTTONDOWN)
-		(*str) = ft_strdup(elem->text.text);
-}
 
 void		init_button(t_window *win, int elem_nb, t_list *list, t_element *menu)
 {
@@ -51,7 +28,7 @@ void		init_button(t_window *win, int elem_nb, t_list *list, t_element *menu)
 		ft_set_text(&((t_element *)win->elements->content)->text, curr->content);
 		curr = curr->next;
 		((t_element *)win->elements->content)->text.centered = 1;
-		((t_element *)win->elements->content)->f = &button1;
+		((t_element *)win->elements->content)->f = &popup_char_func;
 		ft_update_elem_background(win->elements->content, 0xff0082c4);
 	}
 }
@@ -71,20 +48,14 @@ t_window		*init_dir_win(t_libui *libui, char *folder_path, unsigned char type)
 	test.title = ft_strdup(folder_path);
 	test.bg_color = 0xFFECECEC;
 	win = ft_create_window(libui, test);
-
-	t_xywh coord;
-
-	coord = ui_init_coords(10, 10, 330, 25 + (elem_nb * 75));
-	menu = ui_create_surface(win, coord, NULL);
+	menu = ui_create_surface(win,
+			ui_init_coords(10, 10, 330, 25 + (elem_nb * 75)), NULL);
 	ft_update_elem_background(menu, 0xffa9a9a9);
-
 	ui_create_scrollbar(win, menu);
 	init_button(win, elem_nb, list, menu);
-
-	ft_lstdel(&list, &del);
+	ft_lstdel(&list, &char_del);
 	return (win);
 }
-
 
 char		*dir_explore(char *folder_path, unsigned char type)
 {
@@ -95,9 +66,7 @@ char		*dir_explore(char *folder_path, unsigned char type)
 	t_window		*win;
 
 	libui = (t_libui *)malloc(sizeof(t_libui));
-	libui->windows = NULL;
-	libui->hotkeys = NULL;
-	libui->quit = 0;
+	popup_sdl_init(libui);
 	result = NULL;
 	str = NULL;
 	if ((win = init_dir_win(libui, folder_path, type)) == NULL) //free libui
