@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/29 14:01:15 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 17:01:47 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/19 11:17:58 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void		init_button(t_window *win)
 	ft_set_text(&((t_element *)win->elements->content)->text, "OK");
 	((t_element *)win->elements->content)->text.centered = 1;
 	((t_element *)win->elements->content)->f = &button_func;
-	((t_button *)((t_element *)win->elements->content)->info)->type = 1;
+	((t_button *)((t_element *)win->elements->content)->info)->type = 2;
 	ft_update_elem_background(win->elements->content, 0xff0082c4);
 
 	coord = ui_init_coords(200, 200, 100, 50);
@@ -72,7 +72,7 @@ static void		init_button(t_window *win)
 	ft_set_text(&((t_element *)win->elements->content)->text, "CANCEL");
 	((t_element *)win->elements->content)->text.centered = 1;
 	((t_element *)win->elements->content)->f = &button_func;
-	((t_button *)((t_element *)win->elements->content)->info)->type = 0;
+	((t_button *)((t_element *)win->elements->content)->info)->type = -1;
 	ft_update_elem_background(win->elements->content, 0xffEE7f1B);
 
 }
@@ -119,27 +119,26 @@ char		*input_popup(int x1, int y1)
 	libui = (t_libui *)malloc(sizeof(t_libui));
 	libui->windows = NULL;
 	libui->hotkeys = NULL;
+	libui->quit = 0;
 	result = -1;
 	win = init_input_win(libui);
 	init_text_area(&button, win);
 	list = win->elements->next;
 	while (list)
 	{
-		((t_element *)list->content)->extra_info = &result;
+		((t_element *)list->content)->extra_info = &libui->quit;
 		list = list->next;
 	}
-	while (result == -1)
+	while (libui->quit == 0)
 	{
 		ft_event_poller(libui);
 		ui_render(win);
 	}
-	if (result == 1 && button->loop == 1)
+	if (libui->quit == 2 && button->loop == 1)
 		str = ft_strndup(button->text.text, ft_strlen(button->text.text) - 2);
-	else if (result == 1 && button->loop == 0)
+	else if (libui->quit == 2 && button->loop == 0)
 		str = ft_strdup(button->text.text);
-	free_window(win);
-	free(libui->windows);
-	free(libui->hotkeys);
-	free(libui);
+
+	free_libui(libui);
 	return (str);
 }
