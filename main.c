@@ -650,7 +650,6 @@ int		fake_main(void)
 	}
 	printf("bye!");
 //	guimp_quit(info); // cleanup the quimp stuff
-//	libui_quit(libui); // cleanup the libui stuff
 	free_libui(libui);
 	IMG_Quit();
 	TTF_Quit();

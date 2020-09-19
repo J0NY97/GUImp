@@ -192,7 +192,6 @@ void			ft_test_libui(void);
 /*
  ** EXTRA
 */
-void			libui_quit(t_libui *libui);
 void			push_list(t_list **lst, void *content, size_t content_size);
 void			*pop_list(t_list **lst);
 char			*drag_and_drop(SDL_Event e);

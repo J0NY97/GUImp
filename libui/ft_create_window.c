@@ -6,7 +6,7 @@
 /*   By: jsalmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 13:15:15 by jsalmi            #+#    #+#             */
-/*   Updated: 2020/09/17 16:06:39 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/19 11:24:04 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_window	*ft_create_window(t_libui *libui, t_window_info info)
 		SDL_SetWindowResizable(new_window->win, 1);
 	new_window->id = SDL_GetWindowID(new_window->win);
 	new_window->elements = NULL;
+	new_window->non_render = NULL;
 	new_window->bg_color = info.bg_color;
 	ft_strdel(&info.title);
 	free(info.title); //probably useless
