@@ -6,20 +6,11 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:01:12 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/17 15:48:58 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/19 13:20:32 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
-
-static void		button(SDL_Event e, t_element *elem)
-{
-	int *result;
-
-	result = elem->extra_info;
-	if (e.type == SDL_MOUSEBUTTONDOWN)
-		*result = ((t_button *)elem->info)->type;
-}
 
 static void		init_button(t_window *win)
 {
@@ -29,7 +20,7 @@ static void		init_button(t_window *win)
 	ui_create_button(win, coord, NULL);
 	ft_set_text(&((t_element *)win->elements->content)->text, "OK");
 	((t_element *)win->elements->content)->text.centered = 1;
-	((t_element *)win->elements->content)->f = &button;
+	((t_element *)win->elements->content)->f = &popup_int_func;
 	((t_button *)((t_element *)win->elements->content)->info)->type = 1;
 	ft_update_elem_background(win->elements->content, 0xff0082c4);
 
@@ -37,7 +28,7 @@ static void		init_button(t_window *win)
 	ui_create_button(win, coord, NULL);
 	ft_set_text(&((t_element *)win->elements->content)->text, "CANCEL");
 	((t_element *)win->elements->content)->text.centered = 1;
-	((t_element *)win->elements->content)->f = &button;
+	((t_element *)win->elements->content)->f = &popup_int_func;
 	((t_button *)((t_element *)win->elements->content)->info)->type = 0;
 	ft_update_elem_background(win->elements->content, 0xffEE7f1B);
 }
@@ -76,8 +67,7 @@ int			true_false_popup(int x1, int y1, char *msg)
 	t_window		*win;
 
 	libui = (t_libui *)malloc(sizeof(t_libui));
-	libui->windows = NULL;
-	libui->hotkeys = NULL;
+	popup_sdl_init(libui);
 	result = -1;
 	win = init_tf_win(libui, msg);
 	list = win->elements;
@@ -91,9 +81,6 @@ int			true_false_popup(int x1, int y1, char *msg)
 		ft_event_poller(libui);
 		ui_render(win);
 	}
-	free_window(win);
-	free(libui->windows);
-	free(libui->hotkeys);
-	free(libui);
+	free_libui(libui);
 	return (result);
 }

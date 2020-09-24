@@ -201,8 +201,6 @@ void			ft_read_text(t_element *elem, int size);
 char			*ft_strjoiner(char *first, ...);
 void			notify(char *title, char *msg);
 void			error_msg(char *str);
-int				true_false_popup(int x, int y, char *msg);
-char			*input_popup(int x, int y);
 void			text_area(SDL_Event e, t_element *elem);
 void			ft_add_element_to_window_elements(t_window *win, t_element *elem);
 void			ft_add_to_non_render_elem_list(t_window *win, t_element *elem);
@@ -214,6 +212,18 @@ SDL_Surface		*ft_scale_surface(SDL_Surface *surface, int w, int h);
 SDL_Surface		*ft_scale_surface_aspect(SDL_Surface *surface, int w, int h);
 SDL_Surface		*ft_create_rgba_surface(int w, int h);
 SDL_Rect		ft_sdl_rect(int x, int y, int w, int h);
+/*
+ ** Popup
+*/
+t_list			*dir_open(char *folder_path, unsigned char type, int *size);
+char			*dir_explore(char *folder_path, unsigned char type);
+char			*input_popup(int x, int y);
+void			popup_coord(int *x, int *y, int w, int h);
+int				true_false_popup(int x, int y, char *msg);
+void			popup_sdl_init(t_libui *libui);
+void			char_del(void *name, size_t size);
+void			popup_char_func(SDL_Event e, t_element *elem);
+void			popup_int_func(SDL_Event e, t_element *elem);
 /*
  ** Draw
 */
@@ -286,8 +296,4 @@ void			ft_drop_item_function(SDL_Event e, t_element *elem);
 void			ft_button_handler(SDL_Event e, t_element *elem);
 void			default_click(SDL_Event e, t_element *elem);
 int				ft_keyboard_handler(t_libui *libui);
-
-t_list			*dir_open(char *folder_path, unsigned char type, int *size);
-char			*dir_explore(char *folder_path, unsigned char type);
-void			popup_coord(int *x, int *y, int w, int h);
 #endif

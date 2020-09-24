@@ -482,14 +482,14 @@ void	menu_init(t_info *info)
 	coord = ui_init_coords(40, 25, 400, 255);
 	info->brush_menu = ui_create_surface(info->toolbox->window, coord, NULL);
 	info->brush_menu->f = NULL;
-	ft_set_text(&info->brush_menu->text, "Brush buttons");
+	//ft_set_text(&info->brush_menu->text, "Brush buttons");
 	info->brush_menu->text.x = 5;
 	ft_set_font(&info->brush_menu->text, "font.ttf", 20);
 	ft_update_elem_background(info->brush_menu, 0xffa9a9a9);
 
 	coord = ui_init_coords(40, 305, 400, 380);
 	info->col_menu = ui_create_surface(info->toolbox->window, coord, NULL);
-	info->col_menu->f = NULL;
+	//info->col_menu->f = NULL;
 	ft_set_text(&info->col_menu->text, "Brush modifier");
 	info->col_menu->text.x = 5;
 	ft_set_font(&info->col_menu->text, "font.ttf", 20);
@@ -497,7 +497,7 @@ void	menu_init(t_info *info)
 
 	coord = ui_init_coords(40, 710, 400, 100);
 	info->shape_menu = ui_create_surface(info->toolbox->window, coord, NULL);
-	info->shape_menu->f = NULL;
+	//info->shape_menu->f = NULL;
 	info->shape_menu->bg_color = 0xffa9a9a9;
 	ft_update_background(info->shape_menu->states[0], 0xffa9a9a9);
 	ft_set_text(&info->shape_menu->text, "Shapes modifier");
@@ -506,7 +506,7 @@ void	menu_init(t_info *info)
 
 	coord = ui_init_coords(50, 50, 400, 1150);
 	info->layer_menu = ui_create_surface(info->layers->window, coord, NULL);
-	info->layer_menu->f = NULL;
+	//info->layer_menu->f = NULL;
 	ft_set_text(&info->layer_menu->text, "Layers");
 	info->layer_menu->text.x = 5;
 	ft_set_font(&info->layer_menu->text, "font.ttf", 20);
@@ -660,6 +660,6 @@ int		fake_main(void)
 int main(void)
 {
 	fake_main();
-	while(1);
+	//while(1);
 	return (0);
 }

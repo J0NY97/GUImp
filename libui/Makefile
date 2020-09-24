@@ -53,6 +53,7 @@ SRCS = ft_test_libui.c\
 	   free.c\
 	   dir_open.c\
 	   dir_explorer.c\
+	   popup_help.c\
 	   extra_help.c
 OBJS = $(SRCS:.c=.o)
 LIBS = libui.h
