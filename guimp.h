@@ -4,6 +4,7 @@
 # include <math.h>
 # include "./libft/libft.h"
 # include "./libui/libui.h"
+# include "./libft/ft_printf/ft_printf.h"
 # include "./include/SDL2/SDL.h"
 # include "./include/SDL2/SDL_ttf.h"
 # include "./include/SDL2/SDL_image.h"

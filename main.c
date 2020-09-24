@@ -247,13 +247,13 @@ void	save_img(SDL_Event e, t_element *elem)
 		pic = ((t_element *)elem->extra_info)->surface;
 		if ((file = input_popup(100, 100)) == NULL)
 		{
-			printf("You decided not to save the picture..\n");
+			ft_printf("You decided not to save the picture..\n");
 			return;
 		}
 		if (save_image(pic, file))
-			printf("Picture saved.\n");
+			ft_printf("Picture saved.\n");
 		else
-			printf("Picture couldnt be saved.\n");
+			ft_printf("Picture couldnt be saved.\n");
 		free(file);
 	}
 }
@@ -272,7 +272,7 @@ void	add_new_layer(SDL_Event e, t_element *elem)
 			return ;
 		}
 		*layer_amount += 1;
-		printf("Layer_amount %d\n", *layer_amount);
+		ft_printf("Layer_amount %d\n", *layer_amount);
 	}
 }
 
@@ -283,7 +283,7 @@ void	reset_workspace(SDL_Event e, t_element *elem)
 	surfaces = elem->extra_info;
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
-		printf("clicketi click clock\n");
+		ft_printf("clicketi click clock\n");
 		for (int i = 0; i < 5; i++)
 		{
 			SDL_FreeSurface(surfaces[i]->surface);
@@ -373,7 +373,7 @@ void	utility_init(t_info *info)
 
 void	key_press(SDL_Event e, t_hotkey *hotkey)
 {
-	printf("priss prass pross %s\n", SDL_GetKeyName(hotkey->key));
+	ft_printf("priss prass pross %s\n", SDL_GetKeyName(hotkey->key));
 }
 
 void	hotkey_init(t_info *info, t_libui *libui)
@@ -648,7 +648,7 @@ int		fake_main(void)
 		ui_render(info->main->window);
 		ui_render(info->layers->window);
 	}
-	printf("bye!");
+	ft_printf("bye!");
 //	guimp_quit(info); // cleanup the quimp stuff
 	free_libui(libui);
 	IMG_Quit();
