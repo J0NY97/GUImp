@@ -10,7 +10,7 @@ SRCS = ./main.c\
 OBJS = ./*.o
 INCLUDES = ./libft/libft.a\
 		   ./libui/libui.a\
-		   ./libft/ft_printf/libprintf.a
+		   ./ft_printf/libprintf.a
 FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
