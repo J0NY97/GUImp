@@ -5,11 +5,12 @@
 # include "libft.h"
 # include "./libui/libui.h"
 # include "./ft_printf/ft_printf.h"
-# include "SDL2/SDL.h"
-# include "SDL2/SDL_ttf.h"
-# include "SDL2/SDL_image.h"
+# include "SDL2/includes/SDL.h"
+# include "SDL2/includes/SDL_ttf.h"
+# include "SDL2/includes/SDL_image.h"
 
 #define POS(n) ((n) < 0 ? 0 - (n) : (n))
+#define	LAYER_NBR	5
 
 typedef struct	s_info	t_info;
 
@@ -113,10 +114,23 @@ void			zoom_and_move(t_element *elem, SDL_Event event, int org_w, int org_h);
 void			trace_shape(t_info *info);
 void			select_shape(SDL_Surface *surf, t_brush *brush);
 void			shape_buttons_init(t_info *info);
-void			draw_buttons(SDL_Event e, t_element *elem);
 void			shape_load(t_info *info);
 void			tooltips_load(t_info *info);
 void			sticker_load(t_info *info);
 void			guimp_quit(t_info *info);
+void			menu_init(t_info *info);
+void			drop_down_init(t_info *info);
+void			hotkey_init(t_info *info, t_libui *libui);
+void			slider_init(t_info *info);
+void			tool_buttons_init(t_info *info);
+void			layer_init(t_info *info);
+void			window_init(t_libui *libui, t_info *info);
+void			ft_toggle_elem_group(SDL_Event e, t_element *elem);
+void			utility_init(t_info *info);
+void			save_img(SDL_Event e, t_element *elem);
+void			add_new_layer(SDL_Event e, t_element *elem);
+void			reset_workspace(SDL_Event e, t_element *elem);
+void			open_button(SDL_Event e, t_element *elem);
+void			init_brush(t_info *info);
 
 #endif
