@@ -2,12 +2,12 @@
 # define GUIMP_H
 # include <stdio.h>
 # include <math.h>
-# include "./libft/libft.h"
+# include "libft.h"
 # include "./libui/libui.h"
 # include "./ft_printf/ft_printf.h"
-# include "./include/SDL2/SDL.h"
-# include "./include/SDL2/SDL_ttf.h"
-# include "./include/SDL2/SDL_image.h"
+# include "SDL2/SDL.h"
+# include "SDL2/SDL_ttf.h"
+# include "SDL2/SDL_image.h"
 
 #define POS(n) ((n) < 0 ? 0 - (n) : (n))
 
