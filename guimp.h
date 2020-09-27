@@ -9,8 +9,9 @@
 # include "SDL2/includes/SDL_ttf.h"
 # include "SDL2/includes/SDL_image.h"
 
-#define POS(n) ((n) < 0 ? 0 - (n) : (n))
+#define	POS(n)		((n) < 0 ? 0 - (n) : (n))
 #define	LAYER_NBR	5
+#define HIDDEN_SURF	info->hidden_surface->surface	
 
 typedef struct	s_info	t_info;
 
@@ -62,6 +63,8 @@ struct			s_info
 	int			run;
 	int			draw;
 
+	t_brush		brush;
+
 	t_win		*toolbox;
 	t_win		*main;
 	t_win		*layers;
@@ -103,13 +106,12 @@ struct			s_info
 	t_element	*layer_layers[5];
 	t_element	*layer_buttons[5];
 
-	t_brush		brush;
 };
 
+int				load_font(char *file, TTF_Font *font);
 void			event_handler(t_info *info);
 void			draw(SDL_Event event, t_element *elem);
 void			text_to_screen(SDL_Surface *surface, t_shapes l, char *str, char *font_dir);
-int				load_font(char *file, TTF_Font *font);
 void			zoom_and_move(t_element *elem, SDL_Event event, int org_w, int org_h);
 void			trace_shape(t_info *info);
 void			select_shape(SDL_Surface *surf, t_brush *brush);
@@ -132,5 +134,9 @@ void			add_new_layer(SDL_Event e, t_element *elem);
 void			reset_workspace(SDL_Event e, t_element *elem);
 void			open_button(SDL_Event e, t_element *elem);
 void			init_brush(t_info *info);
+void			update_hidden_surface(t_info *info, t_libui *libui);
+void			update_brush(t_info *info);
+void			update_layers(t_info *info);
+void			drag_drop(t_info *info, t_libui *libui);
 
 #endif

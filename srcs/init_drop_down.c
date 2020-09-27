@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 15:42:05 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/26 16:03:18 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/27 12:42:22 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ static inline void	drop_down_sticker(t_info *info)
 	ft_set_text(&info->drop_down->text, "Sticker select");
 	info->drop_down->text.x = 10;
 	ft_drop_down_add_item(info->toolbox->window, info->drop_down, "Minion");
-	icon = load_image("resources/stickers/icon-minion.png");
+	icon = load_image("resources/icon/icon-minion.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[0]->states[1], &temp);
 	SDL_FreeSurface(icon);
 	ft_drop_down_add_item(info->toolbox->window, info->drop_down, "Guimp-icon");
-	icon = load_image("resources/stickers/icon-gimp-icon.png");
+	icon = load_image("resources/icon/icon-gimp-icon.png");
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->surface, &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[0], &temp);
 	SDL_BlitSurface(icon, NULL, ((t_drop_down *)info->drop_down->info)->items[1]->states[1], &temp);

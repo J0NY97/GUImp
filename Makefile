@@ -9,6 +9,12 @@ SRC	=	main.c \
 		shape_button_init.c \
 		guimp_quit.c \
 		load_icons.c \
+		ft_toggle_elem_group.c \
+		save_img.c \
+		add_new_layer.c \
+		reset_workspace.c \
+		open_button.c \
+		drag_drop.c \
 		init_elem_group.c \
 		init_drop_down.c \
 		init_hotkeys.c \
@@ -18,11 +24,9 @@ SRC	=	main.c \
 		init_windows.c \
 		init_utility_elems.c \
 		init_brush.c \
-		ft_toggle_elem_group.c \
-		save_img.c \
-		add_new_layer.c \
-		reset_workspace.c \
-		open_button.c \
+		update_hidden_surface.c \
+		update_brush.c \
+		update_layers.c \
 
 SRCS = $(addprefix $(DIR_S)/,$(SRC))
 OBJS = ./*.o

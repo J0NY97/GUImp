@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 17:19:54 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/13 17:26:07 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/27 12:38:14 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ void	tooltips_load(t_info *info)
 void	sticker_load(t_info *info)
 {
 	info->brush.stickers[0] = load_image("resources/stickers/minion.png");
-	info->brush.stickers[1] = load_image("resources/icon/gimp-icon.png");
+	info->brush.stickers[1] = load_image("resources/stickers/gimp-icon.png");
 }
