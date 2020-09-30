@@ -6,13 +6,14 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 15:57:52 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/16 12:47:31 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/30 15:50:50 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "guimp.h"
 
-void	text_to_screen(SDL_Surface *surface, t_shapes l, char *str, char *font_dir)
+void	text_to_screen(SDL_Surface *surface, t_shapes l,
+		char *str, char *font_dir)
 {
 	SDL_Rect	temp;
 	SDL_Surface *surf;

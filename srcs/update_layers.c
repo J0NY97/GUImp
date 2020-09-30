@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:51:10 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/27 15:51:36 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/30 13:41:47 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	update_layers(t_info *info)
 		SDL_BlitSurface(new_surf, NULL, info->layer_layers[i]->surface, NULL);
 		SDL_FreeSurface(new_surf);
 	}
-	ft_update_background(info->screen_surface->surface, info->drawing_surface[0]->bg_color);
+	ft_update_background(info->screen_surface->surface,
+			info->drawing_surface[0]->bg_color);
 	i = -1;
 	while (++i < info->layer_amount)
 	{

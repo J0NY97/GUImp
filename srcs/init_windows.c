@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 17:38:29 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/30 12:03:48 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/30 13:25:43 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	window_init(t_libui *libui, t_info *info)
 	t_window_info new_win;
 
 	if (!(info->toolbox = (t_win *)malloc(sizeof(t_win))))
-		exit (0);
+		exit(0);
 	if (!(info->main = (t_win *)malloc(sizeof(t_win))))
-		exit (0);
+		exit(0);
 	if (!(info->layers = (t_win *)malloc(sizeof(t_win))))
-		exit (0);
+		exit(0);
 	new_win.coord = ui_init_coords(0, 0, 500, 1250);
 	new_win.title = ft_strdup("Toolbox");
 	new_win.bg_color = 0xffd3d3d3;

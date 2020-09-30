@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 16:29:01 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/27 16:28:04 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/30 13:27:42 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static inline void	layer_background(t_info *info)
 {
-	int i;
+	int		i;
 	t_xywh	coord;
 
 	coord = ui_init_coords(51, 50,
@@ -31,19 +31,23 @@ static inline void	layer_background(t_info *info)
 
 static inline void	layer_create(t_info *info)
 {
-	int i;
+	int		i;
 	t_xywh	coord;
 
 	i = -1;
 	while (++i < LAYER_NBR)
 	{
-		coord = ui_init_coords(50, i * 200 + (i * 25) + 25, info->layer_menu->surface->w - 100, 200);
-		info->layer_buttons[i] = ui_create_button(info->layers->window, coord, info->layer_menu);
+		coord = ui_init_coords(50, i * 200 + (i * 25) + 25,
+				info->layer_menu->surface->w - 100, 200);
+		info->layer_buttons[i] = ui_create_button(info->layers->window,
+				coord, info->layer_menu);
 		info->layer_buttons[i]->f = &ft_toggle_elem_group;
 		info->layer_buttons[i]->extra_info = info->layer_buttons;
 		((t_button *)info->layer_buttons[i]->info)->extra = &info->layer_amount;
-		coord = ui_init_coords(10, 10, info->layer_buttons[i]->surface->w - 20, info->layer_buttons[i]->surface->h - 20);
-		info->layer_layers[i] = ui_create_surface(info->layers->window, coord, info->layer_buttons[i]);
+		coord = ui_init_coords(10, 10, info->layer_buttons[i]->surface->w - 20,
+				info->layer_buttons[i]->surface->h - 20);
+		info->layer_layers[i] = ui_create_surface(info->layers->window,
+				coord, info->layer_buttons[i]);
 		ft_update_elem_background(info->layer_layers[i], 0xfff9f9f9);
 	}
 }
@@ -70,8 +74,8 @@ void				layer_init(t_info *info)
 	info->screen_surface->statique = 1;
 	((t_surface *)info->screen_surface->info)->extra = info->drawing_surface;
 	ft_update_elem_background(info->screen_surface, 0xff000000);
-	coord = ui_init_coords(275, 50, 100, 100);
-	info->brush_color = ui_create_surface(info->toolbox->window, coord, info->col_menu);
+	info->brush_color = ui_create_surface(info->toolbox->window,
+			ui_init_coords(275, 50, 100, 100), info->col_menu);
 	info->brush_color->f = NULL;
 	info->brush_color->statique = 1;
 	layer_create(info);

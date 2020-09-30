@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 13:43:34 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/30 13:05:23 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/30 13:12:03 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,13 @@ void	free_window(t_window *win)
 		free(tmp);
 	}
 	free(win);
+}
+
+void	free_sdl(void)
+{
+	IMG_Quit();
+	TTF_Quit();
+	SDL_Quit();
 }
 
 void	free_hotkeys(t_hotkey *idk)

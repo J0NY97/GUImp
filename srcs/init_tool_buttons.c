@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 16:13:39 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/26 18:12:06 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/30 13:31:58 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static inline void	tool_buttons(t_info *info)
 {
-	info->buttons[0] = ui_create_button(info->toolbox->window, 
+	info->buttons[0] = ui_create_button(info->toolbox->window,
 			ui_init_coords(25, 25, 100, 50), info->brush_menu);
 	ft_set_element_image(info->buttons[0], info->tooltips.circle);
 	info->buttons[1] = ui_create_button(info->toolbox->window,
@@ -55,6 +55,7 @@ void				tool_buttons_init(t_info *info)
 		info->buttons[i]->f = &ft_toggle_elem_group;
 		info->buttons[i]->extra_info = info->buttons;
 		info->buttons[i]->text.centered = 1;
-		((t_button *)info->buttons[i]->info)->extra = &info->brush_button_amount;
+		((t_button *)info->buttons[i]->info)->extra =
+			&info->brush_button_amount;
 	}
 }

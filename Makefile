@@ -6,7 +6,6 @@ SRC	=	main.c \
 		text_to_screen.c \
 		zoom_and_move.c \
 		shapes.c \
-		shape_button_init.c \
 		guimp_quit.c \
 		load_icons.c \
 		ft_toggle_elem_group.c \
@@ -15,6 +14,7 @@ SRC	=	main.c \
 		reset_workspace.c \
 		open_button.c \
 		drag_drop.c \
+		init_shape_button.c \
 		init_elem_group.c \
 		init_drop_down.c \
 		init_hotkeys.c \

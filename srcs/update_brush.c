@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 11:54:40 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/27 12:50:10 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/30 13:42:59 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static inline void	while_loops(t_info *info)
 	int	i;
 
 	i = -1;
-	while(++i < info->brush_button_amount)
+	while (++i < info->brush_button_amount)
 		if (info->buttons[i]->state == 1)
 			info->brush.type = i + 1;
 	i = -1;
@@ -51,14 +51,16 @@ static inline void	while_loops(t_info *info)
 	i = -1;
 	while (++i < ((t_drop_down *)info->font_down->info)->item_amount)
 		if (((t_drop_down *)info->font_down->info)->items[i]->state == 1)
-			info->brush.font_dir = ft_strjoiner("libui/TTF/", ((t_drop_down *)info->font_down->info)->items[i]->text.text, NULL);
+			info->brush.font_dir = ft_strjoiner("libui/TTF/",
+					((t_drop_down *)info->font_down->info)->items[i]->text.text,
+					NULL);
 	i = -1;
 	while (++i < info->shapes_nbr)
 		if (info->shapes[i]->state == 1)
 			info->brush.shape_type = i + 1;
 }
 
-void	update_brush(t_info *info)
+void				update_brush(t_info *info)
 {
 	if (info->brush.type == 8)
 		pipette(info);

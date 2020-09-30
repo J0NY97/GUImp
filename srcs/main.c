@@ -1,7 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/30 13:07:25 by nneronin          #+#    #+#             */
+/*   Updated: 2020/09/30 13:14:33 by nneronin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "guimp.h"
 
-void	guimp_init(t_info *info, t_libui *libui)
+static inline void	prefab_demo(t_info *info)
+{
+	t_element	*menu;
+
+	menu = prefab_tools_init(info->toolbox->window,
+							info->toolbox->window->surface->w - 175,
+							info->toolbox->window->surface->h - 125);
+}
+
+static inline void	guimp_init(t_info *info, t_libui *libui)
 {
 	info->run = 1;
 	init_brush(info);
@@ -14,36 +34,26 @@ void	guimp_init(t_info *info, t_libui *libui)
 	shape_buttons_init(info);
 	slider_init(info);
 	drop_down_init(info);
-	layer_init(info); // slider_init needs to be called before this.
+	layer_init(info);
 	hotkey_init(info, libui);
-	utility_init(info); // layer_init needs to be called before this.
+	utility_init(info);
 	sticker_load(info);
 	ft_set_icon(info->main->window->win,
 			"resources/stickers/gimp-icon.png");
-	info->layer_amount = 1; //idk LAYER_NBR
+	info->layer_amount = 1;
 }
 
-void	free_sdl(void)
-{
-	IMG_Quit();
-	TTF_Quit();
-	SDL_Quit();
-}
-
-int		fake_main(void)
+int					fake_main(void)
 {
 	t_info		*info;
 	t_libui		*libui;
-	t_element	*menu;
 
 	if (!(libui = (t_libui *)malloc(sizeof(t_libui))))
-		exit (0);
+		return (0);
 	if (!(info = (t_info *)malloc(sizeof(t_info))))
-		exit (0);
+		return (0);
 	guimp_init(info, libui);
-	menu = prefab_tools_init(info->toolbox->window,
-							info->toolbox->window->surface->w - 175,
-							info->toolbox->window->surface->h - 125);
+	prefab_demo(info);
 	while (info->run)
 	{
 		ft_event_poller(libui);
@@ -62,11 +72,11 @@ int		fake_main(void)
 	return (0);
 }
 
-int main(void)
+int					main(void)
 {
 	fake_main();
 	ft_printf("bye!");
-	while(1)
+	while (1)
 		;
 	return (0);
 }

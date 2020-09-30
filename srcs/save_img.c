@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 17:59:36 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/27 14:26:06 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/30 15:50:33 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	save_img(SDL_Event e, t_element *elem)
 		pic = ((t_element *)elem->extra_info)->surface;
 		if ((file = input_popup(100, 100)) == NULL)
 		{
-			ft_printf("You decided not to save the image..\n");
-			return;
+			notify("save_img", "You decided not to save the image..");
+			return ;
 		}
 		if (!(save_image(pic, file)))
-			ft_printf("Image couldnt be saved.\n");
+			notify("save_img", "Image couldnt be saved.");
 		free(file);
 	}
 }

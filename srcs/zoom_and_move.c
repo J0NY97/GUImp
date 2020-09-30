@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 14:39:16 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/16 11:23:24 by jsalmi           ###   ########.fr       */
+/*   Updated: 2020/09/30 14:44:07 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	zoom_and_move(t_element *elem, SDL_Event event, int org_w, int org_h)
 		elem->rel_coord.w = surface->w;
 		elem->rel_coord.h = surface->h;
 		elem->surface = surface;
-
 	}
 	else
 	{
