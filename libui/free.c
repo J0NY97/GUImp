@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 13:43:34 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/19 12:57:45 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/30 13:05:23 by nneronin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,27 @@ void	free_hotkeys(t_hotkey *idk)
 
 void	free_libui(t_libui *libui)
 {
-	t_list *curr;
+	t_list	*curr;
+	t_list	*tmp;
 
 	curr = libui->windows;
 	while (curr)
 	{
-		free_window(curr->content);
+		tmp = curr;
 		curr = curr->next;
+		free_window(tmp->content);
+		tmp->next = NULL;
+		free(tmp);
 	}
 	curr = libui->hotkeys;
 	while (curr)
 	{
-		free_hotkeys(curr->content);
+		tmp = curr;
 		curr = curr->next;
+		free_hotkeys(tmp->content);
+		tmp->next = NULL;
+		free(tmp);
 	}
-	free(libui->windows);
-	free(libui->hotkeys);
 	ft_strdel(&libui->drag_file);
 	free(libui);
 }
