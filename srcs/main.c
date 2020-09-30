@@ -23,19 +23,27 @@ void	guimp_init(t_info *info, t_libui *libui)
 	info->layer_amount = 1; //idk LAYER_NBR
 }
 
+void	free_sdl(void)
+{
+	IMG_Quit();
+	TTF_Quit();
+	SDL_Quit();
+}
+
 int		fake_main(void)
 {
-	t_info	*info;
-	t_libui	*libui;
+	t_info		*info;
+	t_libui		*libui;
+	t_element	*menu;
 
 	if (!(libui = (t_libui *)malloc(sizeof(t_libui))))
 		exit (0);
 	if (!(info = (t_info *)malloc(sizeof(t_info))))
 		exit (0);
 	guimp_init(info, libui);
-	t_element *menu = prefab_tools_init(info->toolbox->window,
-										info->toolbox->window->surface->w - 175,
-										info->toolbox->window->surface->h - 125);
+	menu = prefab_tools_init(info->toolbox->window,
+							info->toolbox->window->surface->w - 175,
+							info->toolbox->window->surface->h - 125);
 	while (info->run)
 	{
 		ft_event_poller(libui);
