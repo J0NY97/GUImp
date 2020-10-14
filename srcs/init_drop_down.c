@@ -6,7 +6,7 @@
 /*   By: nneronin <nneronin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 15:42:05 by nneronin          #+#    #+#             */
-/*   Updated: 2020/09/30 13:25:09 by nneronin         ###   ########.fr       */
+/*   Updated: 2020/09/30 16:47:32 by jsalmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static inline void	drop_down_font(t_info *info)
 	ft_set_text(&info->font_down->text, "Font select");
 	info->font_down->text.x = 10;
 	ft_drop_down_add_item(info->toolbox->window, info->font_down,
-			"Jonis.ttf");
+			"font.ttf");
 	ft_drop_down_add_item(info->toolbox->window, info->font_down,
 			"Amatic.ttf");
 	ft_drop_down_add_item(info->toolbox->window, info->font_down,
